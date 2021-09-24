@@ -12,8 +12,8 @@ Small eCommerce web application using Laravel and Tailwind.
  - /login
  - /join
  - /dashboard
- - /product/:id
- - /track/:token
+ - /product/{id}
+ - /track/{token}
 
 ### Database
 orders | users | products
