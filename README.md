@@ -6,7 +6,7 @@ Small eCommerce web application using Laravel and Tailwind.
 2. The order is assigned to a dispatcher to confirm it and dispatch it to a delivery driver.
 4. The delivery driver can then update its delivery_status to __IN_DELIVERY__ or __DELIVERED__. delivery_status's __IN_DELIVERY__ status is reflected on the order's status also.
 5. The dispatcher can then confirm its delivery by updating its status to __DELIVERED__.
-> The customer gets updated with the status of their order. And of course, they can track it in real-time by the reference that we sent to them once they placed the order.
+> The customer gets updated with the status of their order whenever it changes through their email. And of course, they can track it in real-time by the reference that we sent to them once they placed the order.
 
 ### Sitemap
  - /login
