@@ -1,0 +1,18 @@
+body {
+    background: #141d2b;
+}
+
+.auth-form {
+    background: #1a2332;
+    width: 500px;
+}
+
+@media only screen and (max-width: 500px) {
+    .auth-form {
+        width: 100%;
+    }
+}
+
+.auth-form input, select {
+    background: #111927;
+}
