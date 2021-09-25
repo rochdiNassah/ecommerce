@@ -22,7 +22,7 @@ id | id | id
 product | fullname | name
 customer_details | email | description
 status __[`pending`, `confirmed`, `in_delivery`, `rejected`, `delivered`]__ | password | price
-delivery_status __[`in_delivery`, `delivered`]__ | phone_number | price
-dispatcher | role __[`admin`, `dispatcher`, `delivery_driver`]__ | image_path
+delivery_status __[`in_delivery`, `delivered`]__ | phone_number | image_path
+dispatcher | role __[`admin`, `dispatcher`, `delivery_driver`]__ |
 dispatched_to | avatar_path | 
 token |  | 
