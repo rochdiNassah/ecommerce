@@ -18,10 +18,11 @@ class CreateUsersTable extends Migration
             $table->string('fullname');
             $table->string('email')->unique();
             $table->string('phone_number');
-            $table->set('role', ['admin', 'dispatcher', 'delivery_driver']);
-            $table->text('avatar_path')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->set('role', ['admin', 'dispatcher', 'delivery_driver']);
+            $table->set('status', ['pending', 'active', 'locked'])->default('pending');
+            $table->text('avatar_path')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
