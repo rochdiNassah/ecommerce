@@ -12,11 +12,13 @@ $inputs = [
 @endphp
 
 @section('content')
+    @include('layouts.navbar')
+
 <div class="mx-auto xs:w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 auth-form rounded-sm px-10 py-4 my-20">
     <form method="post">
         @csrf
 
-        <h1 class="my-2 font-bold text-xl text-blue-500">Join to {{ config('app.name') }}</h1>
+        <h1 class="my-2 font-bold text-xl text-green-500">Join to {{ config('app.name') }}</h1>
 
         @if ($errors->any())
             @foreach ($errors->all() as $error)
@@ -46,7 +48,7 @@ $inputs = [
                 <option {{ old('role') === 'admin' ? 'selected' : null }} value="admin">Admin</option>
             </select>
 
-            <button class="rounded-sm my-2 transition w-full text-gray-400 bg-gray-700 hover:bg-gray-600 font-bold py-2 px-4" type="submit">
+            <button class="rounded-sm my-2 transition w-full text-green-300 bg-green-700 hover:bg-green-600 font-bold py-2 px-4" type="submit">
                 Send Join Request
             </button>
         </div>
@@ -54,7 +56,7 @@ $inputs = [
 
     <div class="mt-4 mb-2 flex justify-center">
         <p class="font-bold text-sm text-gray-200">Already a member?</p>&nbsp;
-        <a href="/login" class="transition font-bold text-sm text-blue-500 hover:text-blue-600">Log In</a>
+        <a href="/login" class="transition font-bold text-sm text-green-500 hover:text-green-600">Log In</a>
     </div>
 </div>
 @stop
