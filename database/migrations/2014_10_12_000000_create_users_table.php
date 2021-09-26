@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->set('role', ['admin', 'dispatcher', 'delivery_driver']);
-            $table->set('status', ['pending', 'active', 'locked'])->default('pending');
+            $table->set('status', ['pending', 'active'])->default('pending');
             $table->text('avatar_path')->nullable();
             $table->rememberToken();
             $table->timestamps();

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,7 @@ use App\Http\Controllers\UserController;
 
 Route::middleware('guest')->group(function () {
     Route::view('/', 'home');
-    Route::view('/login', 'auth.login');
+    Route::view('/login', 'auth.login')->name('login');
     Route::view('/join', 'auth.join');
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/join', [AuthController::class, 'join']);
@@ -26,4 +27,8 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/dashboard', [UserController::class, 'dashboard']);
+
+    Route::middleware('admin')->group(function () {
+        Route::get('/dashboard/users', [AdminController::class, 'users']);
+    });
 });

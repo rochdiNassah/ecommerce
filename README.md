@@ -25,4 +25,4 @@ status __[`pending`, `confirmed`, `in_delivery`, `rejected`, `delivered`]__ | pa
 delivery_status __[`in_delivery`, `delivered`]__ | phone_number | image_path
 dispatcher | role __[`admin`, `dispatcher`, `delivery_driver`]__ |
 dispatched_to | avatar_path | 
-token |  | 
+token | status __[`pending`, `active`]__ | 
