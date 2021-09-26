@@ -10,7 +10,7 @@
         - [ ] `email` and `remember` fields are flashed on failure
         - [ ] User is redirected to the proper router based on their role after login
 - [ ] Join
-    - [x] UI form `FULLNAME, EMAIL, PHONE_NUMBER, PASSWORD, CONFIRM PASSWORD, ROLE, AVATAR`
+    - [ ] UI form `FULLNAME, EMAIL, PHONE_NUMBER, PASSWORD, CONFIRM PASSWORD, ROLE, AVATAR`
     - [ ] Tests
         - [ ] Authenticated user cannot access join route
         - [ ] Guest can access join route
