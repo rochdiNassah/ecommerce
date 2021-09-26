@@ -11,7 +11,7 @@ class JoinRequest extends FormRequest
      *
      * @var bool
      */
-    protected $stopOnFirstFailure = true;
+    protected $stopOnFirstFailure = false;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -35,7 +35,7 @@ class JoinRequest extends FormRequest
             'email' => ['required', 'email', 'min:5', 'max:256', 'unique:users'],
             'phone_number' => ['required', 'min:10', 'max:15'],
             'password' => ['required', 'min:4', 'max:1600', 'confirmed'],
-            'role' => ['required', 'regex:(admin|dispatcher|delivery_driver)'],
+            'role' => ['required', 'regex:(^\badmin\b$|^dispatcher$|^delivery_driver$)'],
             'avatar' => ['image']
         ];
     }

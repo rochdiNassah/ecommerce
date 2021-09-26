@@ -109,6 +109,8 @@ class AuthController extends Controller
                 'status' => 'success',
                 'message' => 'You will receive a confirmation once we review your request.'
             ];
+
+            return redirect(route('login'))->with($response);
         } catch (QueryException $e) {
             $response = [
                 'status' => 'error',

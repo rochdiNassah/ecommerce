@@ -17,13 +17,13 @@ $inputs = [
 
         <h1 class="my-2 font-bold text-xl text-green-500">Log In into {{ config('app.name') }}</h1>
 
-        @if ($errors->any())
+        {{-- @if ($errors->any())
             @foreach ($errors->all() as $error)
             <div class="rounded-sm mt-4 my-2 bg-red-200 text-red-800 text-sm p-3 relative" role="alert">
                 <strong>{{ $error }}</strong>
             </div>
             @endforeach
-        @endif
+        @endif --}}
 
         <div class="my-3">
             @foreach ($inputs as $input)

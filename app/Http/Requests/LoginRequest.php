@@ -11,7 +11,7 @@ class LoginRequest extends FormRequest
      *
      * @var bool
      */
-    protected $stopOnFirstFailure = true;
+    protected $stopOnFirstFailure = false;
 
     /**
      * Determine if the user is authorized to make this request.
