@@ -15,7 +15,7 @@ $inputs = [
     @include('layouts.navbar')
 
 <div class="mx-auto xs:w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 auth-form rounded-sm px-10 py-4 my-20">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         @csrf
 
         <h1 class="my-2 font-bold text-xl text-green-500">Join to {{ config('app.name') }}</h1>
@@ -29,6 +29,15 @@ $inputs = [
         @endif
 
         <div class="my-3">
+            <div class="grid place-items-center my-4">
+                <img class="self-center w-20 h-20 bg-gray-200 rounded-full" src="{{ asset('images/default-avatar.png') }}" id="avatarImg">
+
+                <label class="cursor-pointer mt-6">
+                    <span class="mt-2 leading-normal px-4 py-2 bg-green-700 bg:bg-green-600 text-green-300 font-bold text-sm rounded-sm">Select Image</span>
+                    <input class="hidden" type="file" name="avatar" id="avatarInput">
+                </label>
+            </div>
+
             @foreach ($inputs as $input)
             <label class="font-bold text-sm text-gray-400">{{ $input['label'] }}</label>
             <input
@@ -59,4 +68,13 @@ $inputs = [
         <a href="/login" class="transition font-bold text-sm text-green-500 hover:text-green-600">Log In</a>
     </div>
 </div>
+
+<script>
+    var avatarInput = document.getElementById('avatarInput')
+    var avatarImg = document.getElementById('avatarImg')
+
+    avatarInput.addEventListener('change', function (e) {
+        avatarImg.src = URL.createObjectURL(e.target.files[0])
+    })
+</script>
 @stop

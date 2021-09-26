@@ -11,7 +11,7 @@
                 <div class="border border-gray-500 shadow rounded-sm p-4 relative">
                     <div class="flex space-x-4">
                         <div class="text-center grid place-items-center space-y-1">
-                            <img class="h-12 w-12" src="{{ asset('images/default-avatar.png') }}" alt="Avatar"/>
+                            <img class="h-12 w-12" src="{{ asset($user->avatar_path) }}" alt="Avatar"/>
                             <div class="rounded-sm text-{{ $user->status === 'pending' ? 'yellow' : 'green' }}-500 font-bold text-xs">{{ $user->status }}</div>
                         </div>
     

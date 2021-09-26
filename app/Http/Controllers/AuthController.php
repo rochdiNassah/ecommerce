@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\{Auth, Hash};
+use RuntimeException;
+use Illuminate\Support\Facades\{Auth, Hash, Storage};
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\JoinRequest;
 use App\Models\User;
@@ -87,7 +88,20 @@ class AuthController extends Controller
         $data = $request->safe()->only('fullname', 'email', 'phone_number', 'password', 'role');
 
         $data['password'] = Hash::make($data['password']);
-        
+
+        if ($request->file('avatar')) {
+            if (! $data['avatar_path'] = Storage::putFile("images/avatars", $request->file('avatar'))) {
+                $response = [
+                    'status' => 'warning',
+                    'message' => 'Something went wrong when we tried to store your avatar! Please try again.'
+                ];
+    
+                $request->flashExcept('password', 'password_confirmation', 'avatar');
+
+                return back()->with($response);
+            }
+        }
+
         try {
             $user = User::create($data);
 
@@ -101,7 +115,7 @@ class AuthController extends Controller
                 'message' => 'Something went wrong! Please try again.'
             ];
         }
-        
+
         return back()->with($response);
     }
 }

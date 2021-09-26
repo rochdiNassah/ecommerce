@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'default_avatar_path' => '/images/avatars/default.png',
 
     /*
     |--------------------------------------------------------------------------

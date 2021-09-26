@@ -11,7 +11,7 @@
     </div>
 
     <div class="border-b border-gray-500 p-4 px-8 grid place-items-center">
-        <img class="inline object-cover w-16 h-16 mb-2 rounded-full" src="{{ asset('images/default-avatar.png') }}" alt="Avatar"/>
+        <img class="inline object-cover w-16 h-16 mb-2 rounded-full" src="{{ asset(Auth::user()->avatar_path) }}" alt="Avatar"/>
         <h1 class="text-lg text-center text-gray-200 font-bold">{{ strtoupper(Auth::user()->fullname) }}</h1>
     </div>
 

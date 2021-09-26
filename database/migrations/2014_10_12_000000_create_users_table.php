@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->set('role', ['admin', 'dispatcher', 'delivery_driver']);
             $table->set('status', ['pending', 'active'])->default('pending');
-            $table->text('avatar_path')->nullable();
+            $table->string('avatar_path')->nullable()->default(config('app.default_avatar_path'));
             $table->rememberToken();
             $table->timestamps();
         });
