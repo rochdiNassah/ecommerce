@@ -15,7 +15,7 @@
                     </div>
 
                     <div class="border-t border-gray-500 bottom-0 left-0 p-4 px-8 absolute w-full">
-                        <a href="/users"><div class="w-full text-sm text-green-300 bg-green-700 hover:bg-green-600 transition rounded-sm p-2 text-center font-bold">View All Users</div></a>
+                        <a href="{{ route('users') }}"><div class="w-full text-sm text-green-300 bg-green-700 hover:bg-green-600 transition rounded-sm p-2 text-center font-bold">View All Users</div></a>
                     </div>
                 </div>
 
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="border-t border-gray-500 bottom-0 left-0 p-4 px-8 absolute w-full">
-                        <a href="/products"><div class="w-full text-sm text-green-300 bg-green-700 hover:bg-green-600 transition rounded-sm p-2 text-center font-bold">View All Products</div></a>
+                        <a href="{{ route('products') }}"><div class="w-full text-sm text-green-300 bg-green-700 hover:bg-green-600 transition rounded-sm p-2 text-center font-bold">View All Products</div></a>
                     </div>
                 </div>
             </div>

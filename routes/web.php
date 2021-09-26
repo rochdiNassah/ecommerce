@@ -17,18 +17,28 @@ use App\Http\Controllers\AdminController;
 */
 
 Route::middleware('guest')->group(function () {
-    Route::view('/', 'home');
+    Route::view('/', 'home')->name('home');
     Route::view('/login', 'auth.login')->name('login');
-    Route::view('/join', 'auth.join');
+    Route::view('/join', 'auth.join')->name('join');
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/join', [AuthController::class, 'join']);
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/logout', [AuthController::class, 'logout']);
-    Route::get('/dashboard', [UserController::class, 'dashboard']);
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+    Route::get('/account', function () { return 'MY ACCOUNT'; })->name('account');
 
     Route::middleware('admin')->group(function () {
-        Route::get('/users', [AdminController::class, 'users']);
+        Route::get('/users', [AdminController::class, 'users'])->name('users');
+        Route::get('/products', function () { return 'PRODUCTS'; })->name('products');
+
+        Route::name('users.')->group(function () {
+            Route::prefix('users')->group(function () {
+                Route::get('/approve/{id}', function ($id) { return 'APPROVE '.$id; })->name('approve');
+                Route::get('/update-role/{id}', function ($id) { return 'UPDATE ROLE '.$id; })->name('update-role');
+                Route::get('/delete/{id}', function ($id) { return 'DELETE '.$id; })->name('delete');
+            });
+        });
     });
 });

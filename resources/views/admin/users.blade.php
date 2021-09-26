@@ -16,8 +16,8 @@
                         </div>
     
                         <div class="flex-1 space-y-2 py-1">
-                            <div class="self-center px-2 rounded-sm w-3/4 text-gray-300 font-bold text-sm">{{ $user->fullname }}</div>
-                            <div class="self-center px-2 rounded-sm w-30 text-gray-300 font-bold text-xs truncate">{{ $user->phone_number }}</div>
+                            <div class="self-center px-2 rounded-sm w-40 text-gray-300 font-bold text-sm truncate">{{ $user->fullname }}</div>
+                            <div class="self-center px-2 rounded-sm w-40 text-gray-300 font-bold text-xs truncate">{{ $user->phone_number }}</div>
 
                             @php
                                 $roleColor = $user->role === 'admin' ? 'red' : ($user->role === 'dispatcher' ? 'yellow' : 'green')
@@ -27,12 +27,12 @@
                             
                             <div class="grid grid-cols-2">
                                 @if ('pending' === $user->status)
-                                <a class="text-center font-bold bg-green-700 hover:bg-green-600 transition text-green-300 text-xs py-1 px-2 rounded-sm mx-2" href="/users/approve/{{ $user->id }}">Approve</a> 
+                                <a class="text-center font-bold bg-green-700 hover:bg-green-600 transition text-green-300 text-xs py-1 px-2 rounded-sm mx-2" href="{{ route('users.approve', $user->id) }}">Approve</a> 
                                 @else
-                                <a class="text-center font-bold bg-blue-700 hover:bg-blue-600 transition text-blue-300 text-xs py-1 px-2 rounded-sm mx-2" href="/users/edit/{{ $user->id }}">Edit Role</a> 
+                                <a class="text-center font-bold bg-blue-700 hover:bg-blue-600 transition text-blue-300 text-xs py-1 px-2 rounded-sm mx-2" href="{{ route('users.update-role', $user->id) }}">Edit Role</a> 
                                 @endif
 
-                                <a class="text-center font-bold bg-red-700 hover:bg-red-600 transition text-red-300 text-xs py-1 px-2 rounded-sm mx-2" href="/users/delete/{{ $user->id }}">Delete</a> 
+                                <a class="text-center font-bold bg-red-700 hover:bg-red-600 transition text-red-300 text-xs py-1 px-2 rounded-sm mx-2" href="{{ route('users.delete', $user->id) }}">Delete</a> 
                             </div>
                         </div>
                     </div>
