@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -14,6 +15,9 @@ class UserController extends Controller
      */
     public function dashboard(Request $request)
     {
-        return view($request->user()->role.'.dashboard');
+        return view($request->user()->role.'.dashboard', [
+            'usersCount' => User::all()->count(),
+            'productsCount' => '0'
+        ]);
     }
 }

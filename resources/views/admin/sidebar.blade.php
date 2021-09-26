@@ -27,10 +27,16 @@
         <a class="transition p-2 px-8 border-b border-gray-500 bg-gray-700 hover:bg-gray-600" href="/account">
             <li class="transition text-gray-300 hover:text-gray-100 text-lg">My Account</li>
         </a>
+
+        @if ('dashboard' !== Route::current()->uri)
+        <a class="transition p-2 px-8 border-b border-gray-500 bg-gray-700 hover:bg-gray-600" href="/dashboard">
+            <li class="transition text-gray-300 hover:text-gray-100 text-lg">Back to Dashboard</li>
+        </a>
+        @endif
     </ul>
 
     <div class="border-t border-gray-500 bottom-0 left-0 p-4 px-8 absolute w-full">
-        <a href="/logout"><div class="w-full text-sm text-red-300 bg-red-500 hover:bg-red-600 transition rounded-sm p-2 text-center font-bold">Log Out</div></a>
+        <a href="/logout"><div class="w-full text-sm text-red-300 bg-red-700 hover:bg-red-600 transition rounded-sm p-2 text-center font-bold">Log Out</div></a>
     </div>
 </div>
 

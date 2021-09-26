@@ -19,22 +19,22 @@ $inputs = [
 
         @if ($errors->any())
             @foreach ($errors->all() as $error)
-                <div class="rounded-sm mt-4 my-2 bg-red-200 text-red-800 text-sm p-3 relative" role="alert">
-                    <strong>{{ $error }}</strong>
-                </div>
+            <div class="rounded-sm mt-4 my-2 bg-red-200 text-red-800 text-sm p-3 relative" role="alert">
+                <strong>{{ $error }}</strong>
+            </div>
             @endforeach
         @endif
 
         <div class="my-3">
             @foreach ($inputs as $input)
-                <label class="font-bold text-sm text-gray-400">{{ $input['label'] }}</label>
-                <input
-                    class="font-bold rounded-sm mb-6 appearance-none w-full p-3 text-white leading-tight outline-none"
-                    type="{{ $input['type'] }}"
-                    name="{{ $input['name'] }}"
-                    value="{{ old($input['name']) }}"
-                    autocomplete="off"
-                >
+            <label class="font-bold text-sm text-gray-400">{{ $input['label'] }}</label>
+            <input
+                class="font-bold rounded-sm mb-6 appearance-none w-full p-3 text-white leading-tight outline-none"
+                type="{{ $input['type'] }}"
+                name="{{ $input['name'] }}"
+                value="{{ old($input['name']) }}"
+                autocomplete="off"
+            >
             @endforeach
 
             <div class="my-2 mb-4 flex items-center justify-between" style="margin-top: -4px">
