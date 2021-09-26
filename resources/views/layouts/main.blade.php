@@ -70,7 +70,7 @@
                     return
                 }
 
-                element.classList.remove(classes)
+                element.classList.add(classes)
             }
         </script>
     </body>

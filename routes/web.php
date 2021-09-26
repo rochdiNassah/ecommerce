@@ -29,6 +29,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard']);
 
     Route::middleware('admin')->group(function () {
-        Route::get('/dashboard/users', [AdminController::class, 'users']);
+        Route::get('/users', [AdminController::class, 'users']);
     });
 });
