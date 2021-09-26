@@ -1,3 +1,60 @@
+### Development steps
+- [ ] Log In
+    - [x] UI form `EMAIL, PASSWORD, REMEMBER`
+    - [ ] Tests
+        - [ ] Authenticated user cannot access login route
+        - [ ] Pending user cannot be authenticated
+        - [ ] Guest can access login route
+        - [ ] Guest can login with valid credentails
+        - [ ] Guest cannot login with invalid credentails
+        - [ ] `email` and `remember` fields are flashed on failure
+        - [ ] User is redirected to the proper router based on their role after login
+- [ ] Join
+    - [x] UI form `FULLNAME, EMAIL, PHONE_NUMBER, PASSWORD, CONFIRM PASSWORD, ROLE, AVATAR`
+    - [ ] Tests
+        - [ ] Authenticated user cannot access join route
+        - [ ] Guest can access join route
+        - [ ] Guest can join with valid data
+        - [ ] Guest cannot join with invalid data
+        - [ ] User is notified when they join
+        - [ ] Fields are flashed on failure except `password` fields
+- [ ] Products
+    - [ ] Display products in the home page
+    - [ ] Product card
+        - Image
+        - Name
+        - Price
+        - Order button that will redirect them to `order` page
+    - [ ] Product page
+        - Image
+        - Name
+        - Description
+        - Price
+        - Order button that will redirect them to the `order` page
+- [ ] Orders
+    - [ ] UI form `FULLNAME, EMAIL, PHONE_NUMBER, ADDRESS`
+    - [ ] Tests
+        - [ ] User cannot accedd order route
+        - [ ] Guest can access order route
+        - [ ] Guest can order with valid data
+        - [ ] Guest cannot order with invalid data
+        - [ ] Customer is notified when they order
+        - [ ] Order is not placed when the customer and the product are the same except their current order is delivered, rejected, or canceled
+- [ ] Admin
+    - [ ] Users
+        - [ ] Approve user  (Tests)
+            - [ ] Can approve user under `pending` status
+            - [ ] Cannot approve user under `active` status
+            - [ ] Only admin can approve user
+        - [ ] Delete user (Tests)
+            - [ ] First admin cannot be deleted except by themselves
+            - [ ] Can delete a user
+            - [ ] User under `pending` status is notified before deletion
+        - [ ] Upgrade/Downgrade user (Tests)
+            - [ ] Cannot downgrade first admin
+            - [ ] Admin can upgrade or downgrade user
+            - [ ] Only first admin can downgrade admin
+
 # eCommerce
 Small eCommerce web application using Laravel and Tailwind.
 
@@ -14,6 +71,7 @@ Small eCommerce web application using Laravel and Tailwind.
  - /dashboard
  - /product/{id}
  - /track/{token}
+ - /order/{product}
 
 ### Database
 orders | users | products
