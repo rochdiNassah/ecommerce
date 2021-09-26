@@ -54,6 +54,21 @@
             - [ ] Cannot downgrade first admin
             - [ ] Admin can upgrade or downgrade user
             - [ ] Only first admin can downgrade admin
+    - [ ] Products
+        - [ ] Add product
+            - [ ] UI form `NAME, DESCRIPTION, PRICE, IMAGE`
+            - [ ] Tests
+                - [ ] Only admin can access add product route
+                - [ ] Admin can add product with valid form data
+                - [ ] Admin cannot add product with invalid form data
+        - [ ] Edit product
+            - [ ] UI form `NAME, DESCRIPTION, PRICE, IMAGE`
+            - [ ] Tests
+                - [ ] Only admin can access edit product route
+                - [ ] Admin can edit product with valid form data
+                - [ ] Admin cannot edit product with invalid form data
+        - [ ] Delete product (Tests)
+            - [ ] Only admin can delete product
 - [ ] Dispatcher
     - [ ] Orders (Tests)
         - [ ] Cannot access order not assigned to them
