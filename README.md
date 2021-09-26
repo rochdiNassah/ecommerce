@@ -34,7 +34,7 @@
 - [ ] Orders
     - [ ] UI form `FULLNAME, EMAIL, PHONE_NUMBER, ADDRESS`
     - [ ] Tests
-        - [ ] User cannot accedd order route
+        - [ ] User cannot access order route
         - [ ] Guest can access order route
         - [ ] Guest can order with valid data
         - [ ] Guest cannot order with invalid data
@@ -54,7 +54,26 @@
             - [ ] Cannot downgrade first admin
             - [ ] Admin can upgrade or downgrade user
             - [ ] Only first admin can downgrade admin
-
+- [ ] Dispatcher
+    - [ ] Orders (Tests)
+        - [ ] Cannot access order not assigned to them
+        - [ ] Can confirm order
+        - [ ] Can dispatch order
+        - [ ] Cannot update order status to delivered until it marked as delivered by the delivery driver
+        - [ ] Can reject order
+- [ ] Delivery driver
+    - [ ] Orders (Tests)
+        - [ ] Cannot access order not dispatched to them
+        - [ ] Can update delivery status of the order
+        - [ ] `IN_DELIVERY` delivery status is reflected on the order status
+        - [ ] `DELIVERED` delivery status is not reflected on the order status
+- [ ] My account
+    - [ ] UI form `FULLNAME, EMAIL, PHONE_NUMBER, PASSWORD, CONFIRM PASSWORD, AVATAR`
+    - [ ] Tests
+        - [ ] Guest cannot access account route
+        - [ ] User can access account route
+        - [ ] User can update their account with valid form data
+        - [ ] User cannot update their account with invalid form data
 # eCommerce
 Small eCommerce web application using Laravel and Tailwind.
 
@@ -79,7 +98,7 @@ orders | users | products
 id | id | id
 product | fullname | name
 customer_details | email | description
-status __[`pending`, `confirmed`, `in_delivery`, `rejected`, `delivered`]__ | password | price
+status __[`pending`, `confirmed`, `in_delivery`, `rejected`, `canceled`, `delivered`]__ | password | price
 delivery_status __[`in_delivery`, `delivered`]__ | phone_number | image_path
 dispatcher | role __[`admin`, `dispatcher`, `delivery_driver`]__ |
 dispatched_to | avatar_path | 
