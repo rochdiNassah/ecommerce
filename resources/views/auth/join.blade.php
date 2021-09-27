@@ -20,13 +20,11 @@ $inputs = [
 
         <h1 class="my-2 font-bold text-xl text-green-500">Join to {{ config('app.name') }}</h1>
 
-        {{-- @if ($errors->any())
-            @foreach ($errors->all() as $error)
+        @if ($errors->any())
             <div class="rounded-sm mt-4 my-2 bg-red-200 text-red-800 text-sm p-3 relative" role="alert">
-                <strong>{{ $error }}</strong>
+                <strong>{{ $errors->all()[0] }}</strong>
             </div>
-            @endforeach
-        @endif --}}
+        @endif
 
         <div class="my-3">
             <div class="grid place-items-center my-4">
