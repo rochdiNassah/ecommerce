@@ -29,8 +29,8 @@ class AuthController extends Controller
 
             if ('active' !== Auth::user()->status) {
                 $message = Auth::user()->status == 'pending'
-                                                    ? 'Your account is not yet approved. We will notify you once we do.'
-                                                    : 'Your account is locked. Please contact us for more information.';
+                    ? 'Your account is not yet approved. We will notify you once we do.'
+                    : 'Your account is locked. Please contact us for more information.';
 
                 Auth::logout();
 
@@ -50,7 +50,7 @@ class AuthController extends Controller
             ]);
         }
 
-        $request->flashOnly('email');
+        $request->flashOnly('email', 'remember');
 
         return back()->with([
             'status' => 'error',
