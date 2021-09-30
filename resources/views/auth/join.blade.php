@@ -28,10 +28,10 @@ $inputs = [
 
         <div class="my-3">
             <div class="grid place-items-center my-4">
-                <img class="self-center w-20 h-20 bg-gray-200 rounded-full" src="{{ asset('images/default-avatar.png') }}" id="avatarImg">
+                <img class="self-center w-20 h-20 bg-gray-200 rounded-full" src="{{ asset('images/avatars/default.jpg') }}" id="avatarImg">
 
                 <label class="cursor-pointer mt-6">
-                    <span class="mt-2 leading-normal px-4 py-2 bg-green-700 bg:bg-green-600 text-green-300 font-bold text-sm rounded-sm">Select Image</span>
+                    <span class="mt-2 leading-normal px-4 py-2 bg-green-700 hover:bg-green-600 transition text-green-300 font-bold text-sm rounded-sm">Select Image</span>
                     <input class="hidden" type="file" name="avatar" id="avatarInput">
                 </label>
             </div>

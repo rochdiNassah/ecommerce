@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\{Auth, Hash, Storage};
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\JoinRequest;
 use App\Models\User;
+use App\Notifications\JoinRequested;
 
 class AuthController extends Controller
 {
@@ -104,6 +105,8 @@ class AuthController extends Controller
 
         try {
             $user = User::create($data);
+
+            $user->notify((new JoinRequested())->delay(now()->addMinutes(4)));
 
             $response = [
                 'status' => 'success',

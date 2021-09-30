@@ -5,8 +5,10 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use App\Models\User;
+use App\Notifications\JoinRequested;
 
 class JoinTest extends TestCase
 {
@@ -108,5 +110,25 @@ class JoinTest extends TestCase
             'phone_number' => '0123456789',
             'role' => 'admin'
         ]);
+    }
+
+    public function testUserIsNotifiedWhenTheyRequestToJoin()
+    {
+        Notification::fake();
+
+        $email = Str::random(10).'@foobar.baz';
+
+        $user = [
+            'fullname' => 'Foobar',
+            'email' => $email,
+            'phone_number' => '0123456789',
+            'password' => '1234',
+            'password_confirmation' => '1234',
+            'role' => ' dispatcher '
+        ];
+
+        $this->from(route('join'))->post(route('join'), $user);
+
+        Notification::assertSentTo(User::where('email', $user['email'])->get(), JoinRequested::class);
     }
 }
