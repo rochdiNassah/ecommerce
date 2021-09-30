@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class JoinRequested extends Notification implements ShouldQueue
+class UserApproved extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -42,8 +42,9 @@ class JoinRequested extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                     ->greeting("Hello {$notifiable->fullname},")
-                    ->line('We have received your request to join us.')
-                    ->line('Once we review your request, we would notify you whether we have approved or rejected it.');
+                    ->line('Congratulations! Your request has been approved.')
+                    ->line('You may Log In to your account now.')
+                    ->action('Log In', url(route('login')));
     }
 
     /**

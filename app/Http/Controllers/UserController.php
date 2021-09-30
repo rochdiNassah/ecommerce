@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\User;
+use App\Notifications\UserApproved;
 
 class UserController extends Controller
 {
@@ -19,5 +21,88 @@ class UserController extends Controller
             'usersCount' => User::all()->count(),
             'productsCount' => '0'
         ]);
+    }
+
+    /**
+     * Display all users.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function users()
+    {
+        return view('admin.users', ['users' => User::orderBy('status')->get()]);
+    }
+
+    /**
+     * Approve a user under pending status.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function approveUser(Request $request, int $id)
+    {   
+        try {
+            $user = User::findOrFail($id);
+
+            if ('pending' !== $user->status) {
+                $response = [
+                    'status' => 'warning',
+                    'message' => 'This user is already active.'
+                ];
+
+                return back()->with($response);
+            }
+
+            $user->status = 'active';
+            $user->save();
+            // $user->notify((new UserApproved())->delay(now()->addMinutes(4)));
+
+            $response = [
+                'status' => 'success',
+                'message' => 'Great! User approved and notified.'
+            ];
+        } catch (ModelNotFoundException $e) {
+            $response = [
+                'status' => 'error',
+                'message' => 'Cannot approve non-existent user.'
+            ];
+        }
+
+        return back()->with($response);
+    }
+
+    /**
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteUser(Request $request, int $id)
+    {
+        try {
+            $user = User::findOrFail($id);
+
+            if ('pending' === $user->status)
+            $user->notify((new UserRejected())->delay(now()->addMinutes(4)));
+
+            if (1 === $user->id && $request->user()->id !== 1)
+            $response = [
+                'status' => 'error',
+                'message' => 'This user cannot be deleted except by themselves.'
+            ];
+
+            $response = [
+                'status' => 'success',
+                'message' => 'User deleted.'
+            ];
+        } catch (ModelNotFoundException $e) {
+            $response = [
+                'status' => 'error',
+                'message' => 'Cannot delete non-existent user.'
+            ];
+        }
+
+        return back()->with($response);
     }
 }

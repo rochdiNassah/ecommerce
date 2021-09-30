@@ -36,7 +36,7 @@ class AuthController extends Controller
 
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
-                $request->flashOnly('email');
+                $request->flashOnly('email', 'remember');
 
                 return back()->with([
                     'status' => 'warning',

@@ -38,7 +38,7 @@ $inputs = [
             <div class="my-2 mb-4 flex items-center justify-between" style="margin-top: -4px">
                 <div>
                     <label class="block text-gray-500" for="remember">
-                        <input class="leading-tight cursor-pointer" type="checkbox" id="remember" name="remember">
+                        <input class="leading-tight cursor-pointer" type="checkbox" id="remember" name="remember" {{ old('remember') === 'on' ? 'checked' : null }}>
 
                         <span class="font-bold text-gray-200 text-sm select-none cursor-pointer">Remember me</span>
                     </label>
