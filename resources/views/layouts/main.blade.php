@@ -5,10 +5,15 @@
         <meta name="viewport" content="initial-scale=1, width=device-width">
         <title>{{ config('app.name') }} | @yield('title', 'Unknown page!')</title>
         <link rel="stylesheet" href="{{ asset('css/tailwind.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     </head>
 
     <body>
+        <style>
+            .auth-form { width: 500px }
+            @media only screen and (max-width: 500px) { .auth-form { width: 100% } }
+            .transition { transition: .4s ease-out }
+        </style>
+
         @if (session('message'))
             @php
                 $color = session('status') == 'error' ? 'red' : (session('status') == 'success' ? 'green' : 'yellow');
@@ -19,7 +24,7 @@
                 {{ ucfirst(session('status')) }}
             </div>
 
-            <div class="rounded-b-sm border border-t-0 border-{{ $color }}-500 px-4 py-3 text-white">
+            <div class="rounded-b-sm border border-t-0 border-{{ $color }}-500 px-4 py-3 text-gray-600 bg-white">
                 <p>{{ session('message') }}</p>
             </div>
 
