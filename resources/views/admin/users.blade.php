@@ -8,11 +8,11 @@
         <div class="grid place-items-center w-full">
             <div class="p-4 w-full sm:w-4/5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 @foreach ($users as $user)
-                <div class="border border-gray-200 shadow rounded-sm p-4 relative">
+                <div class="border border-gray-200 rounded-sm p-4 relative">
                     <div class="flex space-x-4">
                         <div class="text-center grid place-items-center space-y-1">
                             <img class="h-12 w-12" src="{{ asset($user->avatar_path) }}" alt="Avatar"/>
-                            <div class="rounded-sm text-{{ $user->status === 'pending' ? 'yellow' : 'green' }}-500 font-bold text-xs">{{ $user->status }}</div>
+                            <div class="rounded-sm text-{{ $user->status === 'pending' ? 'yellow' : 'green' }}-500 text-xs">{{ $user->status }}</div>
                         </div>
     
                         <div class="flex-1 space-y-2 py-1">

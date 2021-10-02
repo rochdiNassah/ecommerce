@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\User;
 use App\Notifications\UserApproved;
 
-class UserController extends Controller
+class AdminController extends Controller
 {
     /**
      * Render dashboard view depending on user's role.
@@ -49,7 +49,8 @@ class UserController extends Controller
             if ('pending' !== $user->status) {
                 $response = [
                     'status' => 'warning',
-                    'message' => 'This user is already active.'
+                    'message' => 'This user is already active.',
+                    'reason' => 'Already'
                 ];
 
                 return back()->with($response);
@@ -57,7 +58,7 @@ class UserController extends Controller
 
             $user->status = 'active';
             $user->save();
-            // $user->notify((new UserApproved())->delay(now()->addMinutes(4)));
+            $user->notify((new UserApproved())->delay(now()->addMinutes(4)));
 
             $response = [
                 'status' => 'success',
@@ -66,7 +67,8 @@ class UserController extends Controller
         } catch (ModelNotFoundException $e) {
             $response = [
                 'status' => 'error',
-                'message' => 'Cannot approve non-existent user.'
+                'message' => 'Cannot approve non-existent user.',
+                'reason' => 'Not Found'
             ];
         }
 
@@ -84,7 +86,7 @@ class UserController extends Controller
             $user = User::findOrFail($id);
 
             if ('pending' === $user->status)
-            $user->notify((new UserRejected())->delay(now()->addMinutes(4)));
+            //$user->notify((new UserRejected())->delay(now()->addMinutes(4)));
 
             if (1 === $user->id && $request->user()->id !== 1)
             $response = [

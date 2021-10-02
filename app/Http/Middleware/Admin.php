@@ -19,7 +19,8 @@ class Admin
         if ('admin' !== $request->user()->role) {
             return back()->with([
                 'status' => 'warning',
-                'message' => 'You don\'t have the permission to perform this action.'
+                'message' => 'You don\'t have the permission to perform this action.',
+                'reason' => 'Unauthorized'
             ]);
         }
         
