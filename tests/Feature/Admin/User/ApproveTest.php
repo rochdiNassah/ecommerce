@@ -25,7 +25,7 @@ class ApproveTest extends TestCase
             ->assertSessionHas(['status' => 'success']);
     }
 
-    public function testAdminCannotApproveNon-pendingUser()
+    public function testAdminCannotApproveNonPendingUser()
     {
         $activeUser = User::factory()->create();
         $admin = User::factory()->make(['role' => 'admin']);
@@ -38,7 +38,7 @@ class ApproveTest extends TestCase
             ]);
     }
 
-    public function testAdminCannotApproveNon-existentUser()
+    public function testAdminCannotApproveNonExistentUser()
     {
         $admin = User::factory()->make(['role' => 'admin']);
 
