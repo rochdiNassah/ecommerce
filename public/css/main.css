@@ -1,0 +1,32 @@
+body {
+    background: #18191a
+}
+
+.navbar {
+    background: #242526
+}
+
+.auth-form {
+    background: #242526;
+    width: 500px
+}
+
+.transition {
+    transition: .4s ease-out
+}
+
+.border-gray {
+    border-color: #38393a !important
+}
+
+.bg-gray {
+    background: #242526 !important
+}
+
+.bg-gray-light {
+    background: #38393a !important
+}
+
+@media only screen and (max-width: 500px) {
+    .auth-form { width: 100% } 
+}
