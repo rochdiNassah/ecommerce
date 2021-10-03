@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
             Route::prefix('users')->group(function () {
                 Route::get('/approve/{id}', [AdminController::class, 'approveUser'])->name('approve');
                 Route::get('/update-role/{id}', function ($id) { return 'UPDATE ROLE '.$id; })->name('update-role');
-                Route::get('/delete/{id}', function ($id) { return 'DELETE '.$id; })->name('delete');
+                Route::get('/delete/{id}', [AdminController::class, 'deleteUser'])->name('delete');
             });
         });
     });

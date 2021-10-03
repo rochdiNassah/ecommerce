@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class UserRejected extends Notification
+class UserRejected extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -41,9 +41,10 @@ class UserRejected extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+                    ->greeting("Hello {$notifiable->fullname},")
+                    ->line('Unfortunately! Your request has been rejected.')
+                    ->line('You can submit another request again.')
+                    ->action('Join', url(route('join')));
     }
 
     /**

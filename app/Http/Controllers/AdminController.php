@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\User;
 use App\Notifications\UserApproved;
+use App\Notifications\UserRejected;
 
 class AdminController extends Controller
 {
@@ -76,6 +77,8 @@ class AdminController extends Controller
     }
 
     /**
+     * Delete the given user.
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -86,13 +89,16 @@ class AdminController extends Controller
             $user = User::findOrFail($id);
 
             if ('pending' === $user->status)
-            //$user->notify((new UserRejected())->delay(now()->addMinutes(4)));
+            $user->notify((new UserRejected())->delay(now()->addMinutes(4)));
 
             if (1 === $user->id && $request->user()->id !== 1)
-            $response = [
+            return back()->with([
                 'status' => 'error',
-                'message' => 'This user cannot be deleted except by themselves.'
-            ];
+                'message' => 'This user cannot be deleted except by themselve.',
+                'reason' => 'Unauthorized'
+            ]);
+
+            $user->delete();
 
             $response = [
                 'status' => 'success',
@@ -101,7 +107,8 @@ class AdminController extends Controller
         } catch (ModelNotFoundException $e) {
             $response = [
                 'status' => 'error',
-                'message' => 'Cannot delete non-existent user.'
+                'message' => 'Cannot delete non-existent user.',
+                'reason' => 'Not Found'
             ];
         }
 
