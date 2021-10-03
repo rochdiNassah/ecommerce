@@ -11,7 +11,7 @@ use App\Notifications\UserApproved;
 
 class ApproveTest extends TestCase
 {
-    public function testAdminCanApproveUserUnserPendingStatus()
+    public function testAdminCanApprovePendingUser()
     {
         $pendingUser = User::factory()->create(['status' => 'pending']);
         $activeUser = User::factory()->create();
@@ -25,7 +25,7 @@ class ApproveTest extends TestCase
             ->assertSessionHas(['status' => 'success']);
     }
 
-    public function testAdminCannotApproveActiveUser()
+    public function testAdminCannotApproveNon-pendingUser()
     {
         $activeUser = User::factory()->create();
         $admin = User::factory()->make(['role' => 'admin']);
@@ -38,7 +38,7 @@ class ApproveTest extends TestCase
             ]);
     }
 
-    public function testAdminCannotApproveNotExistentUser()
+    public function testAdminCannotApproveNon-existentUser()
     {
         $admin = User::factory()->make(['role' => 'admin']);
 
