@@ -54,6 +54,8 @@ class LoginTest extends TestCase
             ->assertRedirect(route('dashboard'))
             ->assertSessionHas('message', 'Logged In successfully.');
 
+        $this->assertAuthenticated();
+            
         return $user->email;
     }
 
@@ -66,7 +68,7 @@ class LoginTest extends TestCase
             'email' => 'not-existent-email@foo.bar',
             'password' => 'incorrect-password',
         ];
-        
+
         $response = $this->from(route('login'))
             ->post(route('login'), $form)
             ->assertRedirect(route('login'))
@@ -78,6 +80,8 @@ class LoginTest extends TestCase
             ->post(route('login'), $form)
             ->assertRedirect(route('login'))
             ->assertSessionHas('message', 'The provided credentials do not match our records.');
+
+        $this->assertGuest();
     }
 
     public function testInputsAreFlashedExceptPassword()
@@ -110,5 +114,7 @@ class LoginTest extends TestCase
             ->post(route('login'), $form)
             ->assertRedirect(route('login'))
             ->assertSessionHas('message', 'Your account is not yet approved. We will notify you once we do.');
+
+        $this->assertGuest();
     }
 }

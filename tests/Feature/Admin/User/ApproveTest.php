@@ -23,6 +23,11 @@ class ApproveTest extends TestCase
             ->get(route('user.approve', $pendingUser->id))
             ->assertRedirect(route('dashboard'))
             ->assertSessionHas(['status' => 'success']);
+        
+        $this->assertDatabaseHas('users', [
+            'email' => $pendingUser->email,
+            'status' => 'active'
+        ]);
     }
 
     public function testAdminCannotApproveNonPendingUser()

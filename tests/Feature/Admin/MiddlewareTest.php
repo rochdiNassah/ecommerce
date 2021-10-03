@@ -16,26 +16,26 @@ class MiddlewareTest extends TestCase
         $dispatcher = User::factory()->make(['role' => 'dispatcher']);
         $deliveryDriver = User::factory()->make(['role' => 'delivery_driver']);
 
-        $this->actingAs($dispatcher)
-            ->get(route('users'))
-            ->assertRedirect()
-            ->assertSessionHas([
-                'status' => 'warning',
-                'reason' => 'Unauthorized'
-            ]);
-
-        $this->actingAs($deliveryDriver)
-            ->get(route('users'))
-            ->assertRedirect()
-            ->assertSessionHas([
-                'status' => 'warning',
-                'reason' => 'Unauthorized'
-            ]);
+        foreach ([$dispatcher, $deliveryDriver] as $actor) {
+            $this->actingAs($actor)
+                ->get(route('users'))
+                ->assertRedirect()
+                ->assertSessionHas([
+                    'status' => 'warning',
+                    'reason' => 'Unauthorized'
+                ]);
+        }
 
         $this->actingAs($admin)
             ->get(route('users'))
             ->assertSuccessful()
             ->assertViewIs('admin.users');
+        
+        Auth::logout();
+
+        $this->from(route('dashboard'))
+            ->get(route('users'))
+            ->assertRedirect(route('login'));
     }
 
     public function testOnlyAdminCanApproveUser()
@@ -46,21 +46,15 @@ class MiddlewareTest extends TestCase
         $dispatcher = User::factory()->make(['role' => 'dispatcher']);
         $deliveryDriver = User::factory()->make(['role' => 'delivery_driver']);
 
-        $this->actingAs($dispatcher)
-            ->get(route('user.approve', $pendingUser->id))
-            ->assertRedirect()
-            ->assertSessionHas([
-                'status' => 'warning',
-                'reason' => 'Unauthorized'
-            ]);
-
-        $this->actingAs($deliveryDriver)
-            ->get(route('user.approve', $pendingUser->id))
-            ->assertRedirect()
-            ->assertSessionHas([
-                'status' => 'warning',
-                'reason' => 'Unauthorized'
-            ]);
+        foreach ([$dispatcher, $deliveryDriver] as $actor) {
+            $this->actingAs($actor)
+                ->get(route('user.approve', $pendingUser->id))
+                ->assertRedirect()
+                ->assertSessionHas([
+                    'status' => 'warning',
+                    'reason' => 'Unauthorized'
+                ]);
+        }
 
         $this->actingAs($admin)
             ->from(route('dashboard'))

@@ -51,20 +51,22 @@ class JoinTest extends TestCase
             'phone_number' => '0123456789',
             'password' => '1234',
             'password_confirmation' => '1234',
-            'role' => ' dispatcher '
+            'role' => 'dispatcher',
+            'status' => 'active',
+            'avatar_path' => 'foo'
         ];
 
         $response = $this->from(route('join'))
             ->post(route('join'), $user)
             ->assertRedirect(route('login'))
             ->assertSessionHas(['status' => 'success']);
-
-        $this->assertDatabaseHas('users', [
-            'email' => $email,
-            'role' => 'dispatcher',
+        
+        $user = array_merge(array_flip(array_intersect(array_flip($user), ['email', 'role'])), [
             'status' => 'pending',
             'avatar_path' => config('app.default_avatar_path')
         ]);
+
+        $this->assertDatabaseHas('users', $user);
     }
 
     public function testGuestCannotJoinWithInvalidData()
@@ -128,23 +130,25 @@ class JoinTest extends TestCase
 
     public function testInputsAreFlashedExceptPassword()
     {
-        $email = Str::random(10).'@foobar.baz';
+        $user = [
+            'fullname' => 'Foobar',
+            'email' => Str::random(10).'@foobar.baz',
+            'phone_number' => '0123456789',
+            'password' => '1234',
+            'password_confirmation' => '12345',
+            'role' => 'admin'
+        ];
 
-        $response = $this->from(route('join'))
-            ->post(route('join'), [
-                'fullname' => 'Foobar',
-                'email' => $email,
-                'phone_number' => '0123456789',
-                'password' => '1234',
-                'password_confirmation' => '12345',
-                'role' => 'admin'
-            ])->assertRedirect(route('join'))
-                ->assertSessionHasInput([
-                    'fullname' => 'Foobar',
-                    'email' => $email,
-                    'phone_number' => '0123456789',
-                    'role' => 'admin'
-                ]);
+        $inputs = array_flip(
+            array_intersect(
+                array_flip($user), ['fullname', 'email', 'phone_number', 'role']
+            )
+        );
+        
+        $this->from(route('join'))
+            ->post(route('join'), $user)
+            ->assertRedirect(route('join'))
+            ->assertSessionHasInput($inputs);
     }
 
     public function testUserIsNotifiedWhenTheyRequestToJoin()

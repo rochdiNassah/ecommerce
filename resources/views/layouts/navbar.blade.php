@@ -5,7 +5,7 @@
     </div>
 
     <div class="flex space-x-8">
-        <a class="transition bg-{{ $mainColor }}-900 hover:bg-{{ $mainColor }}-800 text-{{ $mainColor }}-400 p-2 px-4 self-center text-sm font-bold rounded-sm" href="/login">Log In</a>
-        <a class="transition bg-{{ $mainColor }}-900 hover:bg-{{ $mainColor }}-800 text-{{ $mainColor }}-400 p-2 px-4 self-center text-sm font-bold rounded-sm hidden sm:block " href="/join">Join</a>
+        <a class="transition bg-{{ $mainColor }}-900 hover:bg-{{ $mainColor }}-800 text-{{ $mainColor }}-400 p-2 px-4 self-center text-sm font-bold rounded-sm" href="{{ route('login') }}">Log In</a>
+        <a class="transition bg-{{ $mainColor }}-900 hover:bg-{{ $mainColor }}-800 text-{{ $mainColor }}-400 p-2 px-4 self-center text-sm font-bold rounded-sm hidden sm:block " href="{{ route('join') }}">Join</a>
     </div>
 </div>

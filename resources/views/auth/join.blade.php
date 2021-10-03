@@ -63,7 +63,7 @@ $inputs = [
 
     <div class="mt-4 mb-2 flex justify-center">
         <p class="font-bold text-sm text-gray-200">Already a member?</p>&nbsp;
-        <a href="/login" class="transition font-bold text-sm text-{{ $mainColor }}-400 hover:text-{{ $mainColor }}-500">Log In</a>
+        <a href="{{ route('login') }}" class="transition font-bold text-sm text-{{ $mainColor }}-400 hover:text-{{ $mainColor }}-500">Log In</a>
     </div>
 </div>
 
