@@ -58,10 +58,7 @@ class DeleteTest extends TestCase
             ]);
     }
 
-    /**
-     * @depends testAdminCanDeleteUser
-     */
-    public function testPendingUserIsNotifiedAfterDeletionAsThoughTheyWereRejected($user)
+    public function testPendingUserIsNotifiedAfterDeletionAsThoughTheyWereRejected()
     {
         Notification::fake();
 

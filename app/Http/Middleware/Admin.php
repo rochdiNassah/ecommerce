@@ -17,7 +17,7 @@ class Admin
     public function handle(Request $request, Closure $next)
     {
         if ('admin' !== $request->user()->role) {
-            return back()->with([
+            return redirect(route('dashboard'))->with([
                 'status' => 'warning',
                 'message' => 'You don\'t have the permission to perform this action.',
                 'reason' => 'Unauthorized'

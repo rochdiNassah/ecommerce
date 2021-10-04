@@ -35,7 +35,7 @@
         @endif
     </ul>
 
-    <div class="border-t border-gray-200 bottom-0 left-0 p-4 px-8 absolute w-full">
+    <div class="border-t border-gray bottom-0 left-0 p-4 px-8 absolute w-full">
         <a href="{{ route('logout') }}"><div class="w-full text-sm text-red-400 bg-red-900 hover:bg-red-800 transition rounded-sm p-2 text-center font-bold">Log Out</div></a>
     </div>
 </div>

@@ -11,53 +11,55 @@ $inputs = [
 @section('content')
     @include('layouts.navbar')
 
-<div class="border border-gray mx-auto xs:w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 auth-form rounded-sm px-10 py-4 my-20">
-    <form method="post">
-        @csrf
+<div class="px-2 sm:px-0">
+    <div class="border border-gray mx-auto xs:w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 auth-form rounded-sm px-10 py-4 my-20">
+        <form method="post">
+            @csrf
 
-        <h1 class="my-2 font-bold text-xl text-{{ $mainColor }}-400">Log In into {{ config('app.name') }}</h1>
+            <h1 class="my-2 font-bold text-xl text-{{ $mainColor }}-400">Log In into {{ config('app.name') }}</h1>
 
-        @if ($errors->any())
-            <div class="rounded-sm mt-4 my-2 bg-red-200 text-red-800 text-sm p-3 relative" role="alert">
-                <strong>{{ $errors->all()[0] }}</strong>
-            </div>
-        @endif
+            @if ($errors->any())
+                <div class="rounded-sm mt-4 my-2 bg-red-200 text-red-800 text-sm p-3 relative" role="alert">
+                    <strong>{{ $errors->all()[0] }}</strong>
+                </div>
+            @endif
 
-        <div class="my-3">
-            @foreach ($inputs as $input)
-            <label class="font-bold text-sm text-gray-300">{{ $input['label'] }}</label>
-            <input
-                class="bg-gray-light text-white border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
-                type="{{ $input['type'] }}"
-                name="{{ $input['name'] }}"
-                value="{{ old($input['name']) }}"
-                autocomplete="off"
-            >
-            @endforeach
+            <div class="my-3">
+                @foreach ($inputs as $input)
+                <label class="font-bold text-sm text-gray-300">{{ $input['label'] }}</label>
+                <input
+                    class="bg-gray-light text-white border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
+                    type="{{ $input['type'] }}"
+                    name="{{ $input['name'] }}"
+                    value="{{ old($input['name']) }}"
+                    autocomplete="off"
+                >
+                @endforeach
 
-            <div class="my-2 mb-4 flex items-center justify-between" style="margin-top: -4px">
-                <div>
-                    <label class="block text-gray-500" for="remember">
-                        <input class="leading-tight cursor-pointer" type="checkbox" id="remember" name="remember" {{ old('remember') === 'on' ? 'checked' : null }}>
+                <div class="my-2 mb-4 flex items-center justify-between" style="margin-top: -4px">
+                    <div>
+                        <label class="block text-gray-500" for="remember">
+                            <input class="leading-tight cursor-pointer" type="checkbox" id="remember" name="remember" {{ old('remember') === 'on' ? 'checked' : null }}>
 
-                        <span class="text-gray-200 font-bold text-sm select-none cursor-pointer">Remember me</span>
-                    </label>
+                            <span class="text-gray-200 font-bold text-sm select-none cursor-pointer">Remember me</span>
+                        </label>
+                    </div>
+
+                    <div>
+                        <a href="#" class="transition text-sm text-{{ $mainColor }}-400 hover:text-{{ $mainColor }}-500 font-bold">Forgot password?</a>
+                    </div>
                 </div>
 
-                <div>
-                    <a href="#" class="transition text-sm text-{{ $mainColor }}-400 hover:text-{{ $mainColor }}-500 font-bold">Forgot password?</a>
-                </div>
+                <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-400 bg-{{ $mainColor }}-900 hover:bg-{{ $mainColor }}-800 text-sm py-2 px-4" type="submit">
+                    Continue
+                </button>
             </div>
+        </form>
 
-            <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-400 bg-{{ $mainColor }}-900 hover:bg-{{ $mainColor }}-800 text-sm py-2 px-4" type="submit">
-                Continue
-            </button>
+        <div class="mt-4 mb-2 flex justify-center">
+            <p class="font-bold text-sm text-gray-200">Don't have an account?</p>&nbsp;
+            <a href="{{ route('join') }}" class="transition font-bold text-sm text-{{ $mainColor }}-400 hover:text-{{ $mainColor }}-500">Join</a>
         </div>
-    </form>
-
-    <div class="mt-4 mb-2 flex justify-center">
-        <p class="font-bold text-sm text-gray-200">Don't have an account?</p>&nbsp;
-        <a href="{{ route('join') }}" class="transition font-bold text-sm text-{{ $mainColor }}-400 hover:text-{{ $mainColor }}-500">Join</a>
     </div>
 </div>
 @stop

@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use RuntimeException;
 use Illuminate\Support\Facades\{Auth, Hash, Storage};
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\JoinRequest;
+use App\Http\Requests\{LoginRequest, JoinRequest};
 use App\Models\User;
 use App\Notifications\JoinRequested;
 
@@ -44,7 +43,7 @@ class AuthController extends Controller
                 ]);
             }
 
-            return redirect()->intended('/dashboard')->with([
+            return redirect()->intended(route('dashboard'))->with([
                 'status' => 'success',
                 'message' => 'Logged In successfully.'
             ]);
