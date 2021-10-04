@@ -17,7 +17,7 @@ class DeleteTest extends TestCase
         $delivery_driver = User::factory()->create(['role' => 'delivery_driver']);
         $admin = User::factory()->create(['role' => 'admin']);
 
-        foreach ([$dispatcher, $delivery_driver, $admin] as $user) {
+        foreach ([$dispatcher, $delivery_driver] as $user) {
             $this->actingAs($admin)
                 ->from(route('dashboard'))
                 ->get(route('user.delete', $user->id))
@@ -28,7 +28,7 @@ class DeleteTest extends TestCase
         }
     }
 
-    public function testAbsoluteAdminCannotBeDeletedExceptByThemselves()
+    public function testSuperAdminCannotBeDeletedExceptByThemselves()
     {
         $admin = User::factory()->make(['role' => 'admin']);
 

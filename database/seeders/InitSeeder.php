@@ -21,7 +21,8 @@ class InitSeeder extends Seeder
             'password' => Hash::make('1234'),
             'phone_number' => '+212620901143',
             'role' => 'admin',
-            'status' => 'active'
+            'status' => 'active',
+            'is_super_admin' => true
         ]);
     }
 }

@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->set('role', ['admin', 'dispatcher', 'delivery_driver']);
             $table->set('status', ['pending', 'active'])->default('pending');
             $table->string('avatar_path')->nullable()->default(config('app.default_avatar_path'));
+            $table->boolean('is_super_admin')->nullable()->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

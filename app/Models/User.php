@@ -26,7 +26,7 @@ class User extends Authenticatable
         'avatar_path'
     ];
 
-    protected $guarded = ['status'];
+    protected $guarded = ['status', 'is_super_admin'];
 
     /**
      * The attributes that should be hidden for serialization.

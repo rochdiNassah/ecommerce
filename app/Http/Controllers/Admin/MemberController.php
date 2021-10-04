@@ -79,7 +79,7 @@ class MemberController extends Controller
             if ('pending' === $user->status)
             $user->notify((new UserRejected())->delay(now()->addMinutes(4)));
 
-            if (1 === $user->id && $request->user()->id !== 1)
+            if ('admin' === $user->role && true !== Auth::user()->is_super_admin)
             return back()->with([
                 'status' => 'error',
                 'message' => 'Cannot delete this user.',
@@ -146,7 +146,7 @@ class MemberController extends Controller
                     'message' => "This user is already {$role}.",
                     'reason' => 'Already'
                 ];
-            } else if ('admin' === $user->role  && 1 !== Auth::user()->id && $user->id !== Auth::user()->id) {
+            } else if ('admin' === $user->role  && ! Auth::user()->is_super_admin && $user->id !== Auth::user()->id) {
                 $response = [
                     'status' => 'error',
                     'message' => 'Cannot downgrade this user.',
@@ -156,19 +156,22 @@ class MemberController extends Controller
                 $user->role = $role;
                 $user->save();
 
+                $is = $isUpgrade ? 'upgraded' : 'downgraded';
+
                 $response = [
                     'status' => 'success',
-                    'message' => 'User' . ($isUpgrade ? ' upgraded ' : ' downgraded ') . 'successfully.'
+                    'message' => "User {$is} successfully.",
+                    'reason' => ucfirst($is)
                 ];
             }
         } catch (ModelNotFoundException) {
             $response = [
                 'status' => 'error',
                 'message' => 'Cannot upgrade or downgrade a non-existent user.',
-                'readon' => 'Not Found'
+                'reason' => 'Not Found'
             ];
         }
 
-        return back()->with($response);
+        return redirect(route(Auth::user()->role === 'admin' ? 'users' : 'dashboard'))->with($response);
     }
 }
