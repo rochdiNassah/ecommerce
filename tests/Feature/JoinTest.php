@@ -12,68 +12,65 @@ use App\Notifications\JoinRequested;
 
 class JoinTest extends TestCase
 {
-    public function testAuthenticatedUserCannotAccessJoinFeature()
+    public function provider()
     {
-        $user = User::factory()->make();
-
-        $this->actingAs($user)
-            ->get(route('join'))
-            ->assertRedirect(route('dashboard'));
-
-        $this->actingAs($user)
-            ->from(route('join'))
-            ->post(route('join'))
-            ->assertRedirect(route('dashboard'));
-
-        $this->actingAs($user)
-            ->post(route('join'))
-            ->assertRedirect(route('dashboard'));
-    }
-
-    public function testGuestCanAccessJoinFeature()
-    {
-        $this->get(route('join'))
-            ->assertSuccessful()
-            ->assertViewIs('auth.join');
-
-        $this->from(route('join'))
-            ->post(route('join'))
-            ->assertRedirect(route('join'));
-    }
-
-    public function testGuestCanJoinWithValidData()
-    {
-        $email = Str::random(10).'@foobar.baz';
-
-        $user = [
-            'fullname' => 'Foobar',
-            'email' => $email,
-            'phone_number' => '0123456789',
+        return [[[
+            'fullname' => 'Foo Bar',
+            'email' => Str::random(10).'@foo.bar',
+            'phone_number' => Str::repeat(0, 10),
             'password' => '1234',
             'password_confirmation' => '1234',
             'role' => 'dispatcher',
             'status' => 'active',
+            'is_super_admin' => 1,
             'avatar_path' => 'foo'
-        ];
-
-        $response = $this->from(route('join'))
-            ->post(route('join'), $user)
-            ->assertRedirect(route('login'))
-            ->assertSessionHas(['status' => 'success']);
-        
-        $user = array_merge(array_flip(array_intersect(array_flip($user), ['email', 'role'])), [
-            'status' => 'pending',
-            'avatar_path' => config('app.default_avatar_path')
-        ]);
-
-        $this->assertDatabaseHas('users', $user);
+        ]]];
     }
 
-    public function testGuestCannotJoinWithInvalidData()
+    public function testAuthenticatedUserCannotAccessJoinFeature()
     {
-        $email = Str::random(10).'@foobar.baz';
+        $user = User::factory()->make();
 
-        $response = $this->from(route('join'))
+        $this->actingAs($user);
+
+        $this->get(route('join'))->assertRedirect(route('dashboard'));
+        $this->post(route('join'))->assertRedirect(route('dashboard'));
+    }
+
+    public function testGuestCanAccessJoinFeature()
+    {
+        $this->get(route('join'))->assertSuccessful()->assertViewIs('auth.join');
+        $this->from(route('join'))->post(route('join'))->assertRedirect(route('join'));
+    }
+
+    /**
+     * @dataProvider provider
+     */
+    public function testGuestCanJoinWithValidData($form)
+    {
+        $this->from(route('join'))
+            ->post(route('join'), $form)
+            ->assertRedirect(route('login'))
+            ->assertSessionHas('status', 'success');
+        
+        $form = array_flip(
+            array_intersect(
+                array_flip($form), ['fullname', 'email', 'phone_number', 'role']
+            )
+        );
+
+        $user = [
+            'status' => 'pending',
+            'is_super_admin' => false,
+            'avatar_path' => config('app.default_avatar_path')
+        ];
+
+        $this->assertDatabaseHas('users', array_merge($form, $user));
+    }
+
+    public function testJoinCannotBeRequestedWithoutEmptyData()
+    {
+        $this->from(route('join'))
             ->post(route('join'), [
                 'fullname' => '',
                 'email' => '',
@@ -81,94 +78,41 @@ class JoinTest extends TestCase
                 'password' => '',
                 'password_confirmation' => '',
                 'role' => ''
-            ])->assertRedirect(route('join'))
-                ->assertSessionHasErrors(
-                    ['fullname', 'email', 'phone_number', 'password', 'role']
-                );
+            ])
+            ->assertRedirect(route('join'))
+            ->assertSessionHasErrors(['fullname', 'email', 'phone_number', 'password', 'role']);
 
-        $response = $this->from(route('join'))
-            ->post(route('join'), [
-                'fullname' => 'a',
-                'email' => $email,
-                'phone_number' => '0123456789',
-                'password' => '1234',
-                'password_confirmation' => '12345',
-                'role' => 'aadmin'
-            ])->assertRedirect(route('join'))
-                ->assertSessionHasErrors(
-                    ['fullname', 'password', 'role']
-                );
-
-        $response = $this->from(route('join'))
-            ->post(route('join'), [
-                'fullname' => Str::random(101),
-                'email' => 'invalid-email',
-                'phone_number' => '0123',
-                'password' => '1234',
-                'password_confirmation' => '12345',
-                'role' => 'adminn'
-            ])->assertRedirect(route('join'))
-                ->assertSessionHasErrors(
-                    ['fullname', 'email', 'role']
-                );
-
-        $response = $this->from(route('join'))
-            ->post(route('join'), [
-                'fullname' => 'Foobar',
-                'email' => $email,
-                'phone_number' => '0123456789',
-                'password' => '123',
-                'password_confirmation' => '123',
-                'role' => 'aadminn'
-            ])->assertRedirect(route('join'))
-                ->assertSessionHasErrors(
-                    ['password', 'role']
-                );
-
-        $this->assertDatabaseMissing('users', ['email' => $email]);
+        $this->assertDatabaseMissing('users', ['email' => '']);
     }
 
-    public function testInputsAreFlashedExceptPassword()
+    /**
+     * @dataProvider provider
+     */
+    public function testInputsAreFlashedExceptPassword($form)
     {
-        $user = [
-            'fullname' => 'Foobar',
-            'email' => Str::random(10).'@foobar.baz',
-            'phone_number' => '0123456789',
-            'password' => '1234',
-            'password_confirmation' => '12345',
-            'role' => 'admin'
-        ];
+        $form['email'] = 'invalid-email';
 
         $inputs = array_flip(
             array_intersect(
-                array_flip($user), ['fullname', 'email', 'phone_number', 'role']
+                array_flip($form), ['fullname', 'email', 'phone_number', 'role']
             )
         );
         
         $this->from(route('join'))
-            ->post(route('join'), $user)
+            ->post(route('join'), $form)
             ->assertRedirect(route('join'))
             ->assertSessionHasInput($inputs);
     }
 
-    public function testUserIsNotifiedWhenTheyRequestToJoin()
+    /**
+     * @dataProvider provider
+     */
+    public function testUserIsNotifiedWhenTheyRequestToJoin($form)
     {
         Notification::fake();
 
-        $email = Str::random(10).'@foobar.baz';
+        $this->from(route('join'))->post(route('join'), $form);
 
-        $user = [
-            'fullname' => 'Foobar',
-            'email' => $email,
-            'phone_number' => '0123456789',
-            'password' => '1234',
-            'password_confirmation' => '1234',
-            'role' => ' dispatcher '
-        ];
-
-        $this->from(route('join'))
-            ->post(route('join'), $user);
-
-        Notification::assertSentTo(User::where('email', $user['email'])->get(), JoinRequested::class);
+        Notification::assertSentTo(User::where('email', $form['email'])->get(), JoinRequested::class);
     }
 }

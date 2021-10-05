@@ -34,7 +34,7 @@ class EditRoleTest extends TestCase
     {
         $target = User::factory()->create();
         $admin = User::factory()->make(['role' => 'admin']);
-        $role = 'delivery_driver';
+        $role = 'admin';
 
         $this->actingAs($admin)
             ->from(route('user.update-role-screen', $target->id))
@@ -42,7 +42,7 @@ class EditRoleTest extends TestCase
             ->assertRedirect(route('users'))
             ->assertSessionHas([
                 'status' => 'success',
-                'reason' => 'Downgraded'
+                'reason' => 'Upgraded'
             ]);
 
         $this->assertDatabaseHas('users', [

@@ -14,29 +14,16 @@ class LoginTest extends TestCase
     {
         $user = User::factory()->make();
 
-        $this->actingAs($user)
-            ->get(route('login'))
-            ->assertRedirect(route('dashboard'));
+        $this->actingAs($user);
 
-        $this->actingAs($user)
-            ->from(route('login'))
-            ->post(route('login'))
-            ->assertRedirect(route('dashboard'));
-            
-        $this->actingAs($user)
-            ->post(route('login'))
-            ->assertRedirect(route('dashboard'));
+        $this->get(route('login'))->assertRedirect(route('dashboard'));
+        $this->post(route('login'))->assertRedirect(route('dashboard'));
     }
 
     public function testGuestCanAccessLoginFeature()
     {
-        $this->get(route('login'))
-            ->assertSuccessful()
-            ->assertViewIs('auth.login');
-
-        $this->from(route('login'))
-            ->post(route('login'))
-            ->assertRedirect(route('login'));
+        $this->get(route('login'))->assertSuccessful()->assertViewIs('auth.login');
+        $this->from(route('login'))->post(route('login'))->assertRedirect(route('login'));
     }
 
     public function testGuestCanLoginWithValidCredentials()
@@ -45,11 +32,10 @@ class LoginTest extends TestCase
 
         $form = [
             'email' => $user->email,
-            'password' => 'password',
-            'password_confirmation' => 'password'
+            'password' => 'password'
         ];
 
-        $response = $this->from(route('login'))
+        $this->from(route('login'))
             ->post(route('login'), $form)
             ->assertRedirect(route('dashboard'))
             ->assertSessionHas('message', 'Logged In successfully.');
@@ -64,22 +50,15 @@ class LoginTest extends TestCase
      */
     public function testGuestCannotLoginWithInvalidCredentials($email)
     {
-        $form = [
-            'email' => 'not-existent-email@foo.bar',
-            'password' => 'incorrect-password',
-        ];
+        $emails = [$email, 'non-existent@foo.bar'];
+        $password = 'incorrect-password';
 
-        $response = $this->from(route('login'))
-            ->post(route('login'), $form)
-            ->assertRedirect(route('login'))
-            ->assertSessionHas('message', 'The provided credentials do not match our records.');
-
-        $form['email'] = $email;
-
-        $response = $this->from(route('login'))
-            ->post(route('login'), $form)
-            ->assertRedirect(route('login'))
-            ->assertSessionHas('message', 'The provided credentials do not match our records.');
+        foreach ($emails as $email) {
+            $this->from(route('login'))
+                ->post(route('login'), ['email' => $email, 'password' => $password])
+                ->assertRedirect(route('login'))
+                ->assertSessionHas('message', 'The provided credentials do not match our records.');
+        }
 
         $this->assertGuest();
     }
@@ -92,7 +71,7 @@ class LoginTest extends TestCase
             'remember' => 'on'
         ];
 
-        $response = $this->from(route('login'))
+        $this->from(route('login'))
             ->post(route('login'), $form)
             ->assertRedirect(route('login'))
             ->assertSessionHasInput([
@@ -103,7 +82,7 @@ class LoginTest extends TestCase
 
     public function testPendingUserCannotBeAuthenticated()
     {
-        $user = User::factory()->create(['status' => 'pending']);
+        $user = User::factory()->pending()->create();
 
         $form = [
             'email' => $user->email,

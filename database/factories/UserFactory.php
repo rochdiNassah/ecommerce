@@ -29,7 +29,7 @@ class UserFactory extends Factory
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
             'phone_number' => random_int(10, 15),
-            'role' => 'dispatcher',
+            'role' => 'delivery_driver',
             'status' => 'active'
         ];
     }
@@ -44,6 +44,34 @@ class UserFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'email_verified_at' => null,
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the user should be under pending status.
+     * 
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function pending()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => 'pending'
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the user should be admin.
+     * 
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function admin()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role' => 'admin'
             ];
         });
     }
