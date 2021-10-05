@@ -60,6 +60,22 @@ class EditRoleTest extends TestCase
         $this->assertDatabaseHas('users', $data);
     }
 
+    public function testCannotDowngradeSuperAdmin()
+    {
+        $admin = User::factory()->admin()->create();
+        $superAdmin = User::factory()->superAdmin()->make();
+
+        $data = ['id' => $superAdmin->id, 'role' => 'dispatcher'];
+
+        $this->actingAs($admin);
+        $this->post(route('user.update-role', $data));
+
+        $this->actingAs($superAdmin);
+        $this->post(route('user.update-role', $data));
+
+        $this->assertDatabaseMissing('users', $data);
+    }
+
     public function testAdminCannotUpgradeOrDowngradeNonExistentUser()
     {
         $admin = User::factory()->admin()->make();

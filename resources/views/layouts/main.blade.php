@@ -14,7 +14,7 @@
                 $color = session('status') == 'error' ? 'red' : (session('status') == 'success' ? 'green' : 'yellow');
             @endphp
 
-        <div class="px-2 w-full sm:w-80 transition fixed -bottom-32 right-0 z-20" id="global-alert">
+        <div class="px-2 w-full sm:w-auto transition fixed -bottom-32 right-0 z-20" id="global-alert">
             <div>
                 <div class="rounded-t-sm border border-{{ $color }}-600 bg-{{ $color }}-900 text-{{ $color }}-400 font-bold px-4 py-2">
                     {{ ucfirst(session('status')) }}

@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\{View, Auth};
 use App\Models\User;
-use App\Notifications\UserApproved;
-use App\Notifications\UserRejected;
+use App\Notifications\{UserApproved, UserRejected};
+use App\Http\Requests\UpdateRoleRequest;
 
 class MemberController extends Controller
 {
@@ -39,6 +39,7 @@ class MemberController extends Controller
                 $user->status = 'active';
                 $user->save();
                 $user->notify((new UserApproved())->delay(now()->addMinutes(4)));
+                
                 $response = ['status' => 'success', 'message' => 'Great! User approved and notified.'];
             } else {
                 $response = [
@@ -70,7 +71,7 @@ class MemberController extends Controller
         try {
             $user = User::findOrFail($id);
 
-            if ('admin' === $user->role && !Auth::user()->is_super_admin) {
+            if ('admin' === $user->role && !Auth::user()->is_super_admin || $user->is_super_admin) {
                 $response = [
                     'status' => 'error',
                     'message' => 'Cannot delete this user.',
@@ -110,17 +111,12 @@ class MemberController extends Controller
     /**
      * Upgrade or downgrade the given user.
      * 
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\UpdateRoleRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function updateRole(Request $request)
+    public function updateRole(UpdateRoleRequest $request)
     {
-        $data = $request->validate([
-            'id' => ['required'],
-            'role' => ['required', 'regex:(^admin$|^dispatcher$|^delivery_driver$)']
-        ]);
-
-        extract($data);
+        extract($request->safe()->only('id', 'role'));
 
         $roles = ['admin' => 999, 'dispatcher' => 666, 'delivery_driver' => 333];
 
@@ -135,7 +131,7 @@ class MemberController extends Controller
                     'reason' => 'Already'
                 ];
             } else {
-                if ('admin' === $user->role && !Auth::user()->is_super_admin) {
+                if ('admin' === $user->role && !Auth::user()->is_super_admin || $user->is_super_admin) {
                     $response = [
                         'status' => 'error',
                         'message' => 'Cannot downgrade this user.',

@@ -41,22 +41,15 @@ class DeleteTest extends TestCase
         $this->assertDatabaseMissing('users', ['id' => $admin->id]);
     }
 
-    public function testSuperAdminCannotBeDeletedExceptByThemselves()
+    public function testCannotDeleteSuperAdmin()
     {
         $admin = User::factory()->admin()->make();
         $superAdmin = User::factory()->superAdmin()->create();
 
-        $this->actingAs($admin)
-            ->from(route('dashboard'))
-            ->get(route('user.delete', $superAdmin->id))
-            ->assertRedirect(route('dashboard'))
-            ->assertSessionHas('reason', 'Unauthorized');
+        $this->actingAs($admin)->get(route('user.delete', $superAdmin->id))->assertSessionHas('reason', 'Unauthorized');
+        $this->actingAs($superAdmin)->get(route('user.delete', $superAdmin->id))->assertSessionHas('reason', 'Unauthorized');
 
         $this->assertDatabaseHas('users', ['id' => $superAdmin->id]);
-
-        $this->actingAs($superAdmin);
-        $this->get(route('user.delete', $superAdmin->id));
-        $this->assertDatabaseMissing('users', ['id' => $superAdmin->id]);
     }
 
     public function testAdminCannotDeleteNonExistentUser()
