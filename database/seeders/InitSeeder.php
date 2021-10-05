@@ -19,10 +19,16 @@ class InitSeeder extends Seeder
             'fullname' => 'Rochdi Nassah',
             'email' => 'rochdinassah.1998@gmail.com',
             'password' => Hash::make('1234'),
-            'phone_number' => '+212620901143',
+            'phone_number' => '0620901143',
             'role' => 'admin',
             'status' => 'active',
             'is_super_admin' => true
+        ]);
+
+        DB::table('products')->insert([
+            'name' => 'Foo',
+            'description' => 'Foobarbazquxquuxquuzcorgegrault!',
+            'price' => 40.04
         ]);
     }
 }

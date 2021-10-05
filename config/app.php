@@ -2,6 +2,7 @@
 
 return [
     'default_avatar_path' => '/images/avatars/default.jpg',
+    'default_product_image_path' => '/images/products/default.jpg',
 
     /*
     |--------------------------------------------------------------------------

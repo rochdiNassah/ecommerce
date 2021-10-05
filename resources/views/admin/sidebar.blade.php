@@ -10,7 +10,7 @@
         <div class="w-full h-1 bg-{{ $mainColor }}-400 rounded-sm transform -rotate-45 -translate-y-1"></div>
     </div>
 
-    <div class="border-b border-gray p-4 px-8 grid place-items-center">
+    <div class="border-b border-gray p-4 px-4 grid place-items-center">
         <img class="inline object-cover w-16 h-16 mb-2 rounded-full" src="{{ asset(Auth::user()->avatar_path) }}" alt="Avatar"/>
         <h1 class="text-lg text-center text-gray-200 font-bold">{{ strtoupper(Auth::user()->fullname) }}</h1>
     </div>
@@ -24,13 +24,17 @@
             <li class="transition text-gray-200 text-lg">Products</li>
         </a>
 
+        <a class="transition p-2 px-8 border-b border-gray hover:bg-gray-800" href="{{ route('product.create') }}">
+            <li class="transition text-gray-200 text-lg">Create New Product</li>
+        </a>
+
         <a class="transition p-2 px-8 border-b border-gray hover:bg-gray-800" href="{{ route('account') }}">
             <li class="transition text-gray-200 text-lg">My Account</li>
         </a>
 
         @if ('dashboard' !== Route::current()->uri)
         <a class="transition p-2 px-8 border-b border-gray hover:bg-gray-800" href="{{ route('dashboard') }}">
-            <li class="transition text-gray-200 text-lg">Back To Dashboard</li>
+            <li class="transition text-gray-200 text-lg">Dashboard</li>
         </a>
         @endif
     </ul>

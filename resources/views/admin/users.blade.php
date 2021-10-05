@@ -27,12 +27,21 @@
                             
                             <div class="grid grid-cols-2">
                                 @if ('pending' === $user->status)
-                                <a class="text-center font-bold bg-green-900 hover:bg-green-800 transition text-green-400 text-xs py-1 px-2 rounded-sm mx-2" href="{{ route('user.approve', $user->id) }}">Approve</a> 
+                                <a
+                                    class="text-center font-bold bg-green-900 hover:bg-green-800 transition text-green-400 text-xs py-1 px-2 rounded-sm mx-2"
+                                    href="{{ route('user.approve', $user->id) }}"
+                                >Approve</a> 
                                 @else
-                                <a class="text-center font-bold bg-blue-900 hover:bg-blue-800 transition text-blue-400 text-xs py-1 px-2 rounded-sm mx-2" href="{{ route('user.update-role-screen', $user->id) }}">Edit Role</a> 
+                                <a
+                                    class="text-center font-bold bg-blue-900 hover:bg-blue-800 transition text-blue-400 text-xs py-1 px-2 rounded-sm mx-2"
+                                    href="{{ route('user.update-role-screen', $user->id) }}"
+                                >Edit Role</a> 
                                 @endif
 
-                                <a class="text-center font-bold bg-red-900 hover:bg-red-800 transition text-red-400 text-xs py-1 px-2 rounded-sm mx-2" href="{{ route('user.delete', $user->id) }}">Delete</a> 
+                                <a
+                                    class="text-center font-bold bg-red-900 hover:bg-red-800 transition text-red-400 text-xs py-1 px-2 rounded-sm mx-2"
+                                    href="{{ route('user.delete', $user->id) }}"
+                                >Delete</a> 
                             </div>
                         </div>
                     </div>
