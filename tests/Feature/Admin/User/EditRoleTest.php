@@ -31,7 +31,7 @@ class EditRoleTest extends TestCase
         }
     }
 
-    public function testAdminCannotBeDowngradedExceptByTheSuperAdminOrThemselves()
+    public function testAdminCannotBeDowngradedExceptByTheSuperAdmin()
     {
         $target = User::factory()->admin()->create();
         $admin = User::factory()->admin()->create();
@@ -55,12 +55,7 @@ class EditRoleTest extends TestCase
 
         $data = ['id' => $target->id, 'role' => 'dispatcher'];
 
-        $this->actingAs($target);
-        $this->post(route('user.update-role', $data));
-        $this->assertDatabaseHas('users', $data);
-
         $this->actingAs($superAdmin);
-        $this->post(route('user.update-role', ['id' => $target->id, 'role' => 'admin']));
         $this->post(route('user.update-role', $data));
         $this->assertDatabaseHas('users', $data);
     }

@@ -31,37 +31,31 @@ class MemberController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function approve(Request $request, int $id)
-    {   
+    {
         try {
             $user = User::findOrFail($id);
 
-            if ('pending' !== $user->status) {
+            if ('active' !== $user->status) {
+                $user->status = 'active';
+                $user->save();
+                $user->notify((new UserApproved())->delay(now()->addMinutes(4)));
+                $response = ['status' => 'success', 'message' => 'Great! User approved and notified.'];
+            } else {
                 $response = [
                     'status' => 'warning',
                     'message' => 'This user is already active.',
                     'reason' => 'Already'
                 ];
-
-                return back()->with($response);
             }
-
-            $user->status = 'active';
-            $user->save();
-            $user->notify((new UserApproved())->delay(now()->addMinutes(4)));
-
-            $response = [
-                'status' => 'success',
-                'message' => 'Great! User approved and notified.'
-            ];
+    
+            return back()->with($response);
         } catch (ModelNotFoundException $e) {
-            $response = [
+            return back()->with([
                 'status' => 'error',
-                'message' => 'Cannot approve non-existent user.',
+                'message' => 'Cannot approve a non-existent user.',
                 'reason' => 'Not Found'
-            ];
+            ]);
         }
-
-        return back()->with($response);
     }
 
     /**
@@ -76,31 +70,30 @@ class MemberController extends Controller
         try {
             $user = User::findOrFail($id);
 
-            if ('pending' === $user->status)
-            $user->notify((new UserRejected())->delay(now()->addMinutes(4)));
+            if ('admin' === $user->role && !Auth::user()->is_super_admin) {
+                $response = [
+                    'status' => 'error',
+                    'message' => 'Cannot delete this user.',
+                    'reason' => 'Unauthorized'
+                ];
+            } else {
+                if ('pending' === $user->status) {
+                    $user->notify((new UserRejected())->delay(now()->addMinutes(4)));
+                }
 
-            if ('admin' === $user->role && true !== Auth::user()->is_super_admin)
-            return back()->with([
-                'status' => 'error',
-                'message' => 'Cannot delete this user.',
-                'reason' => 'Unauthorized'
-            ]);
+                $user->delete();
 
-            $user->delete();
+                $response = ['status' => 'success', 'message' => 'User deleted.'];
+            }
 
-            $response = [
-                'status' => 'success',
-                'message' => 'User deleted.'
-            ];
+            return back()->with($response);
         } catch (ModelNotFoundException) {
-            $response = [
+            return back()->with([
                 'status' => 'error',
                 'message' => 'Cannot delete a non-existent user.',
                 'reason' => 'Not Found'
-            ];
+            ]);
         }
-
-        return back()->with($response);
     }
 
     /**
@@ -129,15 +122,10 @@ class MemberController extends Controller
 
         extract($data);
 
-        $roles = [
-            'admin' => 999,
-            'dispatcher' => 666,
-            'delivery_driver' => 333
-        ];
+        $roles = ['admin' => 999, 'dispatcher' => 666, 'delivery_driver' => 333];
 
         try {
             $user = User::findOrFail($id);
-
             $isUpgrade = $roles[$role] > $roles[$user->role];
 
             if ($role === $user->role) {
@@ -146,32 +134,33 @@ class MemberController extends Controller
                     'message' => "This user is already {$role}.",
                     'reason' => 'Already'
                 ];
-            } else if ('admin' === $user->role  && ! Auth::user()->is_super_admin && $user->id !== Auth::user()->id) {
-                $response = [
-                    'status' => 'error',
-                    'message' => 'Cannot downgrade this user.',
-                    'reason' => 'Unauthorized'
-                ];
             } else {
-                $user->role = $role;
-                $user->save();
+                if ('admin' === $user->role && !Auth::user()->is_super_admin) {
+                    $response = [
+                        'status' => 'error',
+                        'message' => 'Cannot downgrade this user.',
+                        'reason' => 'Unauthorized'
+                    ];
+                } else {
+                    $user->role = $role;
+                    $user->save();
+                    $is = $isUpgrade ? 'upgraded' : 'downgraded';
 
-                $is = $isUpgrade ? 'upgraded' : 'downgraded';
-
-                $response = [
-                    'status' => 'success',
-                    'message' => "User {$is} successfully.",
-                    'reason' => ucfirst($is)
-                ];
+                    $response = [
+                        'status' => 'success',
+                        'message' => "User {$is} successfully.",
+                        'reason' => ucfirst($is)
+                    ];
+                }
             }
+
+            return redirect(route('users'))->with($response);
         } catch (ModelNotFoundException) {
-            $response = [
+            return redirect(route('users'))->with([
                 'status' => 'error',
                 'message' => 'Cannot upgrade or downgrade a non-existent user.',
                 'reason' => 'Not Found'
-            ];
+            ]);
         }
-
-        return redirect(route(Auth::user()->role === 'admin' ? 'users' : 'dashboard'))->with($response);
     }
 }
