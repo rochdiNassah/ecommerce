@@ -75,4 +75,19 @@ class UserFactory extends Factory
             ];
         });
     }
+
+    /**
+     * Indicate that the user should be super admin.
+     * 
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function superAdmin()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role' => 'admin',
+                'is_super_admin' => true
+            ];
+        });
+    }
 }

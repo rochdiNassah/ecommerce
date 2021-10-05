@@ -13,30 +13,28 @@ class ApproveTest extends TestCase
 {
     public function testAdminCanApprovePendingUser()
     {
-        $pendingUser = User::factory()->create(['status' => 'pending']);
-        $activeUser = User::factory()->create();
-
-        $admin = User::factory()->make(['role' => 'admin']);
+        $pending = User::factory()->pending()->create();
+        $admin = User::factory()->admin()->make();
         
         $this->actingAs($admin)
             ->from(route('dashboard'))
-            ->get(route('user.approve', $pendingUser->id))
+            ->get(route('user.approve', $pending->id))
             ->assertRedirect(route('dashboard'))
-            ->assertSessionHas(['status' => 'success']);
+            ->assertSessionHas('status', 'success');
         
         $this->assertDatabaseHas('users', [
-            'email' => $pendingUser->email,
+            'email' => $pending->email,
             'status' => 'active'
         ]);
     }
 
     public function testAdminCannotApproveNonPendingUser()
     {
-        $activeUser = User::factory()->create();
-        $admin = User::factory()->make(['role' => 'admin']);
+        $active = User::factory()->create();
+        $admin = User::factory()->admin()->make();
 
         $this->actingAs($admin)
-            ->get(route('user.approve', $activeUser->id))
+            ->get(route('user.approve', $active->id))
             ->assertSessionHas([
                 'status' => 'warning',
                 'reason' => 'Already'
@@ -45,25 +43,22 @@ class ApproveTest extends TestCase
 
     public function testAdminCannotApproveNonExistentUser()
     {
-        $admin = User::factory()->make(['role' => 'admin']);
+        $admin = User::factory()->admin()->make();
 
-        $this->actingAs($admin)
-            ->get(route('user.approve', '-1'))
-            ->assertSessionHas([
-                'status' => 'error',
-                'reason' => 'Not Found'
-            ]);
+        $this->actingAs($admin);
+
+        $this->get(route('user.approve', '-1'))->assertSessionHas('reason', 'Not Found');
     }
 
     public function testUserIsNotifiedWhenTheyApproved()
     {
         Notification::fake();
 
-        $pendingUser = User::factory()->create(['status' => 'pending']);
+        $pending = User::factory()->pending()->create();
         $admin = User::factory()->make(['role' => 'admin']);
 
-        $this->actingAs($admin)->get(route('user.approve', $pendingUser->id));
+        $this->actingAs($admin)->get(route('user.approve', $pending->id));
         
-        Notification::assertSentTo($pendingUser, UserApproved::class);
+        Notification::assertSentTo($pending, UserApproved::class);
     }
 }

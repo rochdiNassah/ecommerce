@@ -12,7 +12,7 @@ use App\Notifications\JoinRequested;
 
 class JoinTest extends TestCase
 {
-    public function provider()
+    public function formProvider()
     {
         return [[[
             'fullname' => 'Foo Bar',
@@ -44,9 +44,9 @@ class JoinTest extends TestCase
     }
 
     /**
-     * @dataProvider provider
+     * @dataProvider formProvider
      */
-    public function testGuestCanJoinWithValidData($form)
+    public function testGuestCanPlaceValidJoinRequest($form)
     {
         $this->from(route('join'))
             ->post(route('join'), $form)
@@ -66,27 +66,47 @@ class JoinTest extends TestCase
         ];
 
         $this->assertDatabaseHas('users', array_merge($form, $user));
-    }
 
-    public function testJoinCannotBeRequestedWithoutEmptyData()
-    {
-        $this->from(route('join'))
-            ->post(route('join'), [
-                'fullname' => '',
-                'email' => '',
-                'phone_number' => '',
-                'password' => '',
-                'password_confirmation' => '',
-                'role' => ''
-            ])
-            ->assertRedirect(route('join'))
-            ->assertSessionHasErrors(['fullname', 'email', 'phone_number', 'password', 'role']);
-
-        $this->assertDatabaseMissing('users', ['email' => '']);
+        return $form['email'];
     }
 
     /**
-     * @dataProvider provider
+     * @depends testGuestCanPlaceValidJoinRequest
+     */
+    public function testGuestCannotPlaceInvalidJoinRequest($email)
+    {
+        $roles = [
+            'admina', 'aadmin', 'admi', 'admin%00', '#admin#', 'aadminb',
+            'disptachera', 'aadisptacher', 'dispat', 'adisptacher%00', '#disptacher#', 'adisptacherb',
+            'delivery_drivera', 'adelivery_driver', 'delivery_', 'delivery_driver%00', '#delivery_driver#', 'adelivery_driverb',
+            'ADMIN', 'DISPACTHER', 'DELIVERY_DRIVER', ' ', '~!@#$%^&*()_+\/'
+        ];
+
+        foreach ($roles as $role) {
+            $this->post(route('join'), ['role' => $role])->assertSessionHasErrors('role');
+        }
+
+        $this->post(route('join'), ['email' => $email])->assertSessionHasErrors('email');
+        $this->post(route('join'), ['email' => Str::repeat('a', 256).'@foo.bar'])->assertSessionHasErrors('email');
+        $this->post(route('join'), ['fullname' => 'a'])->assertSessionHasErrors('fullname');
+        $this->post(route('join'), ['fullname' => Str::repeat('a', 101)])->assertSessionHasErrors('fullname');
+        $this->post(route('join'), ['password' => '1234', 'password_confirmation' => '123'])->assertSessionHasErrors('password');
+        $this->post(route('join'), ['password' => '123', 'password_confirmation' => '123'])->assertSessionHasErrors('password');
+
+        $form = [
+            'fullname' => '',
+            'email' => '',
+            'phone_number' => '',
+            'password' => '',
+            'role' => '',
+            'password_confirmation' => ''
+        ];
+
+        $this->post(route('join'), $form)->assertSessionHasErrors(array_keys(array_slice($form, 0, -1)));
+    }
+
+    /**
+     * @dataProvider formProvider
      */
     public function testInputsAreFlashedExceptPassword($form)
     {
@@ -105,7 +125,7 @@ class JoinTest extends TestCase
     }
 
     /**
-     * @dataProvider provider
+     * @dataProvider formProvider
      */
     public function testUserIsNotifiedWhenTheyRequestToJoin($form)
     {

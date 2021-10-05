@@ -9,101 +9,72 @@ use App\Models\User;
 
 class EditRoleTest extends TestCase
 {
-    public function testAdminCanUpgradeUser()
+    public function testAdminCanUpgradeAndDowngradeUser()
     {
         $target = User::factory()->create();
-        $admin = User::factory()->make(['role' => 'admin']);
-        $role = 'admin';
+        $admin = User::factory()->admin()->make();
+        
+        $this->actingAs($admin);
 
-        $this->actingAs($admin)
-            ->from(route('user.update-role-screen', $target->id))
-            ->post(route('user.update-role', ['id' => $target->id, 'role' => $role]))
-            ->assertRedirect(route('users'))
-            ->assertSessionHas([
-                'status' => 'success',
-                'reason' => 'Upgraded'
-            ]);
+        $roles = ['dispatcher', 'delivery_driver'];
 
-        $this->assertDatabaseHas('users', [
-            'id' => $target->id,
-            'role' => $role
-        ]);        
-    }
+        foreach ($roles as $role) {
+            $this->from(route('user.update-role-screen', $target->id))
+                ->post(route('user.update-role', ['id' => $target->id, 'role' => $role]))
+                ->assertRedirect(route('users'))
+                ->assertSessionHas('status', 'success');
 
-    public function testAdminCanDowngradeUser()
-    {
-        $target = User::factory()->create();
-        $admin = User::factory()->make(['role' => 'admin']);
-        $role = 'admin';
-
-        $this->actingAs($admin)
-            ->from(route('user.update-role-screen', $target->id))
-            ->post(route('user.update-role', ['id' => $target->id, 'role' => $role]))
-            ->assertRedirect(route('users'))
-            ->assertSessionHas([
-                'status' => 'success',
-                'reason' => 'Upgraded'
-            ]);
-
-        $this->assertDatabaseHas('users', [
-            'id' => $target->id,
-            'role' => $role
-        ]);  
+            $this->assertDatabaseHas('users', [
+                'id' => $target->id,
+                'role' => $role
+            ]);       
+        }
     }
 
     public function testAdminCannotBeDowngradedExceptByTheSuperAdminOrThemselves()
     {
-        $target = User::factory()->create(['is_super_admin' => false, 'role' => 'admin']);
-        $admin = User::factory()->make(['role' => 'admin']);
-        $role = 'dispatcher';
+        $target = User::factory()->admin()->create();
+        $admin = User::factory()->admin()->create();
+        $superAdmin = User::factory()->superAdmin()->make();
 
-        $this->actingAs($admin)
-            ->from(route('user.update-role-screen', $target->id))
-            ->post(route('user.update-role', ['id' => $target->id, 'role' => $role]))
-            ->assertRedirect(route('users'))
-            ->assertSessionHas([
-                'status' => 'error',
-                'reason' => 'Unauthorized'
-            ]);
+        $this->actingAs($admin);
 
-        $this->assertDatabaseMissing('users', [
-            'id' => $target->id,
-            'role' => $role
-        ]); 
-    }
+        $roles = ['dispatcher', 'delivery_driver'];
 
-    public function testSuperAdminCanBeUpgraded()
-    {
-        $target = User::factory()->create(['is_super_admin' => false]);
-        $admin = User::factory()->make(['role' => 'admin']);
-        $role = 'admin';
+        foreach ($roles as $role) {
+            $this->from(route('user.update-role-screen', $target->id))
+                ->post(route('user.update-role', ['id' => $target->id, 'role' => $role]))
+                ->assertRedirect(route('users'))
+                ->assertSessionHas('reason', 'Unauthorized');
 
-        $this->actingAs($admin)
-            ->from(route('user.update-role-screen', $target->id))
-            ->post(route('user.update-role', ['id' => $target->id, 'role' => $role]))
-            ->assertRedirect(route('users'))
-            ->assertSessionHas([
-                'status' => 'success',
-                'reason' => 'Upgraded'
-            ]);
+            $this->assertDatabaseHas('users', [
+                'id' => $target->id,
+                'role' => 'admin'
+            ]);       
+        }
 
-        $this->assertDatabaseHas('users', [
-            'id' => $target->id,
-            'role' => $role
-        ]); 
+        $data = ['id' => $target->id, 'role' => 'dispatcher'];
+
+        $this->actingAs($target);
+        $this->post(route('user.update-role', $data));
+        $this->assertDatabaseHas('users', $data);
+
+        $this->actingAs($superAdmin);
+        $this->post(route('user.update-role', ['id' => $target->id, 'role' => 'admin']));
+        $this->post(route('user.update-role', $data));
+        $this->assertDatabaseHas('users', $data);
     }
 
     public function testAdminCannotUpgradeOrDowngradeNonExistentUser()
     {
-        $admin = User::factory()->make(['role' => 'admin']);
-        $role = 'admin';
+        $admin = User::factory()->admin()->make();
+        $user = User::factory()->create();
+
+        $user->delete();
 
         $this->actingAs($admin)
-            ->post(route('user.update-role', ['id' => -1, 'role' => $role]))
+            ->post(route('user.update-role', ['id' => $user->id, 'role' => 'dispatcher']))
             ->assertRedirect(route('users'))
-            ->assertSessionHas([
-                'status' => 'error',
-                'reason' => 'Not Found'
-            ]);
+            ->assertSessionHas('reason', 'Not Found');
     }
 }
