@@ -19,7 +19,7 @@ class EditRoleTest extends TestCase
         $roles = ['dispatcher', 'delivery_driver'];
 
         foreach ($roles as $role) {
-            $this->from(route('user.update-role-screen', $target->id))
+            $this->from(route('user.update-role-view', $target->id))
                 ->post(route('user.update-role', ['id' => $target->id, 'role' => $role]))
                 ->assertRedirect(route('users'))
                 ->assertSessionHas('status', 'success');
@@ -42,10 +42,10 @@ class EditRoleTest extends TestCase
         $roles = ['dispatcher', 'delivery_driver'];
 
         foreach ($roles as $role) {
-            $this->from(route('user.update-role-screen', $target->id))
+            $this->from(route('user.update-role-view', $target->id))
                 ->post(route('user.update-role', ['id' => $target->id, 'role' => $role]))
                 ->assertRedirect(route('users'))
-                ->assertSessionHas('reason', 'Unauthorized');
+                ->assertSessionHas(['reason' => 'Unauthorized', 'message' => __('global.unauthorized')]);
 
             $this->assertDatabaseHas('users', [
                 'id' => $target->id,
@@ -86,6 +86,6 @@ class EditRoleTest extends TestCase
         $this->actingAs($admin)
             ->post(route('user.update-role', ['id' => $user->id, 'role' => 'dispatcher']))
             ->assertRedirect(route('users'))
-            ->assertSessionHas('reason', 'Not Found');
+            ->assertSessionHas(['reason' => 'Not Found', 'message' => __('user.missing')]);
     }
 }

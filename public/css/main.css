@@ -6,7 +6,7 @@ body {
     background: #242526
 }
 
-.auth-form {
+.base-form {
     background: #242526;
     width: 500px
 }
@@ -28,5 +28,5 @@ body {
 }
 
 @media only screen and (max-width: 500px) {
-    .auth-form { width: 100% } 
+    .base-form { width: 100% } 
 }

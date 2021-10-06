@@ -30,7 +30,7 @@ class MiddlewareTest extends TestCase
             $this->get(route('users'))->assertSessionHas('reason', 'Unauthorized');
             $this->get(route('products'))->assertSessionHas('reason', 'Unauthorized');
             $this->get(route('user.approve', $user->id))->assertSessionHas('reason', 'Unauthorized');
-            $this->get(route('user.update-role-screen', $user->id))->assertSessionHas('reason', 'Unauthorized');
+            $this->get(route('user.update-role-view', $user->id))->assertSessionHas('reason', 'Unauthorized');
             $this->post(route('user.update-role', ['id' => $user->id, 'role' => 'dispatcher']))
                 ->assertSessionHas('reason', 'Unauthorized');
         }
@@ -56,7 +56,7 @@ class MiddlewareTest extends TestCase
         $this->get(route('users'))->assertSuccessful();
         $this->get(route('products'))->assertSuccessful();
         $this->get(route('user.approve', $user->id))->assertSessionHas('status', 'success');
-        $this->get(route('user.update-role-screen', $user->id))->assertSuccessful();
+        $this->get(route('user.update-role-view', $user->id))->assertSuccessful();
         $this->post(route('user.update-role', ['id' => $user->id, 'role' => 'dispatcher']))
             ->assertSessionHas('reason', 'Upgraded');
 

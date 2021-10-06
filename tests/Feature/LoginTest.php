@@ -38,7 +38,7 @@ class LoginTest extends TestCase
         $this->from(route('login'))
             ->post(route('login'), $form)
             ->assertRedirect(route('dashboard'))
-            ->assertSessionHas('message', 'Logged In successfully.');
+            ->assertSessionHas(['status' => 'success', 'message' => __('login.success')]);
 
         $this->assertAuthenticated();
             
@@ -57,7 +57,7 @@ class LoginTest extends TestCase
             $this->from(route('login'))
                 ->post(route('login'), ['email' => $email, 'password' => $password])
                 ->assertRedirect(route('login'))
-                ->assertSessionHas('message', 'The provided credentials do not match our records.');
+                ->assertSessionHas(['status' => 'error', 'message' => __('login.failed')]);
         }
 
         $this->assertGuest();
@@ -92,7 +92,7 @@ class LoginTest extends TestCase
         $this->from(route('login'))
             ->post(route('login'), $form)
             ->assertRedirect(route('login'))
-            ->assertSessionHas('message', 'Your account is not yet approved. We will notify you once we do.');
+            ->assertSessionHas(['status' => 'warning', 'message' => __('login.pending')]);
 
         $this->assertGuest();
     }

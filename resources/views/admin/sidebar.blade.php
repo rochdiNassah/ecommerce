@@ -16,24 +16,24 @@
     </div>
 
     <ul class="grid">
-        <a class="transition p-2 px-8 border-b border-gray hover:bg-gray-800" href="{{ route('users') }}">
+        <a class="transition p-2 px-4 border-b border-gray hover:bg-gray-800" href="{{ route('users') }}">
             <li class="transition text-gray-200 text-lg">Users</li>
         </a>
 
-        <a class="transition p-2 px-8 border-b border-gray hover:bg-gray-800" href="{{ route('products') }}">
+        <a class="transition p-2 px-4 border-b border-gray hover:bg-gray-800" href="{{ route('products') }}">
             <li class="transition text-gray-200 text-lg">Products</li>
         </a>
 
-        <a class="transition p-2 px-8 border-b border-gray hover:bg-gray-800" href="{{ route('product.create') }}">
+        <a class="transition p-2 px-8 border-b border-gray hover:bg-gray-800" href="{{ route('product.create-view') }}">
             <li class="transition text-gray-200 text-lg">Create New Product</li>
         </a>
 
-        <a class="transition p-2 px-8 border-b border-gray hover:bg-gray-800" href="{{ route('account') }}">
+        <a class="transition p-2 px-4 border-b border-gray hover:bg-gray-800" href="{{ route('account') }}">
             <li class="transition text-gray-200 text-lg">My Account</li>
         </a>
 
         @if ('dashboard' !== Route::current()->uri)
-        <a class="transition p-2 px-8 border-b border-gray hover:bg-gray-800" href="{{ route('dashboard') }}">
+        <a class="transition p-2 px-4 border-b border-gray hover:bg-gray-800" href="{{ route('dashboard') }}">
             <li class="transition text-gray-200 text-lg">Dashboard</li>
         </a>
         @endif

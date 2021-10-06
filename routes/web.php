@@ -37,14 +37,15 @@ Route::middleware('auth')->group(function () {
             Route::prefix('users')->group(function () {
                 Route::get('/approve/{id}', [MemberController::class, 'approve'])->name('approve');
                 Route::get('/delete/{id}', [MemberController::class, 'delete'])->name('delete');
-                Route::get('/update-role/{id}', [MemberController::class, 'updateRoleScreen'])->name('update-role-screen');
+                Route::get('/update-role/{id}', [MemberController::class, 'updateRoleScreen'])->name('update-role-view');
                 Route::post('/update-role', [MemberController::class, 'updateRole'])->name('update-role');
             });
         });
 
         Route::name('product.')->group(function () {
             Route::prefix('products')->group(function () {
-                Route::view('/create', 'admin.product.create')->name('create');
+                Route::view('/create', 'admin.product.create')->name('create-view');
+                Route::post('/create', [ProductController::class, 'create'])->name('create');
             });
         });
     });

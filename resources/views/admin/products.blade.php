@@ -22,7 +22,7 @@
                             <div class="grid grid-cols-2">
                                 <a
                                     class="text-center font-bold bg-blue-900 hover:bg-blue-800 transition text-blue-400 text-xs py-1 px-2 rounded-sm mx-2"
-                                    href="{{ route('user.update-role-screen', $product->id) }}"
+                                    href="{{ route('user.update-role-view', $product->id) }}"
                                 >Edit</a> 
                                 <a
                                     class="text-center font-bold bg-red-900 hover:bg-red-800 transition text-red-400 text-xs py-1 px-2 rounded-sm mx-2"

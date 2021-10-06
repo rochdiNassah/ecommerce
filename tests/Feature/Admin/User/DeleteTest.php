@@ -31,7 +31,7 @@ class DeleteTest extends TestCase
             $this->from(route('dashboard'))
                 ->get(route('user.delete', $user->id))
                 ->assertRedirect(route('dashboard'))
-                ->assertSessionHas('status', 'success');
+                ->assertSessionHas(['status' => 'success', 'message' => __('user.deleted')]);
 
             $this->assertDatabaseMissing('users', ['id' => $user->id]);
         }
@@ -46,8 +46,10 @@ class DeleteTest extends TestCase
         $admin = User::factory()->admin()->make();
         $superAdmin = User::factory()->superAdmin()->create();
 
-        $this->actingAs($admin)->get(route('user.delete', $superAdmin->id))->assertSessionHas('reason', 'Unauthorized');
-        $this->actingAs($superAdmin)->get(route('user.delete', $superAdmin->id))->assertSessionHas('reason', 'Unauthorized');
+        $this->actingAs($admin)->get(route('user.delete', $superAdmin->id))
+            ->assertSessionHas(['reason' => 'Unauthorized', 'message' => __('global.unauthorized')]);
+        $this->actingAs($superAdmin)->get(route('user.delete', $superAdmin->id))
+            ->assertSessionHas(['reason' => 'Unauthorized', 'message' => __('global.unauthorized')]);
 
         $this->assertDatabaseHas('users', ['id' => $superAdmin->id]);
     }
@@ -63,7 +65,7 @@ class DeleteTest extends TestCase
             ->from(route('dashboard'))
             ->get(route('user.delete', $user->id))
             ->assertRedirect(route('dashboard'))
-            ->assertSessionHas('reason', 'Not Found');
+            ->assertSessionHas(['reason' => 'Not Found', 'message' => __('user.missing')]);
     }
 
     public function testPendingUserIsNotifiedAfterDeletionAsThoughTheyWereRejected()

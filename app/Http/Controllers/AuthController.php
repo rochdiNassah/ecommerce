@@ -27,34 +27,36 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             if ('active' !== Auth::user()->status) {
-                $message = Auth::user()->status == 'pending'
-                    ? 'Your account is not yet approved. We will notify you once we do.'
-                    : 'Your account is locked. Please contact us for more information.';
-
                 Auth::logout();
 
                 $request->session()->invalidate();
-                $request->session()->regenerateToken();
-                $request->flashOnly('email', 'remember');
 
-                return back()->with([
-                    'status' => 'warning',
-                    'message' => $message
-                ]);
+                $request->session()->regenerateToken();
+
+                $request->flashExcept('password');
+
+                return back()
+                    ->with([
+                        'status' => 'warning',
+                        'message' => __('login.pending')
+                    ]);
             }
 
-            return redirect()->intended(route('dashboard'))->with([
-                'status' => 'success',
-                'message' => 'Logged In successfully.'
-            ]);
+            return redirect()
+                ->intended(route('dashboard'))
+                ->with([
+                    'status' => 'success',
+                    'message' => __('login.success')
+                ]);
         }
 
-        $request->flashOnly('email', 'remember');
+        $request->flashExcept('password');
 
-        return back()->with([
-            'status' => 'error',
-            'message' => 'The provided credentials do not match our records.'
-        ]);
+        return back()
+            ->with([
+                'status' => 'error',
+                'message' => __('login.failed')
+            ]);
     }
 
     /**
@@ -71,10 +73,11 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/')->with([
-            'status' => 'success',
-            'message' => 'Logged Out successfully.'
-        ]);
+        return redirect(route('home'))
+            ->with([
+                'status' => 'success',
+                'message' => __('logout.success')
+            ]);
     }
 
     /**
@@ -91,35 +94,32 @@ class AuthController extends Controller
 
         if ($request->file('avatar')) {
             if (! $data['avatar_path'] = Storage::putFile("images/avatars", $request->file('avatar'))) {
-                $response = [
-                    'status' => 'warning',
-                    'message' => 'Something went wrong when we tried to store your avatar! Please try again.'
-                ];
-    
                 $request->flashExcept('password', 'password_confirmation', 'avatar');
 
-                return back()->with($response);
+                return back()
+                    ->with([
+                        'status' => 'error',
+                        'message' => __('global.failed')
+                    ]);
             }
         }
 
         try {
             $user = User::create($data);
 
-            $user->notify((new JoinRequested())->delay(now()->addMinutes(4)));
+            $user->notify((new JoinRequested()));
 
-            $response = [
-                'status' => 'success',
-                'message' => 'You will receive a confirmation once we review your request.'
-            ];
-
-            return redirect(route('login'))->with($response);
+            return redirect(route('login'))
+                ->with([
+                    'status' => 'success',
+                    'message' => __('join.success')
+                ]);
         } catch (QueryException $e) {
-            $response = [
-                'status' => 'error',
-                'message' => 'Something went wrong! Please try again.'
-            ];
+            return back()
+                ->with([
+                    'status' => 'error',
+                    'message' => __('global.failed')
+                ]);
         }
-
-        return back()->with($response);
     }
 }

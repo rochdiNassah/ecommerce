@@ -17,11 +17,12 @@ class Admin
     public function handle(Request $request, Closure $next)
     {
         if ('admin' !== $request->user()->role) {
-            return redirect(route('dashboard'))->with([
-                'status' => 'warning',
-                'message' => 'You don\'t have the permission to perform this action.',
-                'reason' => 'Unauthorized'
-            ]);
+            return redirect(route('dashboard'))
+                ->with([
+                    'status' => 'warning',
+                    'message' => __('global.unautorized'),
+                    'reason' => 'Unauthorized'
+                ]);
         }
         
         return $next($request);

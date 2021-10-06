@@ -34,7 +34,7 @@
                                 @else
                                 <a
                                     class="text-center font-bold bg-blue-900 hover:bg-blue-800 transition text-blue-400 text-xs py-1 px-2 rounded-sm mx-2"
-                                    href="{{ route('user.update-role-screen', $user->id) }}"
+                                    href="{{ route('user.update-role-view', $user->id) }}"
                                 >Edit Role</a> 
                                 @endif
 

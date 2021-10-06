@@ -40,11 +40,11 @@ class MemberController extends Controller
                 $user->save();
                 $user->notify((new UserApproved())->delay(now()->addMinutes(4)));
                 
-                $response = ['status' => 'success', 'message' => 'Great! User approved and notified.'];
+                $response = ['status' => 'success', 'message' => __('user.approved')];
             } else {
                 $response = [
                     'status' => 'warning',
-                    'message' => 'This user is already active.',
+                    'message' => __('user.active'),
                     'reason' => 'Already'
                 ];
             }
@@ -53,7 +53,7 @@ class MemberController extends Controller
         } catch (ModelNotFoundException $e) {
             return back()->with([
                 'status' => 'error',
-                'message' => 'Cannot approve a non-existent user.',
+                'message' => __('user.missing'),
                 'reason' => 'Not Found'
             ]);
         }
@@ -74,7 +74,7 @@ class MemberController extends Controller
             if ('admin' === $user->role && !Auth::user()->is_super_admin || $user->is_super_admin) {
                 $response = [
                     'status' => 'error',
-                    'message' => 'Cannot delete this user.',
+                    'message' => __('global.unauthorized'),
                     'reason' => 'Unauthorized'
                 ];
             } else {
@@ -84,14 +84,14 @@ class MemberController extends Controller
 
                 $user->delete();
 
-                $response = ['status' => 'success', 'message' => 'User deleted.'];
+                $response = ['status' => 'success', 'message' => __('user.deleted')];
             }
 
             return back()->with($response);
         } catch (ModelNotFoundException) {
             return back()->with([
                 'status' => 'error',
-                'message' => 'Cannot delete a non-existent user.',
+                'message' => __('user.missing'),
                 'reason' => 'Not Found'
             ]);
         }
@@ -105,7 +105,7 @@ class MemberController extends Controller
      */
     public function updateRoleScreen(int $id)
     {
-        return View::make('admin.update-user-role', ['user' => User::findOrFail($id)]);
+        return View::make('admin.user.update-role', ['user' => User::findOrFail($id)]);
     }
 
     /**
@@ -134,7 +134,7 @@ class MemberController extends Controller
                 if ('admin' === $user->role && !Auth::user()->is_super_admin || $user->is_super_admin) {
                     $response = [
                         'status' => 'error',
-                        'message' => 'Cannot downgrade this user.',
+                        'message' => __('global.unauthorized'),
                         'reason' => 'Unauthorized'
                     ];
                 } else {
@@ -144,7 +144,7 @@ class MemberController extends Controller
 
                     $response = [
                         'status' => 'success',
-                        'message' => "User {$is} successfully.",
+                        'message' => __("user.{$is}"),
                         'reason' => ucfirst($is)
                     ];
                 }
@@ -154,7 +154,7 @@ class MemberController extends Controller
         } catch (ModelNotFoundException) {
             return redirect(route('users'))->with([
                 'status' => 'error',
-                'message' => 'Cannot upgrade or downgrade a non-existent user.',
+                'message' => __('user.missing'),
                 'reason' => 'Not Found'
             ]);
         }

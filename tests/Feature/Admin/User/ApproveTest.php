@@ -20,7 +20,7 @@ class ApproveTest extends TestCase
             ->from(route('dashboard'))
             ->get(route('user.approve', $pending->id))
             ->assertRedirect(route('dashboard'))
-            ->assertSessionHas('status', 'success');
+            ->assertSessionHas(['status' => 'success', 'message' => __('user.approved')]);
         
         $this->assertDatabaseHas('users', [
             'email' => $pending->email,
@@ -37,6 +37,7 @@ class ApproveTest extends TestCase
             ->get(route('user.approve', $active->id))
             ->assertSessionHas([
                 'status' => 'warning',
+                'message' => __('user.active'),
                 'reason' => 'Already'
             ]);
     }
@@ -47,7 +48,7 @@ class ApproveTest extends TestCase
 
         $this->actingAs($admin);
 
-        $this->get(route('user.approve', '-1'))->assertSessionHas('reason', 'Not Found');
+        $this->get(route('user.approve', '-1'))->assertSessionHas(['reason' => 'Not Found', 'message' => __('user.missing')]);
     }
 
     public function testUserIsNotifiedWhenTheyApproved()
