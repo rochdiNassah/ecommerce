@@ -16,14 +16,22 @@ class LoginTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->get(route('login'))->assertRedirect(route('dashboard'));
-        $this->post(route('login'))->assertRedirect(route('dashboard'));
+        $this->get(route('login'))
+            ->assertRedirect(route('dashboard'));
+
+        $this->post(route('login'))
+            ->assertRedirect(route('dashboard'));
     }
 
     public function testGuestCanAccessLoginFeature()
     {
-        $this->get(route('login'))->assertSuccessful()->assertViewIs('auth.login');
-        $this->from(route('login'))->post(route('login'))->assertRedirect(route('login'));
+        $this->get(route('login'))
+            ->assertSuccessful()
+            ->assertViewIs('auth.login');
+
+        $this->from(route('login'))
+            ->post(route('login'))
+            ->assertRedirect(route('login'));
     }
 
     public function testGuestCanLoginWithValidCredentials()
@@ -38,7 +46,7 @@ class LoginTest extends TestCase
         $this->from(route('login'))
             ->post(route('login'), $form)
             ->assertRedirect(route('dashboard'))
-            ->assertSessionHas(['status' => 'success', 'message' => __('login.success')]);
+            ->assertSessionHas('status', 'success');
 
         $this->assertAuthenticated();
             
@@ -57,7 +65,7 @@ class LoginTest extends TestCase
             $this->from(route('login'))
                 ->post(route('login'), ['email' => $email, 'password' => $password])
                 ->assertRedirect(route('login'))
-                ->assertSessionHas(['status' => 'error', 'message' => __('login.failed')]);
+                ->assertSessionHas('status', 'error');
         }
 
         $this->assertGuest();
@@ -92,7 +100,7 @@ class LoginTest extends TestCase
         $this->from(route('login'))
             ->post(route('login'), $form)
             ->assertRedirect(route('login'))
-            ->assertSessionHas(['status' => 'warning', 'message' => __('login.pending')]);
+            ->assertSessionHas('status', 'warning');
 
         $this->assertGuest();
     }

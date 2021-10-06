@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Users')
+@section('title', "Update {$user->fullname }'s role")
 
 @section('content')
     <div class="flex">

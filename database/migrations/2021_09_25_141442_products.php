@@ -17,7 +17,7 @@ class Products extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->float('price');
+            $table->decimal('price', 12, 2);
             $table->string('image_path')->nullable()->default(config('app.default_product_image_path'));
             $table->timestamps();
         });

@@ -45,7 +45,9 @@ class EditRoleTest extends TestCase
             $this->from(route('user.update-role-view', $target->id))
                 ->post(route('user.update-role', ['id' => $target->id, 'role' => $role]))
                 ->assertRedirect(route('users'))
-                ->assertSessionHas(['reason' => 'Unauthorized', 'message' => __('global.unauthorized')]);
+                ->assertSessionHas([
+                    'status' => 'error', 'reason' => 'Unauthorized'
+                ]);
 
             $this->assertDatabaseHas('users', [
                 'id' => $target->id,
@@ -86,6 +88,8 @@ class EditRoleTest extends TestCase
         $this->actingAs($admin)
             ->post(route('user.update-role', ['id' => $user->id, 'role' => 'dispatcher']))
             ->assertRedirect(route('users'))
-            ->assertSessionHas(['reason' => 'Not Found', 'message' => __('user.missing')]);
+            ->assertSessionHas([
+                'status' => 'error', 'reason' => 'Not Found'
+            ]);
     }
 }

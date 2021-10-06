@@ -33,14 +33,22 @@ class JoinTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->get(route('join'))->assertRedirect(route('dashboard'));
-        $this->post(route('join'))->assertRedirect(route('dashboard'));
+        $this->get(route('join'))
+            ->assertRedirect(route('dashboard'));
+
+        $this->post(route('join'))
+            ->assertRedirect(route('dashboard'));
     }
 
     public function testGuestCanAccessJoinFeature()
     {
-        $this->get(route('join'))->assertSuccessful()->assertViewIs('auth.join');
-        $this->from(route('join'))->post(route('join'))->assertRedirect(route('join'));
+        $this->get(route('join'))
+            ->assertSuccessful()
+            ->assertViewIs('auth.join');
+
+        $this->from(route('join'))
+            ->post(route('join'))
+            ->assertRedirect(route('join'));
     }
 
     /**
@@ -51,7 +59,7 @@ class JoinTest extends TestCase
         $this->from(route('join'))
             ->post(route('join'), $form)
             ->assertRedirect(route('login'))
-            ->assertSessionHas(['status' => 'success', 'message' => __('join.success')]);
+            ->assertSessionHas('status', 'success');
         
         $form = array_flip(
             array_intersect(
@@ -79,7 +87,7 @@ class JoinTest extends TestCase
             'admina', 'aadmin', 'admi', 'admin%00', '#admin#', 'aadminb',
             'disptachera', 'aadisptacher', 'dispat', 'adisptacher%00', '#disptacher#', 'adisptacherb',
             'delivery_drivera', 'adelivery_driver', 'delivery_', 'delivery_driver%00', '#delivery_driver#', 'adelivery_driverb',
-            'ADMIN', 'DISPACTHER', 'DELIVERY_DRIVER', ' ', '~!@#$%^&*()_+\/'
+            'ADMIN', 'DISPACTHER', 'DELIVERY_DRIVER', ' ', '', '~!@#$%^&*()_+\/'
         ];
 
         foreach ($roles as $role) {

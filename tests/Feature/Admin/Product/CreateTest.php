@@ -25,7 +25,7 @@ class CreateTest extends TestCase
         $response = $this->from(route('product.create-view'))
             ->post(route('product.create', $form))
             ->assertRedirect(route('products'))
-            ->assertSessionHas(['status' => 'success', 'message' => __('product.created')]);
+            ->assertSessionHas('status', 'success');
 
         $this->assertDatabaseHas('products', $form);
     }

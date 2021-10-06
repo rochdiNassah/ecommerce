@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Log In')
+@section('title', 'Create new products')
 
 @php
 $inputs = [

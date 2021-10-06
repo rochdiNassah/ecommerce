@@ -16,6 +16,12 @@ use App\Http\Controllers\UserController;
 |
 */
 
+$debugging = false;
+
+!$debugging ?: Route::get('/{any}', function () {
+    return ;
+})->where('any', '.*');
+
 Route::middleware('guest')->group(function () {
     Route::view('/', 'home')->name('home');
     Route::view('/login', 'auth.login')->name('login');
