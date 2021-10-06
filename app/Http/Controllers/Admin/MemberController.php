@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\{View, Auth};
 use App\Models\User;
 use App\Notifications\{UserApproved, UserRejected};
 use App\Http\Requests\UpdateRoleRequest;
+use App\Services\ApproveUser;
 
 class MemberController extends Controller
 {
@@ -30,33 +31,19 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function approve(Request $request, int $id)
+    public function approve(Request $request, ApproveUser $responsable, int $id)
     {
         try {
             $user = User::findOrFail($id);
 
-            if ('active' !== $user->status) {
-                $user->status = 'active';
-                $user->save();
-                $user->notify((new UserApproved())->delay(now()->addMinutes(4)));
-                
-                $response = ['status' => 'success', 'message' => __('user.approved')];
-            } else {
-                $response = [
-                    'status' => 'warning',
-                    'message' => __('user.active'),
-                    'reason' => 'Already'
-                ];
-            }
-    
-            return back()->with($response);
+            'active' === $user->status
+                ? $responsable->already()
+                : $responsable->approve($user);
         } catch (ModelNotFoundException $e) {
-            return back()->with([
-                'status' => 'error',
-                'message' => __('user.missing'),
-                'reason' => 'Not Found'
-            ]);
+            $responsable->notFound();
         }
+
+        return $responsable;
     }
 
     /**
