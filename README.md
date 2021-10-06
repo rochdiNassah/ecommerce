@@ -16,6 +16,6 @@ Small eCommerce web application using Laravel and Tailwind.
     - Confirm orders delivery that are assigned to them
 - Customer
     - Browse products
-    - Place valid orders
+    - Place orders
     - Track their orders
     - Cancel their orders
