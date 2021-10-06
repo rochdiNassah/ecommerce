@@ -1,29 +1,21 @@
 # eCommerce
 Small eCommerce web application using Laravel and Tailwind.
 
-### Order lifecycle
-1. The customer places the order.
-2. The order is assigned to a dispatcher to confirm it and dispatch it to a delivery driver.
-4. The delivery driver can then update its delivery_status to __IN_DELIVERY__ or __DELIVERED__. delivery_status's __IN_DELIVERY__ status is reflected on the order's status also.
-5. The dispatcher can then confirm its delivery by updating its status to __DELIVERED__.
-> The customer gets updated with the status of their order whenever it changes through their email. And of course, they can track it in real-time by the reference that we sent to them once they placed the order.
-
-### Sitemap
- - /login
- - /join
- - /dashboard
- - /product/{id}
- - /track/{token}
- - /order/{product}
-
-### Database
-orders | users | products
------------- | ------------- | -------------
-id | id | id
-product | fullname | name
-customer_details | email | description
-status __[`pending`, `confirmed`, `in_delivery`, `rejected`, `canceled`, `delivered`]__ | password | price
-delivery_status __[`in_delivery`, `delivered`]__ | phone_number | image_path
-dispatcher | role __[`admin`, `dispatcher`, `delivery_driver`]__ |
-dispatched_to | avatar_path | 
-token | status __[`pending`, `active`]__ | 
+## Application features
+- Admin
+    - Approve users
+    - Delete users
+    - Upgrade or downgrade users
+    - Create products
+    - Delete products
+    - Update products
+- Dispatcher
+    - Confirm orders assigned to them
+    - Reject orders assigned to them
+    - Dispatch orders assigned to them
+    - Confirm orders delivery that are assigned to them
+- Customer
+    - Browse products
+    - Place valid orders
+    - Track their orders
+    - Cancel their orders
