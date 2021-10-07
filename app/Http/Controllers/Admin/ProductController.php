@@ -12,17 +12,6 @@ use App\Http\Requests\CreateProductRequest;
 class ProductController extends Controller
 {
     /**
-     * Display all products.
-     * 
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function products()
-    {
-        return View::make('admin.products', ['products' => Product::all()]);
-    }
-
-    /**
      * Create a new product.
      * 
      * @param  \App\Http\Requests\CreateProductRequest  $request

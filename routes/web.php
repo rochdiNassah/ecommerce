@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\{MemberController, ProductController};
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\ViewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,18 +32,18 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [ViewController::class, 'dashboard'])->name('dashboard');
     Route::get('/account', function () { return 'MY ACCOUNT'; })->name('account');
 
     Route::middleware('admin')->group(function () {
-        Route::get('/users', [MemberController::class, 'users'])->name('users');
-        Route::get('/products', [ProductController::class, 'products'])->name('products');
+        Route::get('/users', [ViewController::class, 'users'])->name('users');
+        Route::get('/products', [ViewController::class, 'products'])->name('products');
 
         Route::name('user.')->group(function () {
             Route::prefix('users')->group(function () {
                 Route::get('/approve/{id}', [MemberController::class, 'approve'])->name('approve');
                 Route::get('/delete/{id}', [MemberController::class, 'delete'])->name('delete');
-                Route::get('/update-role/{id}', [MemberController::class, 'updateRoleScreen'])->name('update-role-view');
+                Route::get('/update-role/{id}', [ViewController::class, 'updateUserRole'])->name('update-role-view');
                 Route::post('/update-role', [MemberController::class, 'updateRole'])->name('update-role');
             });
         });
