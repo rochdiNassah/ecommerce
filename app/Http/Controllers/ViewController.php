@@ -30,7 +30,7 @@ class ViewController extends Controller
      */
     public function users()
     {
-        return View::make('admin.users', [
+        return View::make('admin.user.index', [
             'users' => User::orderBy('status')->get()
         ]);
     }
@@ -56,7 +56,7 @@ class ViewController extends Controller
      */
     public function products()
     {
-        return View::make('admin.products', [
+        return View::make('admin.product.index', [
             'products' => Product::all()
         ]);
     }

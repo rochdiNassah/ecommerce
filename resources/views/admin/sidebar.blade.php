@@ -28,10 +28,6 @@
             <li class="transition text-gray-200 text-lg">Create New Product</li>
         </a>
 
-        <a class="transition p-2 px-4 border-b border-gray hover:bg-gray-800" href="{{ route('account') }}">
-            <li class="transition text-gray-200 text-lg">My Account</li>
-        </a>
-
         @if ('dashboard' !== Route::current()->uri)
         <a class="transition p-2 px-4 border-b border-gray hover:bg-gray-800" href="{{ route('dashboard') }}">
             <li class="transition text-gray-200 text-lg">Dashboard</li>

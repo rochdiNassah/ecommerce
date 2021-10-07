@@ -16,8 +16,9 @@ class MemberController extends Controller
      * Approve a pending member.
      * 
      * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Services\ApproveUser  $responsable
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Support\Responsable
      */
     public function approve(Request $request, ApproveUser $responsable, int $id)
     {
@@ -35,8 +36,9 @@ class MemberController extends Controller
      * Delete the given member.
      * 
      * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Services\DeleteUser  $responsable
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Support\Responsable
      */
     public function delete(Request $request, DeleteUser $responsable, int $id)
     {
@@ -54,7 +56,8 @@ class MemberController extends Controller
      * Upgrade or downgrade the given user.
      * 
      * @param  \App\Http\Requests\UpdateRoleRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Services\EditUserRole  $responsable
+     * @return \Illuminate\Contracts\Support\Responsable
      */
     public function updateRole(UpdateRoleRequest $request, EditUserRole $responsable)
     {

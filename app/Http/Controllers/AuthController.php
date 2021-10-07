@@ -14,7 +14,7 @@ class AuthController extends Controller
      * Handle an authentication attempt.
      * 
      * @param  \App\Http\Requests\LoginRequest  $request
-     * @return \Illuinate\Http\Response
+     * @return \Illuminate\Contracts\Support\Responsable
      */
     public function login(LoginRequest $request)
     {
@@ -34,7 +34,7 @@ class AuthController extends Controller
      * Log the user out from the application.
      * 
      * @param  \Illuminate\Http\Request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Support\Responsable
      */
     public function logout(Request $request)
     {
@@ -49,7 +49,7 @@ class AuthController extends Controller
      * Store a join request.
      * 
      * @param  \App\Http\Requests\JoinRequest
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Support\Responsable
      */
     public function join(JoinRequest $request)
     {

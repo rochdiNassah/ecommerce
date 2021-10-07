@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Admin\User;
+namespace Tests\Feature\Admin;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -9,7 +9,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Notifications\UserApproved;
 
-class ApproveTest extends TestCase
+class ApproveUserTest extends TestCase
 {
     public function testAdminCanApprovePendingUser()
     {

@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\Admin\User;
+namespace Tests\Feature\Admin;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 
-class EditRoleTest extends TestCase
+class EditUserRoleTest extends TestCase
 {
     public function testAdminCanUpgradeAndDowngradeUser()
     {

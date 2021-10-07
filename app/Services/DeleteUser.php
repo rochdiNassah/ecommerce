@@ -9,7 +9,7 @@ class DeleteUser extends Service
     /**
      * Delete the given user.
      * 
-     * @param  mixed  $user
+     * @param  \App\Models\User  $user
      * @return void
      */
     public function delete($user)

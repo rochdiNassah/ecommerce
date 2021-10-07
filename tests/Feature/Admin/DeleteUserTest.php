@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Admin\User;
+namespace Tests\Feature\Admin;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -10,7 +10,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Notifications\UserRejected;
 
-class DeleteTest extends TestCase
+class DeleteUserTest extends TestCase
 {
     public function testAdminCanDeleteUser()
     {

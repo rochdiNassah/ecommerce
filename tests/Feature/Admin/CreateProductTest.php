@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Admin\Product;
+namespace Tests\Feature\Admin;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Tests\TestCase;
 use App\Models\{User, Product};
 
-class CreateTest extends TestCase
+class CreateProductTest extends TestCase
 {   
     public function testAdminCanCreateValidProduct()
     {
@@ -22,12 +22,24 @@ class CreateTest extends TestCase
             'price' => random_int(1, 40000)
         ];
 
-        $response = $this->from(route('product.create-view'))
+        $this->from(route('product.create-view'))
             ->post(route('product.create', $form))
             ->assertRedirect(route('products'))
             ->assertSessionHas('status', 'success');
 
         $this->assertDatabaseHas('products', $form);
+
+        $validPrices = [1, 0.1, 100000, 0.00001];
+
+        foreach ($validPrices as $validPrice) {
+            $form['name'] = Str::random(10);
+            $form['price'] = $validPrice;
+
+            $this->post(route('product.create', $form))
+                ->assertSessionHas('status', 'success');
+        }
+
+        $form['name'] = Str::random(10);
 
         return $form;
     }
@@ -40,24 +52,17 @@ class CreateTest extends TestCase
         $admin = User::factory()->admin()->create();
 
         $this->actingAs($admin);
-        
-        $response = $this->post(route('product.create', $form))->assertSessionHasErrors('name');
-        
-        $form['name'] = Str::random(10);
-        $form['price'] = -1;
-        $response = $this->post(route('product.create', $form))->assertSessionHasErrors('price');
 
-        $form['price'] = 0;
-        $response = $this->post(route('product.create', $form))->assertSessionHasErrors('price');
+        $invalidPrices = [-1, 0, -0.00000000001, -0.000000000001, 0.000000000001, 'string', false, null, ''];
 
-        $form['price'] = -0.00000000001;
-        $response = $this->post(route('product.create', $form))->assertSessionHasErrors('price');
+        foreach ($invalidPrices as $invalidPrice) {
+            $form['price'] = $invalidPrice;
 
-        $form['price'] = -0.000000000001;
-        $response = $this->post(route('product.create', $form))->assertSessionHasErrors('price');
+            $this->post(route('product.create', $form))->assertSessionHasErrors('price');
+        }
 
-        $form['price'] = 0.000000000001;
-        $response = $this->post(route('product.create', $form))->assertSessionHasErrors('price');
+        $this->post(route('product.create'))->assertSessionHasErrors(['name', 'description', 'price']);
+        $this->post(route('product.create', ['name' => Str::random(10)]))->assertSessionHasErrors(['price', 'description']);
 
         $this->assertDatabaseMissing('products', ['name' => $form['name']]);
     }

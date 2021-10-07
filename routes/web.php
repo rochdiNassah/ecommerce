@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
             Route::prefix('products')->group(function () {
                 Route::view('/create', 'admin.product.create')->name('create-view');
                 Route::post('/create', [ProductController::class, 'create'])->name('create');
+                Route::get('/delete/{id}', [ProductController::class, 'delete'])->name('delete');
             });
         });
     });
