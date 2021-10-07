@@ -58,7 +58,6 @@ class JoinTest extends TestCase
     {
         $this->from(route('join'))
             ->post(route('join'), $form)
-            ->assertRedirect(route('login'))
             ->assertSessionHas('status', 'success');
         
         $form = array_flip(

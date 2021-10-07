@@ -3,11 +3,14 @@
 namespace App\Services;
 
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Support\Facades\Storage;
 
 abstract class Service implements Responsable
 {
-    protected $response = [];
+    protected $response = false;
     protected $redirectTo = false;
+    protected $file;
+    protected $fileDestination;
 
     public function __construct(
         public $user = null
@@ -45,6 +48,11 @@ abstract class Service implements Responsable
         ];
 
         $this->redirectTo = false;
+    }
+
+    protected function storeFile()
+    {
+        return Storage::putFile($this->fileDestination, $this->file);
     }
 
     public function toResponse($request)
