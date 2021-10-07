@@ -3,12 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Database\QueryException;
-use RuntimeException;
-use Illuminate\Support\Facades\{Auth, Hash, Storage};
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\{LoginRequest, JoinRequest};
 use App\Models\User;
-use App\Notifications\JoinRequested;
 use App\Services\{Authentication, RequestJoin};
 
 class AuthController extends Controller

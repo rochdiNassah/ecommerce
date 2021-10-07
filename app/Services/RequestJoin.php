@@ -24,7 +24,7 @@ class RequestJoin extends Service
      */
     public function store()
     {
-        $this->extract();
+        if (!$this->extract()) return;
 
         $user = User::create($this->data);
 
@@ -53,11 +53,23 @@ class RequestJoin extends Service
         }
     }
 
+    /**
+     * Flash inputs into the session.
+     * 
+     * @return void
+     */
+    private function flashInputs()
+    {
+        $this->request->flashExcept('avatar', 'password');
+    }
+
     private function failed()
     {
         $this->response = [
             'status' => 'error',
             'message' => __('global.failed')
         ];
+
+        $this->flashInputs();
     }
 }
