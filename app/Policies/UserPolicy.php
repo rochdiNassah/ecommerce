@@ -26,17 +26,17 @@ class UserPolicy
      * @param  User  $target
      * @return bool
      */
-    public function delete(User $user, User $target)
+    public function affect(User $user, User $target)
     {
-        if ($target->is_super_admin) {
-            return false;
-        }
+        if ($target->is_super_admin)
+        return false;
 
-        return 'admin' === $user->role ? true : false;
-    }
+        if ($user->is_super_admin)
+        return true;
 
-    public function updateRole(User $user, User $target)
-    {
-        return $this->delete($user, $target);
+        if ('admin' === $user->role && 'admin' === $target->role)
+        return false;
+
+        return true;
     }
 }

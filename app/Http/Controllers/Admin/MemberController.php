@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Notifications\{UserRejected};
 use App\Http\Requests\UpdateRoleRequest;
+use App\Http\Responses\UserNotFoundResponse;
 use App\Services\{ApproveUser, DeleteUser, EditUserRole};
 
 class MemberController extends Controller
@@ -22,15 +22,12 @@ class MemberController extends Controller
      */
     public function approve(Request $request, ApproveUser $responsable, int $id)
     {
-        try {
-            $user = User::findOrFail($id);
+        if (! $user = User::find($id))
+        return app(UserNotFoundResponse::class);
 
-            'active' === $user->status
-                ? $responsable->already(__('user.active'))
-                : $responsable->approve($user);
-        } catch (ModelNotFoundException $e) {
-            $responsable->notFound();
-        }
+        'active' === $user->status
+            ? $responsable->already(__('user.active'))
+            : $responsable->approve($user);
 
         return $responsable;
     }
@@ -44,15 +41,12 @@ class MemberController extends Controller
      */
     public function delete(Request $request, DeleteUser $responsable, int $id)
     {
-        try {
-            $user = User::findOrFail($id);
+        if (! $user = User::find($id))
+        return app(UserNotFoundResponse::class);
 
-            Auth::user()->can('delete', $user)
-                ? $responsable->delete($user)
-                : $responsable->unauthorized();
-        } catch (ModelNotFoundException) {
-            $responsable->notFound();
-        }
+        Auth::user()->can('affect', $user)
+            ? $responsable->delete($user)
+            : $responsable->unauthorized();
 
         return $responsable;
     }
@@ -67,19 +61,17 @@ class MemberController extends Controller
     {
         extract($request->safe()->only('id', 'role'));
 
-        try {
-            $user = User::findOrFail($id);
-            $action = $responsable->action($user, $role);
+        if (! $user = User::find($id))
+        return app(UserNotFoundResponse::class);
 
-            if (false === $action) {
-                $responsable->already("This user is alread {$role}.");
-            } else {
-                Auth::user()->can('updateRole', $user)
+        $action = $responsable->action($user, $role);
+
+        if (false === $action) {
+            $responsable->already("This user is already {$role}.");
+        } else {
+            Auth::user()->can('affect', $user)
                 ? $responsable->update($user, $role, $action)
                 : $responsable->unauthorized();
-            }
-        } catch (ModelNotFoundException) {
-            $responsable->notFound();
         }
 
         return $responsable;

@@ -18,7 +18,7 @@ class InitSeeder extends Seeder
         $users = [
             [ // Super Admin
                 'fullname' => 'Super Admin',
-                'email' => 'admin@ecommerce.com',
+                'email' => 'sadmin@foo.bar',
                 'password' => Hash::make('1234'),
                 'phone_number' => '1020304050',
                 'role' => 'admin',
@@ -27,7 +27,7 @@ class InitSeeder extends Seeder
             ],
             [ // Super Admin
                 'fullname' => 'Admin',
-                'email' => 'super.admin@ecommerce.com',
+                'email' => 'admin@foo.bar',
                 'password' => Hash::make('1234'),
                 'phone_number' => '1020304050',
                 'role' => 'admin',
@@ -36,7 +36,7 @@ class InitSeeder extends Seeder
             ],
             [ // Dispatcher
                 'fullname' => 'Samir',
-                'email' => 'samir@ecommerce.com',
+                'email' => 'samir@foo.bar',
                 'password' => Hash::make('1234'),
                 'phone_number' => '1020304050',
                 'role' => 'dispatcher',
@@ -45,7 +45,7 @@ class InitSeeder extends Seeder
             ],
             [ // Delivery driver
                 'fullname' => 'Ali',
-                'email' => 'ali@ecommerce.com',
+                'email' => 'ali@foo.bar',
                 'password' => Hash::make('1234'),
                 'phone_number' => '1020304050',
                 'role' => 'delivery_driver',

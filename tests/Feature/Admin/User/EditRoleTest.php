@@ -86,6 +86,7 @@ class EditRoleTest extends TestCase
         $user->delete();
 
         $this->actingAs($admin)
+            ->from(route('users'))
             ->post(route('user.update-role', ['id' => $user->id, 'role' => 'dispatcher']))
             ->assertRedirect(route('users'))
             ->assertSessionHas([

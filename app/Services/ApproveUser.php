@@ -2,11 +2,9 @@
 
 namespace App\Services;
 
-use Illuminate\Contracts\Support\Responsable;
 use App\Notifications\UserApproved;
-use App\Services\UserService;
 
-class ApproveUser extends UserService implements Responsable
+class ApproveUser extends Service
 {
     /**
      * Approve the given user.

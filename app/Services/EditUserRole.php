@@ -2,12 +2,9 @@
 
 namespace App\Services;
 
-use Illuminate\Contracts\Support\Responsable;
-use App\Services\UserService;
-
-class EditUserRole extends UserService implements Responsable
+class EditUserRole extends Service
 {
-    protected $redirectTo = 'users';
+    public $redirectTo = 'users';
 
     /**
      * Update the given user's role.
@@ -36,16 +33,12 @@ class EditUserRole extends UserService implements Responsable
      */
     public function action($user, string $role)
     {
-        if ($user->role === $role) return false;
+        $roles = ['admin' => 999, 'dispatcher' => 666, 'delivery_driver' => 333];
 
-        $roles = [
-            'admin' => 999,
-            'dispatcher' => 666,
-            'delivery_driver' => 333
-        ];
-
-        return $roles[$role] > $roles[$user->role]
-            ? 'upgrade'
-            : 'downgrade';
+        return $user->role === $role
+            ? false
+            : ($roles[$role] > ($roles[$user->role] ?? 333)
+                ? 'upgrade'
+                : 'downgrade');
     }
 }

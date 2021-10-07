@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\{AuthController, ViewController};
 use App\Http\Controllers\Admin\{MemberController, ProductController};
-use App\Http\Controllers\ViewController;
 
 /*
 |--------------------------------------------------------------------------

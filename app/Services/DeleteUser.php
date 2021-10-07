@@ -2,11 +2,9 @@
 
 namespace App\Services;
 
-use Illuminate\Contracts\Support\Responsable;
 use App\Notifications\UserRejected;
-use App\Services\UserService;
 
-class DeleteUser extends UserService implements Responsable
+class DeleteUser extends Service
 {
     /**
      * Delete the given user.

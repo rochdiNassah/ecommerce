@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
-abstract class UserService
+use Illuminate\Contracts\Support\Responsable;
+
+abstract class Service implements Responsable
 {
     protected $response = [];
     protected $redirectTo = false;
@@ -11,20 +13,6 @@ abstract class UserService
         public $user = null
     ) {
 
-    }
-
-    /**
-     * The given user is not found.
-     * 
-     * @return void
-     */
-    public function notFound()
-    {
-        $this->response = [
-            'status' => 'error',
-            'message' => __('user.missing'),
-            'reason' => 'Not Found'
-        ];
     }
 
     /**
@@ -43,7 +31,7 @@ abstract class UserService
     }
 
     /**
-     * The given user is already under a state.
+     * The given resource is already under a state.
      * 
      * @param  string  $message
      * @return void
@@ -55,6 +43,8 @@ abstract class UserService
             'message' => $message,
             'reason' => 'Already'
         ];
+
+        $this->redirectTo = false;
     }
 
     public function toResponse($request)
