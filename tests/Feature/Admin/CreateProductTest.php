@@ -18,7 +18,6 @@ class CreateProductTest extends TestCase
 
         $form = [
             'name' => Str::random(10),
-            'description' => Str::random(100),
             'price' => random_int(1, 40000)
         ];
 
@@ -29,7 +28,7 @@ class CreateProductTest extends TestCase
 
         $this->assertDatabaseHas('products', $form);
 
-        $validPrices = [1, 0.1, 100000, 0.00001];
+        $validPrices = [1, 0.1, 100000, 0.01];
 
         foreach ($validPrices as $validPrice) {
             $form['name'] = Str::random(10);
@@ -53,7 +52,7 @@ class CreateProductTest extends TestCase
 
         $this->actingAs($admin);
 
-        $invalidPrices = [-1, 0, -0.00000000001, -0.000000000001, 0.000000000001, 'string', false, null, ''];
+        $invalidPrices = [-1, 0, -0.00000000001, -0.000000000001, 0.001, 'string', false, null, ''];
 
         foreach ($invalidPrices as $invalidPrice) {
             $form['price'] = $invalidPrice;
@@ -61,8 +60,8 @@ class CreateProductTest extends TestCase
             $this->post(route('product.create', $form))->assertSessionHasErrors('price');
         }
 
-        $this->post(route('product.create'))->assertSessionHasErrors(['name', 'description', 'price']);
-        $this->post(route('product.create', ['name' => Str::random(10)]))->assertSessionHasErrors(['price', 'description']);
+        $this->post(route('product.create'))->assertSessionHasErrors(['name', 'price']);
+        $this->post(route('product.create', ['name' => Str::random(10)]))->assertSessionHasErrors('price');
 
         $this->assertDatabaseMissing('products', ['name' => $form['name']]);
     }

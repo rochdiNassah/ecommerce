@@ -24,7 +24,6 @@ class ProductFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'description' => Str::random(100),
             'price' => random_int(1, 40000),
         ];
     }

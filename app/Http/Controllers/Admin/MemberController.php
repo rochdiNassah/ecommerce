@@ -7,11 +7,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Requests\UpdateRoleRequest;
-use App\Http\Responses\UserNotFoundResponse;
+use App\Http\Responses\ResourceNotFoundResponse;
 use App\Services\{ApproveUser, DeleteUser, EditUserRole};
 
 class MemberController extends Controller
 {
+    private $notFoundResponse;
+
+    public function __construct()
+    {
+        $this->notFoundResponse= app(ResourceNotFoundResponse::class, ['message' => 'user.missing']);
+    }
+
     /**
      * Approve a pending member.
      * 
@@ -23,7 +30,7 @@ class MemberController extends Controller
     public function approve(Request $request, ApproveUser $responsable, int $id)
     {
         if (! $user = User::find($id))
-        return app(UserNotFoundResponse::class);
+        return $this->notFoundResponse;
 
         'active' === $user->status
             ? $responsable->already(__('user.active'))
@@ -43,7 +50,7 @@ class MemberController extends Controller
     public function delete(Request $request, DeleteUser $responsable, int $id)
     {
         if (! $user = User::find($id))
-        return app(UserNotFoundResponse::class);
+        return $this->notFoundResponse;
 
         Auth::user()->can('affect', $user)
             ? $responsable->delete($user)
@@ -64,7 +71,7 @@ class MemberController extends Controller
         extract($request->safe()->only('id', 'role'));
 
         if (! $user = User::find($id))
-        return app(UserNotFoundResponse::class);
+        return $this->notFoundResponse;
 
         $action = $responsable->action($user, $role);
 

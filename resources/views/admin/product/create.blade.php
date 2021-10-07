@@ -46,12 +46,6 @@ $inputs = [
                                 autocomplete="off"
                             >
                             @endforeach
-
-                            <label class="font-bold text-sm text-gray-300">Description</label>
-                            <textarea
-                                class="bg-gray-light text-white border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
-                                name="description"
-                            >{{ old('description') }}</textarea>
                             
                             <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-400 bg-{{ $mainColor }}-900 hover:bg-{{ $mainColor }}-800 text-sm py-2 px-4" type="submit">
                                 Create

@@ -57,14 +57,12 @@ class InitSeeder extends Seeder
         $products = [
             [
                 'name' => 'Coffee',
-                'description' => 'Just a black coffee.',
                 'price' => 3.45,
                 'image_path' => asset('images/products/coffee.jpg')
             ],
             [
                 'name' => 'Palace',
-                'description' => 'The biggest palace in the world.',
-                'price' => 1000000000.01,
+                'price' => 10000000.95,
                 'image_path' => asset('images/products/palace.jpg')
             ]
         ];
