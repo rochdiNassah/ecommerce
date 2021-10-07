@@ -48,9 +48,11 @@ class RequestJoin extends Service
             if (!$this->data['avatar_path'] = $this->storeFile()) {
                 $this->failed();
 
-                return;
+                return false;
             }
         }
+
+        return true;
     }
 
     /**

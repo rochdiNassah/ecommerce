@@ -46,6 +46,8 @@ class CreateProduct extends Service
                 return false;
             }
         }
+
+        return true;
     }
 
     /**
