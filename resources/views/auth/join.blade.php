@@ -78,3 +78,5 @@ $inputs = [
     })
 </script>
 @stop
+
+@include('layouts.footer')

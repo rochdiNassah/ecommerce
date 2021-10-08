@@ -1,13 +1,13 @@
-<div class="bg-{{ $mainColor }}-900 hover:bg-{{ $mainColor }}-800 cursor-pointer lg:hidden transition w-12 px-3 py-2 fixed top-2 left-2 z-10 grid place-items-center space-y-1 rounded-sm" id="open-dashboard-sidebar">
-    <div class="w-full h-1 bg-{{ $mainColor }}-400 rounded-sm"></div>
-    <div class="w-full h-1 bg-{{ $mainColor }}-400 rounded-sm"></div>
-    <div class="w-full h-1 bg-{{ $mainColor }}-400 rounded-sm"></div>
+<div class="bg-{{ $mainColor }}-200 hover:bg-{{ $mainColor }}-300 cursor-pointer lg:hidden transition w-12 px-3 py-2 fixed top-2 left-2 z-10 grid place-items-center space-y-1 rounded-sm" id="open-dashboard-sidebar">
+    <div class="w-full h-1 bg-{{ $mainColor }}-700 rounded-sm"></div>
+    <div class="w-full h-1 bg-{{ $mainColor }}-700 rounded-sm"></div>
+    <div class="w-full h-1 bg-{{ $mainColor }}-700 rounded-sm"></div>
 </div>
 
 <div class="bg-white transition border-r border-gray h-screen lg:left-0 fixed lg:relative w-full sm:w-80 hidden lg:block z-10" id="dashboard-sidebar">
-    <div class="transition bg-{{ $mainColor }}-900 hover:bg-{{ $mainColor }}-800 cursor-pointer lg:hidden transition w-12 px-3 py-2 fixed top-2 left-2 z-10 grid place-items-center space-y-1 rounded-sm" id="close-dashboard-sidebar">
-        <div class="w-full h-1 bg-{{ $mainColor }}-400 rounded-sm transform rotate-45 translate-y-1"></div>
-        <div class="w-full h-1 bg-{{ $mainColor }}-400 rounded-sm transform -rotate-45 -translate-y-1"></div>
+    <div class="transition bg-{{ $mainColor }}-200 hover:bg-{{ $mainColor }}-300 cursor-pointer lg:hidden transition w-12 px-3 py-2 fixed top-2 left-2 z-10 grid place-items-center space-y-1 rounded-sm" id="close-dashboard-sidebar">
+        <div class="w-full h-1 bg-{{ $mainColor }}-700 rounded-sm transform rotate-45 translate-y-1"></div>
+        <div class="w-full h-1 bg-{{ $mainColor }}-700 rounded-sm transform -rotate-45 -translate-y-1"></div>
     </div>
 
     <div class="border-b border-gray p-4 px-4 grid place-items-center">

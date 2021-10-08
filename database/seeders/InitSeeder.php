@@ -64,6 +64,16 @@ class InitSeeder extends Seeder
                 'name' => 'Palace',
                 'price' => 10000000.95,
                 'image_path' => asset('images/products/palace.jpg')
+            ],
+            [
+                'name' => 'Dog',
+                'price' => 150.00,
+                'image_path' => asset('images/products/dog.jpg')
+            ],
+            [
+                'name' => 'Cat',
+                'price' => 60.00,
+                'image_path' => asset('images/products/cat.jpg')
             ]
         ];
 

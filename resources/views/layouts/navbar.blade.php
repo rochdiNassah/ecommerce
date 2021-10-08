@@ -1,4 +1,4 @@
-<div class="navbar p-2 h-16 border-b border-gray flex justify-around">
+<div class="p-2 h-16 border-b border-gray flex justify-around">
     <div class="logo flex">
         <a class="transition self-center w-10 h-10 mr-2 bg-{{ $mainColor }}-200 hover:bg-{{ $mainColor }}-500 rounded-full" href="{{ route('home') }}"></a>
         <p class="self-center text-{{ $mainColor }}-400 text-md font-bold">{{ config('app.name') }}</p>

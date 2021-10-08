@@ -5,7 +5,7 @@
     @include('layouts.navbar')
     
     <div class="container mx-auto">
-        <div class="p-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center">
+        <div class="my-12 p-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center">
             @foreach ($products as $product)
             <div class="w-80 bg-gray border border-gray rounded-sm relative">
                 <div class="flex justify-between border-b border-gray p-2">
@@ -25,4 +25,6 @@
             @endforeach
         </div>
     </div>
+
+    @include('layouts.footer')
 @stop
