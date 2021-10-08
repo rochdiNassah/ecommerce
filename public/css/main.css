@@ -1,13 +1,5 @@
-body {
-    background: #18191a
-}
-
-.navbar {
-    background: #242526
-}
 
 .base-form {
-    background: #242526;
     width: 500px
 }
 
@@ -16,15 +8,7 @@ body {
 }
 
 .border-gray {
-    border-color: #38393a !important
-}
-
-.bg-gray {
-    background: #242526 !important
-}
-
-.bg-gray-light {
-    background: #38393a !important
+    border-color: #e5e5e5 !important
 }
 
 @media only screen and (max-width: 500px) {

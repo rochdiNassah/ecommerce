@@ -6,18 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Requests\CreateProductRequest;
-use App\Http\Responses\ResourceNotFoundResponse;
 use App\Services\{CreateProduct, DeleteProduct};
 
 class ProductController extends Controller
 {
-    private $notFoundResponse;
-
-    public function __construct()
-    {
-        $this->notFoundResponse = app(ResourceNotFoundResponse::class, ['message' => 'product.missing']);
-    }
-
     /**
      * Create a new product.
      * 
@@ -43,8 +35,7 @@ class ProductController extends Controller
      */
     public function delete(Request $request, DeleteProduct $responsable, $id)
     {
-        if (! $product = Product::find($id))
-        return $this->notFoundResponse;
+        $product = Product::findOrFail($id);
         
         $responsable->delete($product);
 

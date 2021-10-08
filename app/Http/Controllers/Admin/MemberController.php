@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Requests\UpdateRoleRequest;
-use App\Http\Responses\ResourceNotFoundResponse;
 use App\Services\{ApproveUser, DeleteUser, EditUserRole};
 
 class MemberController extends Controller

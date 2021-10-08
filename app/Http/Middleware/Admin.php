@@ -20,7 +20,7 @@ class Admin
             return redirect(route('dashboard'))
                 ->with([
                     'status' => 'warning',
-                    'message' => __('global.unautorized'),
+                    'message' => __('global.unauthorized'),
                     'reason' => 'Unauthorized'
                 ]);
         }

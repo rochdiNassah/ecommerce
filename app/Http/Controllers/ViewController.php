@@ -23,9 +23,8 @@ class ViewController extends Controller
     }
 
     /**
-     * Display all members.
+     * Display all members for admin.
      * 
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function users()
@@ -49,15 +48,23 @@ class ViewController extends Controller
     }
 
     /**
-     * Display all products.
+     * Display all products for admin.
      * 
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function products()
+    public static function products()
     {
-        return View::make('admin.product.index', [
-            'products' => Product::all()
-        ]);
+        return View::make('admin.product.index', ['products' => Product::all()]);
+    }
+
+    /**
+     * Display all products for customer.
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public static function home()
+    {
+        // session(['message' => 'You are about to change to light mode!', 'status' => 'warning']);
+        return View::make('home', ['products' => Product::all()]);
     }
 }

@@ -21,13 +21,13 @@
             
                         <div class="my-3">
                             <input type="hidden" value="{{ $user->id }}" name="id">
-                            <select class="bg-gray-light border border-gray w-full p-3 mb-6 font-bold text-sm text-gray-200 rounded-sm appearance-none focus:shadow-outline" name="role">
+                            <select class="border border-gray w-full p-3 mb-6 font-bold text-sm text-gray-400 rounded-sm appearance-none focus:shadow-outline" name="role">
                                 <option {{ $user->role === 'delivery_driver' ? 'selected' : null }} value="delivery_driver">Delivery Driver</option>
                                 <option {{ $user->role === 'dispatcher' ? 'selected' : null }} value="dispatcher">Dispatcher</option>
                                 <option {{ $user->role === 'admin' ? 'selected' : null }} value="admin">Admin</option>
                             </select>
             
-                            <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-400 bg-{{ $mainColor }}-900 hover:bg-{{ $mainColor }}-800 text-sm py-2 px-4" type="submit">
+                            <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-700 bg-{{ $mainColor }}-200 hover:bg-{{ $mainColor }}-300 text-sm py-2 px-4" type="submit">
                                 Submit
                             </button>
                         </div>
