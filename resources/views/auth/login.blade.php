@@ -63,5 +63,3 @@ $inputs = [
     </div>
 </div>
 @stop
-
-@include('layouts.footer')

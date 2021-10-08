@@ -20,8 +20,8 @@ class Orders extends Migration
             $table->unsignedBigInteger('dispatched_to')->nullable();
 
             $table->json('customer_details');
-            $table->set('status', ['pending', 'confirmed', 'in_delivery', 'rejected', 'delivered']);
-            $table->set('delivery_status', ['in_delivery', 'delivered'])->nullable();
+            $table->set('status', ['pending', 'confirmed', 'rejected', 'dispatched', 'shipped', 'in_dlivery', 'delivered']);
+            $table->set('delivery_status', ['shipped', 'in_delivery', 'delivered'])->nullable();
             $table->text('token');
 
             $table->foreign('product')->references('id')->on('products');
