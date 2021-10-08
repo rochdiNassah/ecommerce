@@ -15,12 +15,6 @@ use App\Http\Controllers\Admin\{MemberController, ProductController};
 |
 */
 
-$debugging = false;
-
-!$debugging ?: Route::get('/{any}', function () {
-    return 0.0001 <= 0;
-})->where('any', '.*');
-
 Route::middleware('guest')->group(function () {
     Route::view('/', 'home')->name('home');
     Route::view('/login', 'auth.login')->name('login');

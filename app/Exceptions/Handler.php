@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Responses\ModelNotFoundResponse;
 
 class Handler extends ExceptionHandler
 {
@@ -37,5 +39,18 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($e instanceof ModelNotFoundException) {
+            preg_match('#(?!\\\)(\w*)$#', $e->getModel(), $match);
+        
+            $model = strtolower($match[0]);
+
+            return app(ModelNotFoundResponse::class, ['model' => $model]);
+        }
+
+        return parent::render($request, $e);
     }
 }

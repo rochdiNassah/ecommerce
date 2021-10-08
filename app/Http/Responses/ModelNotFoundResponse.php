@@ -4,20 +4,19 @@ namespace App\Http\Responses;
 
 use Illuminate\Contracts\Support\Responsable;
 
-class ResourceNotFoundResponse implements Responsable
+class ModelNotFoundResponse implements Responsable
 {
     public function __construct(
-        private $message
-    )
-    {
-
+        private $model
+    ) {
+        
     }
 
     public function toResponse($request)
     {
         return back()->with([
             'status' => 'error',
-            'message' => __($this->message),
+            'message' => __("{$this->model}.missing"),
             'reason' => 'Not Found'
         ]);
     }
