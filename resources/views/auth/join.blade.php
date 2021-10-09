@@ -15,7 +15,7 @@ $inputs = [
     @include('layouts.navbar')
 
 <div class="px-2 sm:px-0">
-    <div class="border border-gray mx-auto xs:w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 base-form rounded-sm px-10 py-4 my-20">
+    <div class="border border-gray mx-auto xs:w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 base-form rounded-sm px-4 sm:px-10 py-4 my-20">
         <form method="post" enctype="multipart/form-data">
             @csrf
 

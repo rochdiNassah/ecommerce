@@ -21,7 +21,7 @@
             
                         <div class="my-3">
                             <input type="hidden" value="{{ $user->id }}" name="id">
-                            <select class="border border-gray w-full p-3 mb-6 font-bold text-sm text-gray-400 rounded-sm appearance-none focus:shadow-outline" name="role">
+                            <select class="border border-gray w-full p-3 mb-6 font-bold text-sm text-gray-500 rounded-sm appearance-none focus:shadow-outline" name="role">
                                 <option {{ $user->role === 'delivery_driver' ? 'selected' : null }} value="delivery_driver">Delivery Driver</option>
                                 <option {{ $user->role === 'dispatcher' ? 'selected' : null }} value="dispatcher">Dispatcher</option>
                                 <option {{ $user->role === 'admin' ? 'selected' : null }} value="admin">Admin</option>

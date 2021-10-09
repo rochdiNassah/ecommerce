@@ -61,19 +61,39 @@ class InitSeeder extends Seeder
                 'image_path' => asset('images/products/coffee.jpg')
             ],
             [
-                'name' => 'Palace',
-                'price' => 10000000.95,
-                'image_path' => asset('images/products/palace.jpg')
+                'name' => 'Camera',
+                'price' => 600.00,
+                'image_path' => asset('images/products/camera.jpg')
             ],
             [
                 'name' => 'Dog',
-                'price' => 150.00,
+                'price' => 90.00,
                 'image_path' => asset('images/products/dog.jpg')
             ],
             [
                 'name' => 'Cat',
-                'price' => 60.00,
+                'price' => 69.95,
                 'image_path' => asset('images/products/cat.jpg')
+            ],
+            [
+                'name' => 'Chair',
+                'price' => 60.00,
+                'image_path' => asset('images/products/chair.jpg')
+            ],
+            [
+                'name' => 'Table',
+                'price' => 30.00,
+                'image_path' => asset('images/products/table.jpg')
+            ],
+            [
+                'name' => 'Mac pro',
+                'price' => 5000.00,
+                'image_path' => asset('images/products/mac-pro.jpg')
+            ],
+            [
+                'name' => 'Oven',
+                'price' => 270.00,
+                'image_path' => asset('images/products/oven.jpg')
             ]
         ];
 

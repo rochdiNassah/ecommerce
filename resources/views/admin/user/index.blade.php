@@ -17,7 +17,7 @@
     
                         <div class="flex-1 space-y-2 py-1">
                             <div class="self-center px-2 rounded-sm w-40 text-gray-600 font-bold text-sm truncate">{{ $user->fullname }}</div>
-                            <div class="self-center px-2 rounded-sm w-40 text-gray-400 font-bold text-xs truncate">{{ $user->phone_number }}</div>
+                            <div class="self-center px-2 rounded-sm w-40 text-gray-500 font-bold text-xs truncate">{{ $user->phone_number }}</div>
 
                             @php
                                 $roleColor = $user->role === 'admin' ? 'red' : ($user->role === 'dispatcher' ? 'yellow' : 'green')

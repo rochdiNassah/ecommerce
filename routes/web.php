@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{AuthController, ViewController};
+use App\Http\Controllers\{AuthController, ViewController, OrderController};
 use App\Http\Controllers\Admin\{MemberController, ProductController};
 
 /*
@@ -25,6 +25,7 @@ Route::middleware('guest')->group(function () {
     Route::name('order.')->group(function () {
         Route::prefix('order')->group(function () {
             Route::get('/create/{productId}', [ViewController::class, 'createOrder'])->name('create-view');
+            Route::post('/create', [OrderController::class, 'create'])->name('create');
         });
     });
 });

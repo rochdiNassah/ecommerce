@@ -42,9 +42,7 @@ class ViewController extends Controller
      */
     public function updateUserRole(int $id)
     {
-        return View::make('admin.user.update-role', [
-            'user' => User::findOrFail($id)
-        ]);
+        return View::make('admin.user.update-role', ['user' => User::findOrFail($id)]);
     }
 
     /**
@@ -64,7 +62,16 @@ class ViewController extends Controller
      */
     public static function home()
     {
-        // session(['message' => 'You are about to change to light mode!', 'status' => 'warning']);
         return View::make('home', ['products' => Product::all()]);
+    }
+
+    /**
+     * Display create order view.
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function createOrder($productId)
+    {
+        return View::make('order.create', ['product' => Product::findOrFail($productId)]);
     }
 }

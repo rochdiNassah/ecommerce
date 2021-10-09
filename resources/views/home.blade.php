@@ -3,9 +3,10 @@
 
 @section('content')
     @include('layouts.navbar')
-    
-    <div class="container mx-auto">
-        <div class="my-12 p-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center">
+    <h1 class="text-center font-bold text-gray-500 text-xl sm:text-3xl mt-8 mb-6">Deliver to your doorstep!</h1>
+
+    <div class="container mx-auto  max-w-7xl">
+        <div class="mb-12 p-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 3xl:grid-cols-4 place-items-center">
             @foreach ($products as $product)
             <div class="w-80 bg-gray border border-gray rounded-sm relative">
                 <div class="flex justify-between border-b border-gray p-2">
