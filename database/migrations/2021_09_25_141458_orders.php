@@ -17,16 +17,15 @@ class Orders extends Migration
             $table->id();
             $table->unsignedBigInteger('product');
             $table->unsignedBigInteger('dispatcher');
-            $table->unsignedBigInteger('dispatched_to')->nullable();
+            $table->unsignedBigInteger('delivery_driver')->nullable();
 
             $table->json('customer_details');
             $table->set('status', ['pending', 'confirmed', 'rejected', 'dispatched', 'shipped', 'in_dlivery', 'delivered']);
-            $table->set('delivery_status', ['shipped', 'in_delivery', 'delivered'])->nullable();
             $table->text('token');
 
             $table->foreign('product')->references('id')->on('products');
             $table->foreign('dispatcher')->references('id')->on('users');
-            $table->foreign('dispatched_to')->references('id')->on('users');
+            $table->foreign('delivery_driver')->references('id')->on('users');
         });
     }
 
