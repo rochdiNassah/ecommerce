@@ -1,13 +1,13 @@
-<div class="bg-{{ $mainColor }}-200 hover:bg-{{ $mainColor }}-300 cursor-pointer lg:hidden transition w-12 px-3 py-2 fixed top-2 left-2 z-10 grid place-items-center space-y-1 rounded-sm" id="open-dashboard-sidebar">
-    <div class="w-full h-1 bg-{{ $mainColor }}-700 rounded-sm"></div>
-    <div class="w-full h-1 bg-{{ $mainColor }}-700 rounded-sm"></div>
-    <div class="w-full h-1 bg-{{ $mainColor }}-700 rounded-sm"></div>
+<div class="bg-{{ $mainColor }}-100 hover:bg-{{ $mainColor }}-200 cursor-pointer lg:hidden transition w-12 px-3 py-2 fixed top-2 left-2 z-10 grid place-items-center space-y-1 rounded-sm" id="open-dashboard-sidebar">
+    <div class="w-full h-1 bg-{{ $mainColor }}-600 rounded-sm"></div>
+    <div class="w-full h-1 bg-{{ $mainColor }}-600 rounded-sm"></div>
+    <div class="w-full h-1 bg-{{ $mainColor }}-600 rounded-sm"></div>
 </div>
 
 <div class="bg-white transition border-r border-gray h-screen lg:left-0 fixed lg:relative w-full sm:w-80 hidden lg:block z-10" id="dashboard-sidebar">
-    <div class="transition bg-{{ $mainColor }}-200 hover:bg-{{ $mainColor }}-300 cursor-pointer lg:hidden transition w-12 px-3 py-2 fixed top-2 left-2 z-10 grid place-items-center space-y-1 rounded-sm" id="close-dashboard-sidebar">
-        <div class="w-full h-1 bg-{{ $mainColor }}-700 rounded-sm transform rotate-45 translate-y-1"></div>
-        <div class="w-full h-1 bg-{{ $mainColor }}-700 rounded-sm transform -rotate-45 -translate-y-1"></div>
+    <div class="transition bg-{{ $mainColor }}-100 hover:bg-{{ $mainColor }}-200 cursor-pointer lg:hidden transition w-12 px-3 py-2 fixed top-2 left-2 z-10 grid place-items-center space-y-1 rounded-sm" id="close-dashboard-sidebar">
+        <div class="w-full h-1 bg-{{ $mainColor }}-600 rounded-sm transform rotate-45 translate-y-1"></div>
+        <div class="w-full h-1 bg-{{ $mainColor }}-600 rounded-sm transform -rotate-45 -translate-y-1"></div>
     </div>
 
     <div class="border-b border-gray p-4 px-4 grid place-items-center">
@@ -36,7 +36,7 @@
     </ul>
 
     <div class="border-t border-gray bottom-0 left-0 p-4 px-8 absolute w-full">
-        <a href="{{ route('logout') }}"><div class="w-full text-sm text-red-700 bg-red-200 hover:bg-red-300 transition rounded-sm p-2 text-center font-bold">Log Out</div></a>
+        <a href="{{ route('logout') }}"><div class="w-full text-sm text-red-600 bg-red-100 hover:bg-red-200 transition rounded-sm p-2 text-center font-bold">Log Out</div></a>
     </div>
 </div>
 

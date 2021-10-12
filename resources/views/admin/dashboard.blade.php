@@ -15,7 +15,7 @@
                     </div>
 
                     <div class="border-t border-gray bottom-0 left-0 p-4 px-8 absolute w-full">
-                        <a href="{{ route('users') }}"><div class="w-full text-sm text-{{ $mainColor }}-700 bg-{{ $mainColor }}-200 hover:bg-{{ $mainColor }}-300 transition rounded-sm p-2 text-center font-bold">View All Users</div></a>
+                        <a href="{{ route('users') }}"><div class="w-full text-sm text-{{ $mainColor }}-600 bg-{{ $mainColor }}-100 hover:bg-{{ $mainColor }}-200 transition rounded-sm p-2 text-center font-bold">View All Users</div></a>
                     </div>
                 </div>
 
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="border-t border-gray bottom-0 left-0 p-4 px-8 absolute w-full">
-                        <a href="{{ route('products') }}"><div class="w-full text-sm text-{{ $mainColor }}-700 bg-{{ $mainColor }}-200 hover:bg-{{ $mainColor }}-300 transition rounded-sm p-2 text-center font-bold">View All Products</div></a>
+                        <a href="{{ route('products') }}"><div class="w-full text-sm text-{{ $mainColor }}-600 bg-{{ $mainColor }}-100 hover:bg-{{ $mainColor }}-200 transition rounded-sm p-2 text-center font-bold">View All Products</div></a>
                     </div>
                 </div>
             </div>

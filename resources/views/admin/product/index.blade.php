@@ -15,11 +15,11 @@
                             <div class="text-sm rounded-sm text-gray-700 w-20">{{ $product->name }}</div>
                         </div>
     
-                        <div class="absolute right-4 rounded-xl px-2 py-1 text-center text-{{ $mainColor }}-700 bg-{{ $mainColor }}-200 font-bold text-xs truncate">{{ $product->price }}$</div>
+                        <div class="absolute right-4 rounded-xl px-2 py-1 text-center text-{{ $mainColor }}-800 bg-{{ $mainColor }}-200 font-bold text-xs truncate">{{ $product->price }}$</div>
                     </div>
 
                     <a
-                        class="mt-1 block w-full text-center font-bold bg-red-200 hover:bg-red-300 transition text-red-700 text-xs py-1 px-2 rounded-sm"
+                        class="mt-1 block w-full text-center font-bold bg-red-100 hover:bg-red-200 transition text-red-600 text-xs py-1 px-2 rounded-sm"
                         href="{{ route('product.delete', $product->id) }}"
                     >Delete</a>
                 </div>

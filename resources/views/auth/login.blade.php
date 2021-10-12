@@ -26,7 +26,7 @@ $inputs = [
 
             <div class="my-3">
                 @foreach ($inputs as $input)
-                <label class="font-bold text-sm text-gray-400">{{ $input['label'] }}</label>
+                <label class="font-bold text-sm text-gray-500">{{ $input['label'] }}</label>
                 <input
                     class="text-gray-700 border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
                     type="{{ $input['type'] }}"
@@ -38,7 +38,7 @@ $inputs = [
 
                 <div class="my-2 mb-4 flex items-center justify-between" style="margin-top: -4px">
                     <div>
-                        <label class="block text-gray-500" for="remember">
+                        <label class="block text-gray-400" for="remember">
                             <input class="leading-tight cursor-pointer" type="checkbox" id="remember" name="remember" {{ old('remember') === 'on' ? 'checked' : null }}>
 
                             <span class="text-gray-400 font-bold text-sm select-none cursor-pointer">Remember me</span>
@@ -50,7 +50,7 @@ $inputs = [
                     </div>
                 </div>
 
-                <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-700 bg-{{ $mainColor }}-200 hover:bg-{{ $mainColor }}-300 text-sm py-2 px-4" type="submit">
+                <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-600 bg-{{ $mainColor }}-100 hover:bg-{{ $mainColor }}-200 text-sm font-bold py-2 px-4" type="submit">
                     Continue
                 </button>
             </div>

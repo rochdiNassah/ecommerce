@@ -32,13 +32,13 @@ $inputs = [
                     <img class="self-center w-20 h-20 bg-gray-200 rounded-full" src="{{ asset('images/avatars/default.jpg') }}" id="avatarImg">
 
                     <label class="cursor-pointer mt-6">
-                        <span class="mt-2 leading-normal px-4 py-2 bg-{{ $mainColor }}-200 hover:bg-{{ $mainColor }}-300 transition text-{{ $mainColor }}-700 font-bold text-sm rounded-sm">Select Image</span>
+                        <span class="mt-2 leading-normal px-4 py-2 bg-{{ $mainColor }}-100 hover:bg-{{ $mainColor }}-200 transition text-{{ $mainColor }}-600 font-bold text-sm rounded-sm">Select Image</span>
                         <input class="hidden" type="file" name="avatar" id="avatarInput">
                     </label>
                 </div>
 
                 @foreach ($inputs as $input)
-                <label class="font-bold text-sm text-gray-400">{{ $input['label'] }}</label>
+                <label class="font-bold text-sm text-gray-500">{{ $input['label'] }}</label>
                 <input
                     class="text-gray-700 border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
                     type="{{ $input['type'] }}"
@@ -48,15 +48,15 @@ $inputs = [
                 >
                 @endforeach
 
-                <label class="font-bold text-sm text-gray-400">The role you want to apply for</label>
-                <select class="border border-gray w-full p-3 mb-6 font-bold text-sm text-gray-400 rounded-sm appearance-none focus:shadow-outline" name="role">
+                <label class="font-bold text-sm text-gray-500">The role you want to apply for</label>
+                <select class="border border-gray w-full p-3 mb-6 font-bold text-sm text-gray-500 rounded-sm appearance-none focus:shadow-outline" name="role">
                     <option>Please choose a role from here</option>
                     <option {{ old('role') === 'delivery_driver' ? 'selected' : null }} value="delivery_driver">Delivery Driver</option>
                     <option {{ old('role') === 'dispatcher' ? 'selected' : null }} value="dispatcher">Dispatcher</option>
                     <option {{ old('role') === 'admin' ? 'selected' : null }} value="admin">Admin</option>
                 </select>
 
-                <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-700 bg-{{ $mainColor }}-200 hover:bg-{{ $mainColor }}-300 text-sm py-2 px-4" type="submit">
+                <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-600 bg-{{ $mainColor }}-100 hover:bg-{{ $mainColor }}-200 text-sm font-bold py-2 px-4" type="submit">
                     Send Join Request
                 </button>
             </div>
