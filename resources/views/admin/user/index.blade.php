@@ -9,13 +9,10 @@
             <div class="p-4 w-full sm:w-4/5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 @foreach ($users as $user)
                 <div class="border border-gray rounded-sm p-4 relative">
+                    <div class="grid place-items-center"><img class="object-contain rounded-full w-32 h-32" src="{{ asset($user->avatar_path) }}" alt="Avatar"/></div>
                     <div class="flex space-x-4">
-                        <div class="text-center grid place-items-center space-y-1">
-                            <img class="h-12 w-12" src="{{ asset($user->avatar_path) }}" alt="Avatar"/>
-                            <div class="rounded-sm text-{{ $user->status === 'pending' ? 'yellow' : 'green' }}-500 text-xs font-bold">{{ $user->status }}</div>
-                        </div>
-    
                         <div class="flex-1 space-y-2 py-1">
+                            <div class="grid place-items-center"><div class="self-center px-2 rounded-sm text-{{ $user->status === 'pending' ? 'yellow' : 'green' }}-500 text-xs font-bold">{{ $user->status }}</div></div>
                             <div class="self-center px-2 rounded-sm w-40 text-gray-600 font-bold text-sm truncate">{{ $user->fullname }}</div>
                             <div class="self-center px-2 rounded-sm w-40 text-gray-500 font-bold text-xs truncate">{{ $user->phone_number }}</div>
 

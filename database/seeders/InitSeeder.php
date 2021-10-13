@@ -23,6 +23,7 @@ class InitSeeder extends Seeder
                 'phone_number' => '1020304050',
                 'role' => 'admin',
                 'status' => 'active',
+                'avatar_path' => asset('images/avatars/super-admin.jpg'),
                 'is_super_admin' => true
             ],
             [ // Super Admin
@@ -32,6 +33,7 @@ class InitSeeder extends Seeder
                 'phone_number' => '1020304050',
                 'role' => 'admin',
                 'status' => 'active',
+                'avatar_path' => asset('images/avatars/admin.jpg'),
                 'is_super_admin' => false
             ],
             [ // Dispatcher
@@ -41,6 +43,7 @@ class InitSeeder extends Seeder
                 'phone_number' => '1020304050',
                 'role' => 'dispatcher',
                 'status' => 'active',
+                'avatar_path' => asset('images/avatars/dispatcher.jpg'),
                 'is_super_admin' => false
             ],
             [ // Delivery driver
@@ -50,6 +53,7 @@ class InitSeeder extends Seeder
                 'phone_number' => '1020304050',
                 'role' => 'delivery_driver',
                 'status' => 'active',
+                'avatar_path' => asset('images/avatars/delivery-driver.jpg'),
                 'is_super_admin' => false
             ],
         ];
@@ -76,11 +80,6 @@ class InitSeeder extends Seeder
                 'image_path' => asset('images/products/cat.jpg')
             ],
             [
-                'name' => 'Chair',
-                'price' => 60.00,
-                'image_path' => asset('images/products/chair.jpg')
-            ],
-            [
                 'name' => 'Table',
                 'price' => 30.00,
                 'image_path' => asset('images/products/table.jpg')
@@ -89,11 +88,6 @@ class InitSeeder extends Seeder
                 'name' => 'Mac pro',
                 'price' => 5000.00,
                 'image_path' => asset('images/products/mac-pro.jpg')
-            ],
-            [
-                'name' => 'Oven',
-                'price' => 270.00,
-                'image_path' => asset('images/products/oven.jpg')
             ]
         ];
 

@@ -11,10 +11,10 @@
             <div class="w-80 bg-gray border border-gray rounded-sm relative">
                 <div class="flex justify-between border-b border-gray p-2">
                     <div class="text-sm rounded-sm text-gray-700 font-bold truncate">{{ $product->name }}</div>
-                    <div class="rounded-xl px-2 py-1 text-center text-{{ $mainColor }}-800 bg-{{ $mainColor }}-200 font-bold text-xs truncate">{{ $product->price }}$</div>
+                    <div class="rounded-xl px-2 py-1 text-center text-{{ $mainColor }}-900 bg-{{ $mainColor }}-100 font-bold text-xs truncate">{{ $product->price }}$</div>
                 </div>
 
-                <img class="p-2 w-full h-60" src="{{ asset($product->image_path) }}" alt="Image"/>
+                <img class="object-contain p-2 w-full h-60" src="{{ asset($product->image_path) }}" alt="Image"/>
 
                 <div class="border-t border-gray w-full p-2">
                     <a
