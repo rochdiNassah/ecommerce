@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Notifications\UserRejected;
+use App\Jobs\RejectUser;
 
 class DeleteUser extends Service
 {
@@ -14,15 +15,30 @@ class DeleteUser extends Service
      */
     public function delete($user)
     {
-        $user->delete();
-
-        'pending' === $user->status
-            ? $user->notify(new UserRejected())
-            : null;
+        $user->forceDelete();
 
         $this->response = [
             'status' => 'success',
             'message' => __('user.deleted')
+        ];
+    }
+
+    /**
+     * Notify the given user, then delete them.
+     * 
+     * @param  \App\Models\User  $user
+     * @return void
+     */
+    public function rejectUser($user)
+    {
+        $user->delete();
+        $user->notify(new UserRejected());
+
+        RejectUser::dispatch($user);
+
+        $this->response = [
+            'status' => 'success',
+            'message' => __('user.rejected')
         ];
     }
 }

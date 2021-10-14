@@ -7,6 +7,7 @@ return [
     'missing' => 'User not found!',
     'downgraded' => 'User downgraded successfully.',
     'upgraded' => 'User upgraded successfully.',
-    'deleted' => 'User deleted successfully.'
+    'deleted' => 'User deleted successfully.',
+    'rejected' => 'User deleted and notified sucessfully'
 
 ];

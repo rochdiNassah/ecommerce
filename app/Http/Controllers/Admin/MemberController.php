@@ -43,7 +43,9 @@ class MemberController extends Controller
         $user = User::findOrFail($id);
 
         Auth::user()->can('affect', $user)
-            ? $responsable->delete($user)
+            ? ('pending' === $user->status
+                ? $responsable->rejectUser($user)
+                : $responsable->delete($user))
             : $responsable->unauthorized();
 
         return $responsable;
