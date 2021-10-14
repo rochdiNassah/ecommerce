@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'default_avatar_path' => '/images/avatars/default.jpg',
-    'default_product_image_path' => '/images/products/default.jpg',
+    'default_avatar_path' => '/images/avatars/default.png',
+    'default_product_image_path' => '/images/products/default.png',
 
     /*
     |--------------------------------------------------------------------------

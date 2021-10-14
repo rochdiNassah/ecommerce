@@ -29,7 +29,7 @@ $inputs = [
 
             <div class="my-3">
                 <div class="grid place-items-center my-4">
-                    <img class="self-center w-20 h-20 bg-gray-200 rounded-full" src="{{ asset('images/avatars/default.jpg') }}" id="avatarImg">
+                    <img class="self-center w-20 h-20 bg-gray-200 rounded-full object-contain" src="{{ asset('images/avatars/default.png') }}" id="avatarImg">
 
                     <label class="cursor-pointer mt-6">
                         <span class="mt-2 leading-normal px-4 py-2 bg-{{ $mainColor }}-100 hover:bg-{{ $mainColor }}-200 transition text-{{ $mainColor }}-600 font-bold text-sm rounded-sm">Select Image</span>
