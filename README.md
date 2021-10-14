@@ -5,6 +5,9 @@ This is a simple eCommerce web application created with Laravel and designed usi
 ## Application objects
 * TODO
 
+### Server requirements
+* TODO
+
 ### Installation
 * Clone this repository.
 * Run `cd ecommerce && composer install`.
