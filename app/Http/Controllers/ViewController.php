@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
-use App\Models\{User, Product};
+use App\Models\{User, Product, Order};
 
 class ViewController extends Controller
 {
@@ -16,10 +16,23 @@ class ViewController extends Controller
      */
     public function dashboard(Request $request)
     {
-        return view($request->user()->role.'.dashboard', [
-            'usersCount' => User::all()->count(),
-            'productsCount' => Product::all()->count()
-        ]);
+        if ('admin' === $request->user()->role) {
+            $view = 'admin.dashboard';
+            $data = [
+                'usersCount' => User::all()->count(),
+                'productsCount' => Product::all()->count()
+            ];
+        }
+
+        if ('dispatcher' === $request->user()->role) {
+            $view = 'dispatcher.dashboard';
+
+            $data = [
+                'orders' => Order::all(),
+            ];
+        }
+
+        return view($view, $data);
     }
 
     /**

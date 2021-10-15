@@ -2,6 +2,6 @@
 
 return [
 
-    'placed' => 'Great! you\'ve placed you order successfully.',
+    'placed' => 'Great! You\'ve placed your order successfully.',
 
 ];

@@ -14,8 +14,6 @@ class Order extends Model
     protected $guarded = [
         'status',
         'dispatcher',
-        'delivery_driver',
-        'token',
-        'customer_details'
+        'delivery_driver'
     ];
 }
