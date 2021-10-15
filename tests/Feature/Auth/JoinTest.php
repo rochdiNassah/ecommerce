@@ -96,7 +96,7 @@ class JoinTest extends TestCase
         $this->post(route('join'), ['email' => $email])->assertSessionHasErrors('email');
         $this->post(route('join'), ['email' => Str::repeat('a', 256).'@foo.bar'])->assertSessionHasErrors('email');
         $this->post(route('join'), ['fullname' => 'a'])->assertSessionHasErrors('fullname');
-        $this->post(route('join'), ['fullname' => Str::repeat('a', 101)])->assertSessionHasErrors('fullname');
+        $this->post(route('join'), ['fullname' => Str::repeat('a', 257)])->assertSessionHasErrors('fullname');
         $this->post(route('join'), ['password' => '1234', 'password_confirmation' => '123'])->assertSessionHasErrors('password');
         $this->post(route('join'), ['password' => '123', 'password_confirmation' => '123'])->assertSessionHasErrors('password');
 

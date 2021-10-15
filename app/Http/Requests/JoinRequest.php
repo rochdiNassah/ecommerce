@@ -31,7 +31,7 @@ class JoinRequest extends FormRequest
     public function rules()
     {
         return [
-            'fullname' => ['required', 'min:2', 'max:100'],
+            'fullname' => ['required', 'min:2', 'max:256'],
             'email' => ['required', 'email', 'min:5', 'max:256', 'unique:users'],
             'phone_number' => ['required', 'min:10', 'max:15'],
             'password' => ['required', 'min:4', 'max:1600', 'confirmed'],

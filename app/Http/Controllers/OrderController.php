@@ -3,11 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\PlaceOrderRequest;
+use App\Models\Order;
+use App\Services\PlaceOrder;
 
 class OrderController extends Controller
 {
-    public function create(Request $request)
+    /**
+     * Place an order.
+     * 
+     * @param  \App\Http\Requests\PlaceOrderRequest  $request
+     * @return \Illuminate\Contracts\Support\Responsable
+     */
+    public function create(PlaceOrderRequest $request)
     {
-        dd($request);
+        $responsable = app(PlaceOrder::class, ['request' => $request]);
+
+        $responsable->prepareData();
+        $responsable->store();
+
+        $responsable->notifyCustomer()
+            ? $responsable->success()
+            : $responsable->fail();
+
+        return $responsable;
     }
 }

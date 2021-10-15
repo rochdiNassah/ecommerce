@@ -9,13 +9,8 @@ use App\Models\User;
 class RequestJoin extends Service
 {
     private $data;
+
     protected $fileDestination = 'images/avatars';
-
-    public function __construct(
-        private $request
-    ) {
-
-    }
 
     /**
      * Store the users data.

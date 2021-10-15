@@ -7,14 +7,10 @@ use App\Models\Product;
 class CreateProduct extends Service
 {
     private $data;
+
     protected $fileDestination = 'images/products';
+    
     protected $redirectTo = 'products';
-
-    public function __construct(
-        private $request
-    ) {
-
-    }
 
     /**
      * Store the users data.

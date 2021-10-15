@@ -7,15 +7,15 @@ use Illuminate\Support\Facades\Storage;
 
 abstract class Service implements Responsable
 {
+    protected $request;
     protected $response = false;
     protected $redirectTo = false;
     protected $file;
     protected $fileDestination;
 
-    public function __construct(
-        public $user = null
-    ) {
-
+    public function __construct($request = null)
+    {
+        $this->request = $request;
     }
 
     /**

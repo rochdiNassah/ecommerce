@@ -3,10 +3,10 @@
 
 @php
 $inputs = [
-    ['type' => 'text', 'name' => 'fullname', 'label' => 'Full Name'],
-    ['type' => 'text', 'name' => 'email', 'label' => 'Email Address'],
-    ['type' => 'text', 'name' => 'phone_number', 'label' => 'Phone Number'],
-    ['type' => 'password', 'name' => 'password', 'label' => 'Full home address']
+    ['type' => 'text', 'name' => 'fullname', 'label' => 'Full Name', 'value' => 'Foobar'],
+    ['type' => 'text', 'name' => 'email', 'label' => 'Email Address', 'value' => 'foo@bar.baz'],
+    ['type' => 'text', 'name' => 'phone_number', 'label' => 'Phone Number', 'value' => '0000000000'],
+    ['type' => 'text', 'name' => 'address', 'label' => 'Address', 'value' => 'Morocco, Casablanca.']
 ];
 @endphp
 
@@ -19,6 +19,13 @@ $inputs = [
 
             <form action="{{ route('order.create') }}" method="post">
                 @csrf
+                
+                @if ($errors->any())
+                <div class="rounded-sm mt-4 my-2 bg-red-200 text-red-800 text-sm p-3 relative" role="alert">
+                    <strong>{{ $errors->all()[0] }}</strong>
+                </div>
+                @endif
+
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
 
                 @foreach ($inputs as $input)
@@ -27,7 +34,7 @@ $inputs = [
                     class="text-gray-700 border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
                     type="{{ $input['type'] }}"
                     name="{{ $input['name'] }}"
-                    value="{{ old($input['name']) }}"
+                    value="{{ old($input['name']) ?? $input['value'] ?? null }}"
                     autocomplete="off"
                 >
                 @endforeach

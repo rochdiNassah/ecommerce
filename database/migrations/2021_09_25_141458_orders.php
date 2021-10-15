@@ -16,16 +16,18 @@ class Orders extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product');
-            $table->unsignedBigInteger('dispatcher');
+            $table->unsignedBigInteger('dispatcher')->nullable();
             $table->unsignedBigInteger('delivery_driver')->nullable();
 
             $table->json('customer_details');
-            $table->set('status', ['pending', 'confirmed', 'rejected', 'dispatched', 'shipped', 'in_dlivery', 'delivered']);
+            $table->set('status', ['pending', 'rejected', 'dispatched', 'shipped', 'in_dlivery', 'delivered'])->default('pending');
             $table->text('token');
 
             $table->foreign('product')->references('id')->on('products');
             $table->foreign('dispatcher')->references('id')->on('users');
             $table->foreign('delivery_driver')->references('id')->on('users');
+
+            $table->timestamps();
         });
     }
 

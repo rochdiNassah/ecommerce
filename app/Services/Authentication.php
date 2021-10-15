@@ -8,12 +8,6 @@ class Authentication extends Service
 {
     private $success = false;
 
-    public function __construct(
-        private $request
-    ) {
-
-    }
-
     /**
      * Authentication attempt succeed.
      * 
