@@ -21,6 +21,9 @@ Route::middleware('guest')->group(function () {
     Route::view('/join', 'auth.join')->name('join');
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/join', [AuthController::class, 'join']);
+    Route::get('/forgot-password', function () {
+        return back()->with(['status' => 'warning', 'message' => 'Sorry! Forgot password feature is not available for now.']);
+    })->name('forgot-password');
 
     Route::name('order.')->group(function () {
         Route::prefix('order')->group(function () {
