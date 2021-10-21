@@ -19,7 +19,7 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function approve(Request $request, ApproveUser $responsable, int $id)
+    public function approve(Request $request, ApproveUser $responsable, int $id): Responsable
     {
         $user = User::findOrFail($id);
 
@@ -38,7 +38,7 @@ class MemberController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function delete(Request $request, DeleteUser $responsable, int $id)
+    public function delete(Request $request, DeleteUser $responsable, int $id): Responsable
     {
         $user = User::findOrFail($id);
 
@@ -58,7 +58,7 @@ class MemberController extends Controller
      * @param  \App\Services\EditUserRole  $responsable
      * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function updateRole(UpdateRoleRequest $request, EditUserRole $responsable)
+    public function updateRole(UpdateRoleRequest $request, EditUserRole $responsable): Responsable
     {
         extract($request->safe()->only('id', 'role'));
 

@@ -76,7 +76,7 @@ final class MemberTest extends TestCase
      * 
      * @return void
      */
-    public function testApprovable(): void
+    public function testIsApprovable(): void
     {
         $this->actAsAdmin();
 
@@ -91,9 +91,9 @@ final class MemberTest extends TestCase
     /**
      * Assert that a member can be upgraded.
      * 
-     * @return void
+     * @return \App\Models\User
      */
-    public function testUpgradable()
+    public function testIsUpgradable(): User
     {
         $this->actAsAdmin();
 
@@ -112,11 +112,12 @@ final class MemberTest extends TestCase
     /**
      * Assert that a member can be downgraded.
      * 
-     * @depends testUpgradable
+     * @depends testIsUpgradable
      * 
+     * @param  \App\Models\User  $member
      * @return void
      */
-    public function testDowngradable($member): void
+    public function testIsDowngradable($member): void
     {
         $this->actAsAdmin();
 
@@ -132,13 +133,10 @@ final class MemberTest extends TestCase
 
     /**
      * Assert that a member can be deleted.
-     * 
-     * @depends testCanLogin
      *
-     * @param  \App\Models\User  $member
      * @return void
      */
-    public function testDeletable(): void
+    public function testIsDeletable(): void
     {
         $this->actAsAdmin();
 

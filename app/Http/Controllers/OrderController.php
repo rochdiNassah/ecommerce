@@ -15,7 +15,7 @@ class OrderController extends Controller
      * @param  \App\Http\Requests\PlaceOrderRequest  $request
      * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function create(PlaceOrderRequest $request)
+    public function create(PlaceOrderRequest $request): Responsable
     {
         $responsable = app(PlaceOrder::class, ['request' => $request]);
 

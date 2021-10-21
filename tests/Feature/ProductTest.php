@@ -24,7 +24,7 @@ final class ProductTest extends TestCase
      * 
      * @return void
      */
-    public function testCreatable(): void
+    public function testIsCreatable(): void
     {
         $form = [
             'name' => Str::random(8),
@@ -41,7 +41,7 @@ final class ProductTest extends TestCase
      * 
      * @return void
      */
-    public function testDeletable(): void
+    public function testIsDeletable(): void
     {
         $product = Product::factory()->create();
 

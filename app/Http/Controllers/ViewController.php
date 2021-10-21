@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Illuminate\View\View as Response;
 use App\Models\{User, Product, Order};
 
 class ViewController extends Controller
@@ -12,9 +13,9 @@ class ViewController extends Controller
      * Render the dashboard view depending on user's role.
      * 
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function dashboard(Request $request)
+    public function dashboard(Request $request): Response
     {
         if ('admin' === $request->user()->role) {
             $view = 'admin.dashboard';
@@ -38,9 +39,9 @@ class ViewController extends Controller
     /**
      * Display all members for admin.
      * 
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function users()
+    public function users(): Response
     {
         return View::make('admin.user.index', [
             'users' => User::orderBy('status')->get()
@@ -51,9 +52,9 @@ class ViewController extends Controller
      * Display the edit role screen.
      * 
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function updateUserRole(int $id)
+    public function updateUserRole(int $id): Response
     {
         return View::make('admin.user.update-role', ['user' => User::findOrFail($id)]);
     }
@@ -61,9 +62,9 @@ class ViewController extends Controller
     /**
      * Display all products for admin.
      * 
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public static function products()
+    public static function products(): Response
     {
         return View::make('admin.product.index', ['products' => Product::all()]);
     }
@@ -71,9 +72,9 @@ class ViewController extends Controller
     /**
      * Display all products for customer.
      * 
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public static function home()
+    public static function home(): Response
     {
         return View::make('home', ['products' => Product::all()]);
     }
@@ -81,9 +82,9 @@ class ViewController extends Controller
     /**
      * Display create order view.
      * 
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function createOrder($productId)
+    public function createOrder($productId): Response
     {
         return View::make('order.create', ['product' => Product::findOrFail($productId)]);
     }

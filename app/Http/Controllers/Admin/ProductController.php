@@ -16,7 +16,7 @@ class ProductController extends Controller
      * @param  \App\Http\Requests\CreateProductRequest  $request
      * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function create(CreateProductRequest $request)
+    public function create(CreateProductRequest $request): Responsable
     {
         $responsable = app(CreateProduct::class, ['request' => $request]);
 
@@ -33,7 +33,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function delete(Request $request, DeleteProduct $responsable, $id)
+    public function delete(Request $request, DeleteProduct $responsable, $id): Responsable
     {
         $product = Product::findOrFail($id);
         
