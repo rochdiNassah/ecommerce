@@ -58,7 +58,7 @@ class PlaceOrder extends Service
         $this->customer = (object) $this->request->only([
             'fullname', 'email', 'phone_number', 'address'
         ]);
-        $this->token = bin2hex(openssl_random_pseudo_bytes(128));
+        $this->token = bin2hex(openssl_random_pseudo_bytes(64));
         $this->data = [
             'customer_details' => json_encode($this->customer),
             'token' => $this->token,

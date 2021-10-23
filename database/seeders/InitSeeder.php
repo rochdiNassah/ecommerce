@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\{DB, Hash};
 
 class InitSeeder extends Seeder
@@ -89,7 +90,21 @@ class InitSeeder extends Seeder
                 'image_path' => asset('images/products/mac-pro.jpg')
             ]
         ];
+        $order = [
+            [    
+                'customer_details' => json_encode([
+                    'fullname' => Str::random(10),
+                    'email' => Str::random(10).'@foo.bar',
+                    'phone_number' => str_repeat('0', 10),
+                    'address' => 'Corge, grault'
+                ]),
+                'product' => 1,
+                'token' => bin2hex(openssl_random_pseudo_bytes(64))
+            ]
+        ];
+
         DB::table('users')->insert($users);
         DB::table('products')->insert($products);
+        DB::table('orders')->insert($order);
     }
 }

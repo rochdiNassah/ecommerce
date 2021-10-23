@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Member;
+namespace Tests\Admin;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -19,42 +19,6 @@ final class MemberTest extends TestCase
         parent::setUp();
 
         $this->member = User::factory()->create();
-    }
-
-    /** @return void */
-    public function testCanLogin(): void
-    {
-        $form = [
-            'email' => $this->member->email,
-            'password' => 'password'
-        ];
-
-        $this->post(route('login'), $form);
-        $this->assertAuthenticated();
-    }
-
-    /** @return void */
-    public function testCanLogout(): void
-    {
-        $this->actingAs($this->member);
-        $this->get(route('logout'));
-        $this->assertGuest();
-    }
-
-    /** @return void */
-    public function testCanRequestJoin(): void
-    {
-        $form = [
-            'fullname' => Str::random(10),
-            'email' => Str::random(10) . '@foo.bar',
-            'phone_number' => '0000000000',
-            'role' => 'dispatcher',
-            'password' => '1234',
-            'password_confirmation' => '1234'
-        ];
-
-        $this->post(route('join'), $form);
-        $this->assertDatabaseHas('users', array_slice($form, 0, -2));
     }
 
     /**

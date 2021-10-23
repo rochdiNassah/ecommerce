@@ -18,19 +18,16 @@ use App\Http\Controllers\Admin\{MemberController, ProductController};
 Route::middleware('guest')->group(function () {
     Route::view('/login', 'auth.login')->name('login');
     Route::view('/join', 'auth.join')->name('join');
-
     Route::get('/', [ViewController::class, 'home'])->name('home');
     Route::get('/forgot-password', function () {
         return back()->with(['status' => 'warning', 'message' => 'Sorry! Forgot password feature is not available for now.']);
     })->name('forgot-password');
-
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/join', [AuthController::class, 'join']);
 
     Route::name('order.')->group(function () {
         Route::prefix('order')->group(function () {
             Route::get('/create/{productId}', [ViewController::class, 'createOrder'])->name('create-view');
-            
             Route::post('/create', [OrderController::class, 'create'])->name('create');
         });
     });
@@ -48,18 +45,21 @@ Route::middleware('auth')->group(function () {
                 Route::get('/approve/{id}', [MemberController::class, 'approve'])->name('approve');
                 Route::get('/delete/{id}', [MemberController::class, 'delete'])->name('delete');
                 Route::get('/update-role/{id}', [ViewController::class, 'updateUserRole'])->name('update-role-view');
-                
                 Route::post('/update-role', [MemberController::class, 'updateRole'])->name('update-role');
             });
         });
         Route::name('product.')->group(function () {
             Route::prefix('product')->group(function () {
                 Route::view('/create', 'admin.product.create')->name('create-view');
-
                 Route::get('/delete/{id}', [ProductController::class, 'delete'])->name('delete');
-
                 Route::post('/create', [ProductController::class, 'create'])->name('create');
             });
+        });
+    });
+    Route::name('order.')->group(function () {
+        Route::prefix('order')->group(function () {
+            Route::get('/reject/{orderId}', [OrderController::class, 'reject'])->name('reject');
+            Route::post('/dispatch', [OrderController::class, '_dispatch'])->name('dispatch');
         });
     });
 });
