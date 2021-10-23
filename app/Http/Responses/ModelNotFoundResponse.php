@@ -6,10 +6,10 @@ use Illuminate\Contracts\Support\Responsable;
 
 class ModelNotFoundResponse implements Responsable
 {
-    public function __construct(
-        private $model
-    ) {
-        
+    private $model;
+    
+    public function __construct($model) {
+        $this->model = $model;
     }
 
     public function toResponse($request)
