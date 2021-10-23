@@ -10,7 +10,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Notifications\UserRejected;
 
-final class DeleteTest extends TestCase
+final class DeleteMemberTest extends TestCase
 {
     /** @return void */
     public function testAdminCanDeleteUser(): void

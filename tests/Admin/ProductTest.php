@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Product;
+namespace Tests\Admin;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

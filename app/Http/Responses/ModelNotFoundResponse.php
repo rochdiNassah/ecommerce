@@ -3,16 +3,29 @@
 namespace App\Http\Responses;
 
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Http\RedirectResponse;
 
 class ModelNotFoundResponse implements Responsable
 {
+    /** @var string */
     private $model;
     
-    public function __construct($model) {
+    /**
+     * @param  string  $model
+     * @return void
+     */
+    public function __construct(string $model)
+    {
         $this->model = $model;
     }
 
-    public function toResponse($request)
+    /**
+     * Create an HTTP response that represents the object.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function toResponse($request): RedirectResponse
     {
         return back()->with([
             'status' => 'error',

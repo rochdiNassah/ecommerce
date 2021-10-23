@@ -3,30 +3,32 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
+use App\Http\Responses\ServiceResponse;
+use App\Interfaces\Responses\{
+    LoginResponse,
+    LogoutResponse
+};
 
-class Authentication extends Service
+class Authentication extends BaseService
 {
-    private $success = false;
-
     /**
      * Authentication attempt succeed.
      * 
      * @return void
      */
-    public function success(): void
+    public function succeed(): void
     {
-        $this->response = [
+        $response = [
             'status' => 'success',
-            'message' => __('login.success')
+            'message' => __('login.success'),
+            'redirect_to' => route('dashboard')
         ];
+
+        $this->createResponse(LoginResponse::class, $response);
 
         if ('pending' === Auth::user()->status) {
             $this->pending();
-        } else {
-            $this->request->session()->regenerate();
-            
-            $this->success = true;
-        }        
+        }
     }
 
     /**
@@ -36,11 +38,12 @@ class Authentication extends Service
      */
     public function failed(): void
     {
-        $this->response = [
+        $response = [
             'status' => 'error',
-            'message' => __('login.failed')
+            'message' => __('login.failed'),
         ];
 
+        $this->createResponse(LoginResponse::class, $response);
         $this->flashInputs();
     }
 
@@ -51,33 +54,37 @@ class Authentication extends Service
      */
     private function pending(): void
     {
-        $this->response = [
+        $response = [
             'status' => 'warning',
             'message' => __('login.pending')
         ];
 
+        $this->createResponse(LoginResponse::class, $response);
         $this->flashInputs();
-        $this->logout();
+        $this->logout(true);
     }
 
     /**
      * Log the user out from the application.
      * 
+     * @param  array|false  $response
      * @return void
      */
-    public function logout(): void
+    public function logout($response = false): void
     {
         Auth::logout();
 
         $this->request->session()->regenerate();
         $this->request->session()->regenerateToken();
 
-        if (!$this->response) {
-            $this->response = [
+        if (!$response) {
+            $response = [
                 'status' => 'success',
-                'message' => __('logout.success')
+                'message' => __('logout.success'),
+                'redirect_to' => route('home')
             ];
-            $this->redirectTo = 'home';
+
+            $this->createResponse(LogoutResponse::class, $response);
         }
     }
 
@@ -89,17 +96,5 @@ class Authentication extends Service
     private function flashInputs(): void
     {
         $this->request->flashExcept('password');
-    }
-
-    public function toResponse($request)
-    {
-        if ($this->success) {
-            return redirect()->intended(route('dashboard'))->with($this->response);
-        }
-        if ($this->redirectTo) {
-            return redirect(route($this->redirectTo))->with($this->response);
-        }
-        
-        return back()->with($this->response);
     }
 }

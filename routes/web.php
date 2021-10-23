@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{AuthController, ViewController, OrderController};
-use App\Http\Controllers\Admin\{MemberController, ProductController};
+use App\Http\Controllers\{MemberController, ProductController};
 
 /*
 |--------------------------------------------------------------------------
