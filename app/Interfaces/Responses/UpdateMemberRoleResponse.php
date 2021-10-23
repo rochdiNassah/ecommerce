@@ -4,7 +4,7 @@ namespace App\Interfaces\Responses;
 
 use Illuminate\Contracts\Support\Responsable;
 
-interface LogoutResponse extends Responsable
+interface UpdateMemberRoleResponse extends Responsable
 {
     
 }

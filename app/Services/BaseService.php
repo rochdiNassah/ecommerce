@@ -13,6 +13,17 @@ class BaseService
         $this->request = $request;
     }
 
+    /** @return void */
+    protected function unauthorized(): void
+    {
+        $response = [
+            'status' => 'error',
+            'message' => __('global.unauthorized')
+        ];
+
+        $this->createResponse(UnauthorizedResponse::class, $response);
+    }
+
     /**
      * @param  string  $interface
      * @param  array  $response

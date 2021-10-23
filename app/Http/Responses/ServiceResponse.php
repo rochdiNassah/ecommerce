@@ -5,12 +5,18 @@ namespace App\Http\Responses;
 use Illuminate\Http\RedirectResponse;
 use App\Interfaces\Responses\{
     LoginResponse,
-    LogoutResponse
+    LogoutResponse,
+    ApproveMemberResponse,
+    DeleteMemberResponse,
+    UpdateMemberRoleResponse
 };
 
 class ServiceResponse implements
     LoginResponse,
-    LogoutResponse
+    LogoutResponse,
+    ApproveMemberResponse,
+    DeleteMemberResponse,
+    UpdateMemberRoleResponse
 {
     /** @var array */
     private $response;

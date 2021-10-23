@@ -3,7 +3,6 @@
 namespace App\Interfaces\Responses;
 
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Http\RedirectResponse;
 
 interface LoginResponse extends Responsable 
 {

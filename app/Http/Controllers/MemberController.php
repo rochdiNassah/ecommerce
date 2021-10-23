@@ -7,7 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Requests\UpdateRoleRequest;
-use App\Services\{ApproveUser, DeleteUser, EditUserRole};
+use App\Services\{ApproveMember, DeleteMember, EditMemberRole};
+use App\Interfaces\Responses\{
+    DeleteMemberResponse,
+    ApproveMemberResponse,
+    UpdateMemberRoleResponse
+};
 
 class MemberController extends Controller
 {
@@ -15,64 +20,64 @@ class MemberController extends Controller
      * Approve a pending member.
      * 
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Services\ApproveUser  $responsable
+     * @param  \App\Services\ApproveMember  $service
      * @param  int  $id
-     * @return \App\Services\ApproveUser
+     * @return \App\Interfaces\Responses\ApproveMemberResponse
      */
-    public function approve(Request $request, ApproveUser $responsable, int $id): ApproveUser
+    public function approve(Request $request, ApproveMember $service, int $id): ApproveMemberResponse
     {
-        $user = User::findOrFail($id);
+        $member = User::findOrFail($id);
 
-        'active' === $user->status
-            ? $responsable->already(__('user.active'))
-            : $responsable->approve($user);
+        'active' === $member->status
+            ? $service->already()
+            : $service->approve($member);
 
-        return $responsable;
+        return app(ApproveMemberResponse::class);
     }
 
     /**
      * Delete the given member.
      * 
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Services\DeleteUser  $responsable
+     * @param  \App\Services\DeleteMember  $service
      * @param  int  $id
-     * @return \App\Services\DeleteUser
+     * @return \App\Interfaces\Responses\DeleteMemberResponse
      */
-    public function delete(Request $request, DeleteUser $responsable, int $id): DeleteUser
+    public function delete(Request $request, DeleteMember $service, int $id): DeleteMemberResponse
     {
-        $user = User::findOrFail($id);
+        $member = User::findOrFail($id);
 
-        Auth::user()->can('affect', $user)
-            ? ('pending' === $user->status
-                ? $responsable->rejectUser($user)
-                : $responsable->delete($user))
-            : $responsable->unauthorized();
+        Auth::user()->can('affect', $member)
+            ? ('pending' === $member->status
+                ? $service->rejectMember($member)
+                : $service->delete($member))
+            : $service->unauthorized();
 
-        return $responsable;
+        return app(DeleteMemberResponse::class);
     }
 
     /**
      * Upgrade or downgrade the given user.
      * 
      * @param  \App\Http\Requests\UpdateRoleRequest  $request
-     * @param  \App\Services\EditUserRole  $responsable
-     * @return \App\Services\EditUserRole
+     * @param  \App\Services\EditMemberRole  $service
+     * @return \App\Interfaces\Responses\UpdateMemberRoleResponse
      */
-    public function updateRole(UpdateRoleRequest $request, EditUserRole $responsable): EditUserRole
+    public function updateRole(UpdateRoleRequest $request, EditMemberRole $service): UpdateMemberRoleResponse
     {
         extract($request->safe()->only('id', 'role'));
 
-        $user = User::findOrFail($id);
-        $action = $responsable->action($user, $role);
+        $member = User::findOrFail($id);
+        $action = $service->action($member, $role);
 
         if (false === $action) {
-            $responsable->already("This user is already {$role}.");
+            $service->already("This member is already {$role}.");
         } else {
-            Auth::user()->can('affect', $user)
-                ? $responsable->update($user, $role, $action)
-                : $responsable->unauthorized();
+            Auth::user()->can('affect', $member)
+                ? $service->update($member, $role, $action)
+                : $service->unauthorized();
         }
         
-        return $responsable;
+        return app(UpdateMemberRoleResponse::class);
     }
 }
