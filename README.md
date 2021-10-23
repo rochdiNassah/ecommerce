@@ -27,8 +27,12 @@ This is a simple eCommerce web application created with Laravel and designed usi
 
 ### Credentials for testing
 | <sub>ROLE</sub>                | <sub>EMAIL ADDRESS</sub>      | <sub>PASSWORD</sub> |
-|:-------------------------------|------------------------------|:-------------------:|
-| __<sub>Super admin</sub>__     | <sub>sadmin@foo.bar<sub>     | __<sub>1234</sub>__ |
-| __<sub>Admin</sub>__           | <sub>admin@foo.bar<sub>      | __<sub>1234</sub>__ |
-| __<sub>Dispatcher</sub>__      | <sub>dispatcher@foo.bar<sub> | __<sub>1234</sub>__ |
-| __<sub>Delivery driver</sub>__ | <sub>delivery@foo.bar<sub>   | __<sub>1234</sub>__ |
+|:-------------------------------|-------------------------------|:-------------------:|
+| __<sub>Super admin</sub>__     | <sub>sadmin@foo.bar<sub>      | __<sub>1234</sub>__ |
+| __<sub>Admin</sub>__           | <sub>admin@foo.bar<sub>       | __<sub>1234</sub>__ |
+| __<sub>Dispatcher</sub>__      | <sub>dispatcher@foo.bar<sub>  | __<sub>1234</sub>__ |
+| __<sub>Delivery driver</sub>__ | <sub>delivery@foo.bar<sub>    | __<sub>1234</sub>__ |
+
+### Demo
+* TODO
+    
