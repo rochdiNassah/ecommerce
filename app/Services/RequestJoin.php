@@ -16,33 +16,43 @@ class RequestJoin extends Service
      * 
      * @return void
      */
-    public function store()
+    public function store(): void
     {
-        if (!$this->extract()) return;
+        if (!$this->extract()) {
+            return;
+        }
+
         $user = User::create($this->data);
+
         $user->notify((new JoinRequested()));
+
         $this->response = [
             'status' => 'success',
             'message' => __('join.success')
         ];
     }
 
-    private function extract()
+    /** @return bool */
+    private function extract(): bool
     {
         $this->data = $this->request->safe()->except('avatar');
         $this->data['password'] = Hash::make($this->data['password']);
+
         if ($this->request->file('avatar')) {
             $this->file = $this->request->file('avatar');
+
             if (!$this->data['avatar_path'] = $this->storeFile()) {
                 $this->failed();
+
                 return false;
             }
         }
+
         return true;
     }
 
     /**
-     * Flash inputs into the session.
+     * Flash inputs to the session.
      * 
      * @return void
      */
@@ -51,12 +61,18 @@ class RequestJoin extends Service
         $this->request->flashExcept('avatar', 'password');
     }
 
-    private function failed()
+    /**
+     * Request join failed.
+     * 
+     * @return void
+     */
+    private function failed(): void
     {
         $this->response = [
             'status' => 'error',
             'message' => __('global.failed')
         ];
+
         $this->flashInputs();
     }
 }

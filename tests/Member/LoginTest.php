@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Feature;
+namespace Tests\Member;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -9,11 +9,8 @@ use App\Models\User;
 
 final class LoginTest extends TestCase
 {
-    /**
-     * Assert that a member can login with valid credentials.
-     * 
-     * @return string
-     */
+
+    /** @return array */
     public function testGuestCanLoginWithValidCredentials(): string
     {
         $user = User::factory()->create();
@@ -21,11 +18,13 @@ final class LoginTest extends TestCase
             'email' => $user->email,
             'password' => 'password'
         ];
+
         $this->from(route('login'))
             ->post(route('login'), $form)
             ->assertRedirect(route('dashboard'))
             ->assertSessionHas('status', 'success');
         $this->assertAuthenticated();
+
         return $user->email;
     }
 
@@ -41,9 +40,11 @@ final class LoginTest extends TestCase
     {
         $emails = [$email, 'non-existent@foo.bar'];
         $password = 'incorrect-password';
+
         foreach ($emails as $email) {
             $this->post(route('login'), ['email' => $email, 'password' => $password])->assertSessionHas('status', 'error');
         }
+
         $this->assertGuest();
     }
 
@@ -59,12 +60,13 @@ final class LoginTest extends TestCase
             'email' => $user->email,
             'password' => 'password',
         ];
+
         $this->post(route('login'), $form)->assertSessionHas('status', 'warning');
         $this->assertGuest();
     }
 
     /**
-     * Assert that the form is repopulated on when validation fails.
+     * Assert that the form is repopulated when validation fails.
      * 
      * @return void
      */
@@ -75,6 +77,7 @@ final class LoginTest extends TestCase
             'password' => 'incorrect-password',
             'remember' => 'on'
         ];
+        
         $this->post(route('login'), $form)
             ->assertSessionHasInput([
                 'email' => 'not-existent-email@foo.bar',

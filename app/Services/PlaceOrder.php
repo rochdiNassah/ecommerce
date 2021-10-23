@@ -21,9 +21,10 @@ class PlaceOrder extends Service
      * 
      * @return bool
      */
-    public function store()
+    public function store(): bool
     {
         Order::create($this->data);
+
         return true;
     }
 
@@ -32,7 +33,7 @@ class PlaceOrder extends Service
      * 
      * @return bool
      */
-    public function notifyCustomer()
+    public function notifyCustomer(): bool
     {
         // TODO: Rollback on failure.
 
@@ -40,8 +41,10 @@ class PlaceOrder extends Service
             'token' => $this->token,
             'customer' => $this->customer
         ];
+
         Notification::route('mail', $this->customer->email)
             ->notify(new OrderPlaced($order));
+
         return true;
     }
 
@@ -50,7 +53,7 @@ class PlaceOrder extends Service
      * 
      * @return void
      */
-    public function prepareData()
+    public function prepareData(): void
     {
         $this->customer = (object) $this->request->only([
             'fullname', 'email', 'phone_number', 'address'
@@ -63,7 +66,12 @@ class PlaceOrder extends Service
         ];
     }
     
-    public function success()
+    /**
+     * Order creation succeed.
+     * 
+     * @return void
+     */
+    public function success(): void
     {
         $this->response = [
             'status' => 'success',
@@ -71,7 +79,12 @@ class PlaceOrder extends Service
         ];
     }
 
-    public function fail()
+    /**
+     * Order creation failed.
+     * 
+     * @return void
+     */
+    public function fail(): void
     {
         $this->response = [
             'status' => 'error',

@@ -10,9 +10,10 @@ class DeleteProduct extends Service
      * @param  \App\Models\Product  $product
      * @return void
      */
-    public function delete($product)
+    public function delete($product): void
     {
         $product->delete();
+
         $this->response = [
             'status' => 'success',
             'message' => __('product.deleted')

@@ -21,11 +21,14 @@ class OrderController extends Controller
             PlaceOrder::class,
             ['request' => $request]
         );
+
         $responsable->prepareData();
         $responsable->store();
+
         $responsable->notifyCustomer()
             ? $responsable->success()
             : $responsable->fail();
+            
         return $responsable;
     }
 }

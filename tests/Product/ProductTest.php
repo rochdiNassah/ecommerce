@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Feature;
+namespace Tests\Product;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -10,11 +10,12 @@ use App\Models\{Product, User};
 
 final class ProductTest extends TestCase
 {
+    /** @return void */
     public function setUp(): void
     {
         parent::setUp();
-        $admin = User::factory()->admin()->make();
-        $this->actingAs($admin);
+
+        $this->actingAs(User::factory()->admin()->make());
     }
 
     /**
@@ -28,6 +29,7 @@ final class ProductTest extends TestCase
             'name' => Str::random(8),
             'price' => random_int(8, 4096)
         ];
+
         $this->post(route('product.create'), $form);
         $this->assertDatabaseHas('products', $form);
     }
@@ -40,6 +42,7 @@ final class ProductTest extends TestCase
     public function testIsDeletable(): void
     {
         $product = Product::factory()->create();
+        
         $this->get(route('product.delete', $product->id));
         $this->assertDatabaseMissing('products', collect($product)->toArray());
     }

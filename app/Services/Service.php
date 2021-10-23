@@ -5,7 +5,7 @@ namespace App\Services;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Support\Facades\Storage;
 
-abstract class Service implements Responsable
+class Service implements Responsable
 {
     protected $request;
     protected $response = false;
@@ -24,7 +24,7 @@ abstract class Service implements Responsable
      * @param  string|null  $message
      * @return void
      */
-    public function unauthorized($message = null)
+    public function unauthorized($message = null): void
     {
         $this->response = [
             'status' => 'error',
@@ -39,7 +39,7 @@ abstract class Service implements Responsable
      * @param  string  $message
      * @return void
      */
-    public function already($message)
+    public function already($message): void
     {
         $this->response = [
             'status' => 'warning',

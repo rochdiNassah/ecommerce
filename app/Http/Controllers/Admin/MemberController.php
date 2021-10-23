@@ -22,9 +22,11 @@ class MemberController extends Controller
     public function approve(Request $request, ApproveUser $responsable, int $id): ApproveUser
     {
         $user = User::findOrFail($id);
+
         'active' === $user->status
             ? $responsable->already(__('user.active'))
             : $responsable->approve($user);
+
         return $responsable;
     }
 
@@ -39,11 +41,13 @@ class MemberController extends Controller
     public function delete(Request $request, DeleteUser $responsable, int $id): DeleteUser
     {
         $user = User::findOrFail($id);
+
         Auth::user()->can('affect', $user)
             ? ('pending' === $user->status
                 ? $responsable->rejectUser($user)
                 : $responsable->delete($user))
             : $responsable->unauthorized();
+
         return $responsable;
     }
 
@@ -57,8 +61,10 @@ class MemberController extends Controller
     public function updateRole(UpdateRoleRequest $request, EditUserRole $responsable): EditUserRole
     {
         extract($request->safe()->only('id', 'role'));
+
         $user = User::findOrFail($id);
         $action = $responsable->action($user, $role);
+
         if (false === $action) {
             $responsable->already("This user is already {$role}.");
         } else {
@@ -66,6 +72,7 @@ class MemberController extends Controller
                 ? $responsable->update($user, $role, $action)
                 : $responsable->unauthorized();
         }
+        
         return $responsable;
     }
 }

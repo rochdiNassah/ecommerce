@@ -30,6 +30,7 @@ class ViewController extends Controller
                 'orders' => Order::all(),
             ];
         }
+        
         return view($view, $data);
     }
 

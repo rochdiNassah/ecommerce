@@ -24,6 +24,7 @@ class Admin
                     'reason' => 'Unauthorized'
                 ]);
         }
+        
         return $next($request);
     }
 }

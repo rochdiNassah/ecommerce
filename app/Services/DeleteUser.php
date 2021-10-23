@@ -16,6 +16,7 @@ class DeleteUser extends Service
     public function delete($user)
     {
         $user->forceDelete();
+
         $this->response = [
             'status' => 'success',
             'message' => __('user.deleted')
@@ -28,11 +29,13 @@ class DeleteUser extends Service
      * @param  \App\Models\User  $user
      * @return void
      */
-    public function rejectUser($user)
+    public function rejectUser($user): void
     {
         $user->delete();
         $user->notify(new UserRejected());
+
         RejectUser::dispatch($user);
+
         $this->response = [
             'status' => 'success',
             'message' => __('user.rejected')

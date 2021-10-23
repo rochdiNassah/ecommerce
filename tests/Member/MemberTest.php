@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Feature;
+namespace Tests\Member;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -10,34 +10,30 @@ use App\Models\User;
 
 final class MemberTest extends TestCase
 {
+    /** @var \App\Models\User */
     private $member;
 
+    /** @return void */
     public function setUp(): void
     {
         parent::setUp();
+
         $this->member = User::factory()->create();
     }
 
-    /**
-     * Assert that a member can login.
-     * 
-     * @return void
-     */
+    /** @return void */
     public function testCanLogin(): void
     {
         $form = [
             'email' => $this->member->email,
             'password' => 'password'
         ];
+
         $this->post(route('login'), $form);
         $this->assertAuthenticated();
     }
 
-    /**
-     * Assert that a member can logout.
-     *  
-     * @return void
-     */
+    /** @return void */
     public function testCanLogout(): void
     {
         $this->actingAs($this->member);
@@ -45,11 +41,7 @@ final class MemberTest extends TestCase
         $this->assertGuest();
     }
 
-    /**
-     * Assert that a member can place a join request.
-     * 
-     * @return void
-     */
+    /** @return void */
     public function testCanRequestJoin(): void
     {
         $form = [
@@ -60,6 +52,7 @@ final class MemberTest extends TestCase
             'password' => '1234',
             'password_confirmation' => '1234'
         ];
+
         $this->post(route('join'), $form);
         $this->assertDatabaseHas('users', array_slice($form, 0, -2));
     }
@@ -87,12 +80,15 @@ final class MemberTest extends TestCase
     public function testIsUpgradable(): User
     {
         $this->actAsAdmin();
+
         $form = [
             'id' => $this->member->id,
             'role' => 'dispatcher'
         ];
+
         $this->post(route('user.update-role'), $form);
         $this->assertDatabaseHas('users', $form);
+
         return $this->member;
     }
 
@@ -107,19 +103,17 @@ final class MemberTest extends TestCase
     public function testIsDowngradable($member): void
     {
         $this->actAsAdmin();
+
         $form = [
             'id' => $member->id,
             'role' => 'delivery_driver'
         ];
-        $response = $this->post(route('user.update-role'), $form);
+
+        $this->post(route('user.update-role'), $form);
         $this->assertDatabaseHas('users', $form);
     }
 
-    /**
-     * Assert that a member can be deleted.
-     *
-     * @return void
-     */
+    /** @return void */
     public function testIsDeletable(): void
     {
         $this->actAsAdmin();
@@ -127,14 +121,9 @@ final class MemberTest extends TestCase
         $this->assertDatabaseMissing('users', ['id' => $this->member->id]);
     }
 
-    /**
-     * Act as an admin.
-     * 
-     * @return void
-     */
+    /** @return void */
     private function actAsAdmin(): void
     {
-        $admin = User::factory()->admin()->make();
-        $this->actingAs($admin);
+        $this->actingAs(User::factory()->admin()->make());
     }
 }

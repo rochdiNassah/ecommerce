@@ -8,6 +8,6 @@ return [
     'downgraded' => 'User downgraded successfully.',
     'upgraded' => 'User upgraded successfully.',
     'deleted' => 'User deleted successfully.',
-    'rejected' => 'User deleted and notified sucessfully'
+    'rejected' => 'User deleted and notified successfully.'
 
 ];

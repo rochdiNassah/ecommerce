@@ -13,16 +13,18 @@ class Authentication extends Service
      * 
      * @return void
      */
-    public function success()
+    public function success(): void
     {
         $this->response = [
             'status' => 'success',
             'message' => __('login.success')
         ];
+
         if ('pending' === Auth::user()->status) {
             $this->pending();
         } else {
             $this->request->session()->regenerate();
+            
             $this->success = true;
         }        
     }
@@ -32,12 +34,13 @@ class Authentication extends Service
      * 
      * @return void
      */
-    public function failed()
+    public function failed(): void
     {
         $this->response = [
             'status' => 'error',
             'message' => __('login.failed')
         ];
+
         $this->flashInputs();
     }
 
@@ -46,12 +49,13 @@ class Authentication extends Service
      * 
      * @return void
      */
-    private function pending()
+    private function pending(): void
     {
         $this->response = [
             'status' => 'warning',
             'message' => __('login.pending')
         ];
+
         $this->flashInputs();
         $this->logout();
     }
@@ -61,11 +65,13 @@ class Authentication extends Service
      * 
      * @return void
      */
-    public function logout()
+    public function logout(): void
     {
         Auth::logout();
+
         $this->request->session()->regenerate();
         $this->request->session()->regenerateToken();
+
         if (!$this->response) {
             $this->response = [
                 'status' => 'success',
@@ -76,11 +82,11 @@ class Authentication extends Service
     }
 
     /**
-     * Flash inputs into the session.
+     * Flash inputs to the session.
      * 
      * @return void
      */
-    private function flashInputs()
+    private function flashInputs(): void
     {
         $this->request->flashExcept('password');
     }
@@ -93,6 +99,7 @@ class Authentication extends Service
         if ($this->redirectTo) {
             return redirect(route($this->redirectTo))->with($this->response);
         }
+        
         return back()->with($this->response);
     }
 }

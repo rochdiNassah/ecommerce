@@ -21,9 +21,11 @@ class AuthController extends Controller
         $responsable = app(Authentication::class, ['request' => $request]);
         $credentials = $request->safe()->only('email', 'password');
         $remember =  $request->safe()->only('remember');
+
         Auth::attempt($credentials, $remember)
             ? $responsable->success()
             : $responsable->failed();
+
         return $responsable;
     }
 
@@ -39,7 +41,9 @@ class AuthController extends Controller
             Authentication::class,
             ['request' => $request]
         );
+
         $responsable->logout();
+
         return $responsable;
     }
 
@@ -55,7 +59,9 @@ class AuthController extends Controller
             RequestJoin::class,
             ['request' => $request]
         );
+
         $responsable->store();
+        
         return $responsable;
     }
 }

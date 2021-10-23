@@ -12,10 +12,12 @@ class EditUserRole extends Service
      * @param  mixed  $user
      * @return void
      */
-    public function update($user, $role, $action)
+    public function update($user, $role, $action): void
     {
         $user->role = $role;
+
         $user->save();
+
         $this->response = [
             'status' => 'success',
             'message' => __("user.{$action}d"),
@@ -30,9 +32,10 @@ class EditUserRole extends Service
      * @param  string  $role
      * @return false|string
      */
-    public function action($user, string $role)
+    public function action($user, string $role): false|string
     {
         $roles = ['admin' => 999, 'dispatcher' => 666, 'delivery_driver' => 333];
+        
         return $user->role === $role
             ? false
             : ($roles[$role] > ($roles[$user->role] ?? 333)

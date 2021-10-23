@@ -22,7 +22,9 @@ class ProductController extends Controller
             CreateProduct::class,
             ['request' => $request]
         );
+
         $responsable->store();
+
         return $responsable;
     }
 
@@ -37,7 +39,9 @@ class ProductController extends Controller
     public function delete(Request $request, DeleteProduct $responsable, $id): DeleteProduct
     {
         $product = Product::findOrFail($id);
+
         $responsable->delete($product);
+        
         return $responsable;
     }
 }

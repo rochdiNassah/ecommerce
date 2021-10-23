@@ -10,51 +10,63 @@ class CreateProduct extends Service
     protected $fileDestination = 'images/products';
     protected $redirectTo = 'products';
 
-    /**
-     * Store the users data.
-     * 
-     * @return void
-     */
-    public function store()
+    /** @return void */
+    public function store(): void
     {
-        if (false === $this->extract()) return;
-        $products = Product::create($this->data);
+        if (false === $this->extract()) {
+            return;
+        }
+
+        Product::create($this->data);
+
         $this->response = [
             'status' => 'success',
             'message' => __('product.created')
         ];
     }
 
-    private function extract()
+    /** @return bool */
+    private function extract(): bool
     {
         $this->data = $this->request->safe()->except('image');
+
         if ($this->request->file('image')) {
             $this->file = $this->request->file('image');
+
             if (!$this->data['image_path'] = $this->storeFile()) {
                 $this->failed();
+
                 return false;
             }
         }
+
         return true;
     }
 
     /**
-     * Flash inputs into the session.
+     * Flash inputs to the session.
      * 
      * @return void
      */
-    private function flashInputs()
+    private function flashInputs(): void
     {
         $this->request->flashExcept('image');
     }
 
+    /**
+     * Product creation failed.
+     * 
+     * @param  string|null  $message
+     * @return void
+     */
     private function failed($message = null)
     {
         $this->response = [
             'status' => 'error',
             'message' => $message ?? __('global.failed')
         ];
-        $this->flashInputs();
         $this->redirectTo = false;
+
+        $this->flashInputs();
     }
 }

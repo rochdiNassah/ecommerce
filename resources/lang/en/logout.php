@@ -2,6 +2,6 @@
 
 return [
 
-    'success' => 'Logged Out Successfully.',
+    'success' => 'Logged Out successfully.',
 
 ];
