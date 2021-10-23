@@ -21,9 +21,9 @@ This is a simple eCommerce web application created with Laravel and designed usi
 * Copy `.env.example` to `.env`.
 * Adjust database details in your `.env`.
 * Run these commands within the project's root directory:\
-       `composer install`\
-       `php artisan key:generate`\
-       `php artisan migrate --seed`
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`composer install`\
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`php artisan key:generate`\
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`php artisan migrate --seed`
 
 ### Credentials for testing
 | <sub>ROLE</sub>                | <sub>EMAIL ADDRESS</sub>      | <sub>PASSWORD</sub> |
