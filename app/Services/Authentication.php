@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Services;
 
@@ -19,12 +19,10 @@ class Authentication extends Service
             'status' => 'success',
             'message' => __('login.success')
         ];
-
         if ('pending' === Auth::user()->status) {
             $this->pending();
         } else {
             $this->request->session()->regenerate();
-
             $this->success = true;
         }        
     }
@@ -40,7 +38,6 @@ class Authentication extends Service
             'status' => 'error',
             'message' => __('login.failed')
         ];
-
         $this->flashInputs();
     }
 
@@ -55,9 +52,7 @@ class Authentication extends Service
             'status' => 'warning',
             'message' => __('login.pending')
         ];
-
         $this->flashInputs();
-
         $this->logout();
     }
 
@@ -69,16 +64,13 @@ class Authentication extends Service
     public function logout()
     {
         Auth::logout();
-
         $this->request->session()->regenerate();
         $this->request->session()->regenerateToken();
-
         if (!$this->response) {
             $this->response = [
                 'status' => 'success',
                 'message' => __('logout.success')
             ];
-
             $this->redirectTo = 'home';
         }
     }
@@ -95,12 +87,12 @@ class Authentication extends Service
 
     public function toResponse($request)
     {
-        if ($this->success)
-        return redirect()->intended(route('dashboard'))->with($this->response);
-
-        if ($this->redirectTo)
-        return redirect(route($this->redirectTo))->with($this->response);
-        
+        if ($this->success) {
+            return redirect()->intended(route('dashboard'))->with($this->response);
+        }
+        if ($this->redirectTo) {
+            return redirect(route($this->redirectTo))->with($this->response);
+        }
         return back()->with($this->response);
     }
 }

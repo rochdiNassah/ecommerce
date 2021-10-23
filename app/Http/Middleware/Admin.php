@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
@@ -24,7 +24,6 @@ class Admin
                     'reason' => 'Unauthorized'
                 ]);
         }
-        
         return $next($request);
     }
 }

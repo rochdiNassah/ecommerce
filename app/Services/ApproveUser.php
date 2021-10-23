@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Services;
 
@@ -17,7 +17,6 @@ class ApproveUser extends Service
         $user->status = 'active';
         $user->save();
         $user->notify((new UserApproved()));
-
         $this->response = [
             'status' => 'success',
             'message' => __('user.approved')

@@ -20,9 +20,7 @@ final class JoinTest extends TestCase
     public function testValidJoinRequestCanBePlaced(): array
     {
         Notification::fake();
-
         $email = Str::random(10).'@foo.bar';
-
         $form = [
             'fullname' => 'Foo Bar',
             'email' => $email,
@@ -34,18 +32,14 @@ final class JoinTest extends TestCase
             'is_super_admin' => 1,
             'avatar_path' => 'foo'
         ];
-
         $this->post(route('join'), $form)->assertSessionHas('status', 'success');
-        
         Notification::assertSentTo(User::where('email', $email)->get(), JoinRequested::class);
-
         $this->assertDatabaseHas('users', [
             'email' => $email,
             'status' => 'pending',
             'role' => 'dispatcher',
             'is_super_admin' => false
         ]);
-
         return $form;
     }
 
@@ -60,15 +54,12 @@ final class JoinTest extends TestCase
     public function testJoinRequestValidation($form): void
     {
         $invalidRoles =  [
-            'admina', 'aadmin', 'admi', 'admin%00', '#admin#', 'adminb', 'disptachera', 'disptacher',
-            'dispat', 'adisptacher%00', '#disptacher#', 'adisptacherb','delivery_drivera', 'adelivery_driver',
-            'delivery_', 'delivery_driver%00', '#delivery_driver#', 'adelivery_driverb',
-            'ADMIN', 'DISPACTHER', 'DELIVERY_DRIVER', ' ', '', '~!@#$%^&*()_+\/'
+            'aadmin', 'admina', 'admi', 'dmin', 'ddispatcher', 'dispatcherr', 'dispat', 'cher',
+            'ddelivery_driver','delivery_driverr', 'delivery_dr', 'driver', ' ', '~!@#$%^&*()_+\/'
         ];
-
-        foreach ($invalidRoles as $invalidRole)
-        $this->post(route('join'), ['role' => $invalidRole])->assertSessionHasErrors('role');
-
+        foreach ($invalidRoles as $invalidRole) {
+            $this->post(route('join'), ['role' => $invalidRole])->assertSessionHasErrors('role');
+        }
         $this->post(route('join'), ['email' => $form['email']])->assertSessionHasErrors('email');
         $this->post(route('join'), ['email' => Str::repeat('a', 256).'@foo.bar'])->assertSessionHasErrors('email');
         $this->post(route('join'), ['fullname' => 'a'])->assertSessionHasErrors('fullname');
@@ -92,7 +83,6 @@ final class JoinTest extends TestCase
                 array_flip($form), ['fullname', 'email', 'phone_number', 'role']
             )
         );
-        
         $this->post(route('join'), $form)->assertSessionHasInput($inputs);
     }
 }

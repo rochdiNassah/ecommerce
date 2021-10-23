@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
@@ -17,16 +17,14 @@ class MemberController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Services\ApproveUser  $responsable
      * @param  int  $id
-     * @return \Illuminate\Contracts\Support\Responsable
+     * @return \App\Services\ApproveUser
      */
-    public function approve(Request $request, ApproveUser $responsable, int $id): Responsable
+    public function approve(Request $request, ApproveUser $responsable, int $id): ApproveUser
     {
         $user = User::findOrFail($id);
-
         'active' === $user->status
             ? $responsable->already(__('user.active'))
             : $responsable->approve($user);
-
         return $responsable;
     }
 
@@ -36,18 +34,16 @@ class MemberController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Services\DeleteUser  $responsable
      * @param  int  $id
-     * @return \Illuminate\Contracts\Support\Responsable
+     * @return \App\Services\DeleteUser
      */
-    public function delete(Request $request, DeleteUser $responsable, int $id): Responsable
+    public function delete(Request $request, DeleteUser $responsable, int $id): DeleteUser
     {
         $user = User::findOrFail($id);
-
         Auth::user()->can('affect', $user)
             ? ('pending' === $user->status
                 ? $responsable->rejectUser($user)
                 : $responsable->delete($user))
             : $responsable->unauthorized();
-
         return $responsable;
     }
 
@@ -56,16 +52,13 @@ class MemberController extends Controller
      * 
      * @param  \App\Http\Requests\UpdateRoleRequest  $request
      * @param  \App\Services\EditUserRole  $responsable
-     * @return \Illuminate\Contracts\Support\Responsable
+     * @return \App\Services\EditUserRole
      */
-    public function updateRole(UpdateRoleRequest $request, EditUserRole $responsable): Responsable
+    public function updateRole(UpdateRoleRequest $request, EditUserRole $responsable): EditUserRole
     {
         extract($request->safe()->only('id', 'role'));
-
         $user = User::findOrFail($id);
-
         $action = $responsable->action($user, $role);
-
         if (false === $action) {
             $responsable->already("This user is already {$role}.");
         } else {
@@ -73,7 +66,6 @@ class MemberController extends Controller
                 ? $responsable->update($user, $role, $action)
                 : $responsable->unauthorized();
         }
-
         return $responsable;
     }
 }

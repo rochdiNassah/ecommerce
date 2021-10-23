@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Services;
 
@@ -13,7 +13,6 @@ class DeleteProduct extends Service
     public function delete($product)
     {
         $product->delete();
-
         $this->response = [
             'status' => 'success',
             'message' => __('product.deleted')

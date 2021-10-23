@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Services;
 
@@ -7,9 +7,7 @@ use App\Models\Product;
 class CreateProduct extends Service
 {
     private $data;
-
     protected $fileDestination = 'images/products';
-    
     protected $redirectTo = 'products';
 
     /**
@@ -20,9 +18,7 @@ class CreateProduct extends Service
     public function store()
     {
         if (false === $this->extract()) return;
-
         $products = Product::create($this->data);
-
         $this->response = [
             'status' => 'success',
             'message' => __('product.created')
@@ -32,17 +28,13 @@ class CreateProduct extends Service
     private function extract()
     {
         $this->data = $this->request->safe()->except('image');
-
         if ($this->request->file('image')) {
             $this->file = $this->request->file('image');
-
             if (!$this->data['image_path'] = $this->storeFile()) {
                 $this->failed();
-
                 return false;
             }
         }
-
         return true;
     }
 
@@ -62,9 +54,7 @@ class CreateProduct extends Service
             'status' => 'error',
             'message' => $message ?? __('global.failed')
         ];
-
         $this->flashInputs();
-
         $this->redirectTo = false;
     }
 }

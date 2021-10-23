@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Exceptions;
 
@@ -45,9 +45,7 @@ class Handler extends ExceptionHandler
     {
         if ($e instanceof ModelNotFoundException) {
             preg_match('#(?!\\\)(\w*)$#', $e->getModel(), $match);
-        
             $model = strtolower($match[0]);
-
             return app(ModelNotFoundResponse::class, ['model' => $model]);
         }
 

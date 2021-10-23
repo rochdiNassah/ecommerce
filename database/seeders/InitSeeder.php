@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Seeders;
 
@@ -57,7 +57,6 @@ class InitSeeder extends Seeder
                 'is_super_admin' => false
             ],
         ];
-
         $products = [
             [
                 'name' => 'Coffee',
@@ -90,7 +89,6 @@ class InitSeeder extends Seeder
                 'image_path' => asset('images/products/mac-pro.jpg')
             ]
         ];
-
         DB::table('users')->insert($users);
         DB::table('products')->insert($products);
     }

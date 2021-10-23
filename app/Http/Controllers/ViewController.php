@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -24,15 +24,12 @@ class ViewController extends Controller
                 'productsCount' => Product::all()->count()
             ];
         }
-
         if ('dispatcher' === $request->user()->role) {
             $view = 'dispatcher.dashboard';
-
             $data = [
                 'orders' => Order::all(),
             ];
         }
-
         return view($view, $data);
     }
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{AuthController, ViewController, OrderController};
@@ -24,7 +24,6 @@ Route::middleware('guest')->group(function () {
     Route::get('/forgot-password', function () {
         return back()->with(['status' => 'warning', 'message' => 'Sorry! Forgot password feature is not available for now.']);
     })->name('forgot-password');
-
     Route::name('order.')->group(function () {
         Route::prefix('order')->group(function () {
             Route::get('/create/{productId}', [ViewController::class, 'createOrder'])->name('create-view');
@@ -32,15 +31,12 @@ Route::middleware('guest')->group(function () {
         });
     });
 });
-
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [ViewController::class, 'dashboard'])->name('dashboard');
-
     Route::middleware('admin')->group(function () {
         Route::get('/users', [ViewController::class, 'users'])->name('users');
         Route::get('/products', [ViewController::class, 'products'])->name('products');
-
         Route::name('user.')->group(function () {
             Route::prefix('user')->group(function () {
                 Route::get('/approve/{id}', [MemberController::class, 'approve'])->name('approve');
@@ -49,7 +45,6 @@ Route::middleware('auth')->group(function () {
                 Route::post('/update-role', [MemberController::class, 'updateRole'])->name('update-role');
             });
         });
-
         Route::name('product.')->group(function () {
             Route::prefix('product')->group(function () {
                 Route::view('/create', 'admin.product.create')->name('create-view');

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -19,14 +19,11 @@ class AuthController extends Controller
     public function login(LoginRequest $request): Authentication
     {
         $responsable = app(Authentication::class, ['request' => $request]);
-
         $credentials = $request->safe()->only('email', 'password');
         $remember =  $request->safe()->only('remember');
-
         Auth::attempt($credentials, $remember)
             ? $responsable->success()
             : $responsable->failed();
-        
         return $responsable;
     }
 
@@ -38,10 +35,11 @@ class AuthController extends Controller
      */
     public function logout(Request $request): Authentication
     {
-        $responsable = app(Authentication::class, ['request' => $request]);
-        
+        $responsable = app(
+            Authentication::class,
+            ['request' => $request]
+        );
         $responsable->logout();
-
         return $responsable;
     }
 
@@ -53,10 +51,11 @@ class AuthController extends Controller
      */
     public function join(JoinRequest $request): RequestJoin
     {
-        $responsable = app(RequestJoin::class, ['request' => $request]);
-
+        $responsable = app(
+            RequestJoin::class,
+            ['request' => $request]
+        );
         $responsable->store();
-
         return $responsable;
     }
 }

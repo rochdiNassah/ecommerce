@@ -17,19 +17,15 @@ final class LoginTest extends TestCase
     public function testGuestCanLoginWithValidCredentials(): string
     {
         $user = User::factory()->create();
-
         $form = [
             'email' => $user->email,
             'password' => 'password'
         ];
-
         $this->from(route('login'))
             ->post(route('login'), $form)
             ->assertRedirect(route('dashboard'))
             ->assertSessionHas('status', 'success');
-
         $this->assertAuthenticated();
-            
         return $user->email;
     }
 
@@ -45,10 +41,9 @@ final class LoginTest extends TestCase
     {
         $emails = [$email, 'non-existent@foo.bar'];
         $password = 'incorrect-password';
-
-        foreach ($emails as $email)
-        $this->post(route('login'), ['email' => $email, 'password' => $password])->assertSessionHas('status', 'error');
-
+        foreach ($emails as $email) {
+            $this->post(route('login'), ['email' => $email, 'password' => $password])->assertSessionHas('status', 'error');
+        }
         $this->assertGuest();
     }
 
@@ -60,14 +55,11 @@ final class LoginTest extends TestCase
     public function testPendingMemberCannotBeAuthenticated(): void
     {
         $user = User::factory()->pending()->create();
-
         $form = [
             'email' => $user->email,
             'password' => 'password',
         ];
-
         $this->post(route('login'), $form)->assertSessionHas('status', 'warning');
-
         $this->assertGuest();
     }
 
@@ -83,7 +75,6 @@ final class LoginTest extends TestCase
             'password' => 'incorrect-password',
             'remember' => 'on'
         ];
-
         $this->post(route('login'), $form)
             ->assertSessionHasInput([
                 'email' => 'not-existent-email@foo.bar',

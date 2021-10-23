@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Services;
 
@@ -24,7 +24,6 @@ class PlaceOrder extends Service
     public function store()
     {
         Order::create($this->data);
-
         return true;
     }
 
@@ -41,10 +40,8 @@ class PlaceOrder extends Service
             'token' => $this->token,
             'customer' => $this->customer
         ];
-
         Notification::route('mail', $this->customer->email)
             ->notify(new OrderPlaced($order));
-
         return true;
     }
 
@@ -58,9 +55,7 @@ class PlaceOrder extends Service
         $this->customer = (object) $this->request->only([
             'fullname', 'email', 'phone_number', 'address'
         ]);
-
         $this->token = bin2hex(openssl_random_pseudo_bytes(128));
-
         $this->data = [
             'customer_details' => json_encode($this->customer),
             'token' => $this->token,

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Models;
 
@@ -26,7 +26,6 @@ class User extends Authenticatable
         'role',
         'avatar_path'
     ];
-
     protected $guarded = ['status', 'is_super_admin'];
 
     /**

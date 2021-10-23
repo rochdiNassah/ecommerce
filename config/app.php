@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 return [
     'default_avatar_path' => '/images/avatars/default.png',

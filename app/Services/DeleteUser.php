@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Services;
 
@@ -16,7 +16,6 @@ class DeleteUser extends Service
     public function delete($user)
     {
         $user->forceDelete();
-
         $this->response = [
             'status' => 'success',
             'message' => __('user.deleted')
@@ -33,9 +32,7 @@ class DeleteUser extends Service
     {
         $user->delete();
         $user->notify(new UserRejected());
-
         RejectUser::dispatch($user);
-
         $this->response = [
             'status' => 'success',
             'message' => __('user.rejected')

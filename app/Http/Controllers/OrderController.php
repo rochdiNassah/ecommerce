@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -13,19 +13,19 @@ class OrderController extends Controller
      * Place an order.
      * 
      * @param  \App\Http\Requests\PlaceOrderRequest  $request
-     * @return \Illuminate\Contracts\Support\Responsable
+     * @return \App\Services\PlaceOrder
      */
-    public function create(PlaceOrderRequest $request): Responsable
+    public function create(PlaceOrderRequest $request): PlaceOrder
     {
-        $responsable = app(PlaceOrder::class, ['request' => $request]);
-
+        $responsable = app(
+            PlaceOrder::class,
+            ['request' => $request]
+        );
         $responsable->prepareData();
         $responsable->store();
-
         $responsable->notifyCustomer()
             ? $responsable->success()
             : $responsable->fail();
-
         return $responsable;
     }
 }

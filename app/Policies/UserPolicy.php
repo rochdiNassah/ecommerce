@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Policies;
 
@@ -30,13 +30,10 @@ class UserPolicy
     {
         if ($target->is_super_admin)
         return false;
-
         if ($user->is_super_admin)
         return true;
-
         if ('admin' === $user->role && 'admin' === $target->role)
         return false;
-
         return true;
     }
 }

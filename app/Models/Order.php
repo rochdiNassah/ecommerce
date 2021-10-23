@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Models;
 
@@ -10,7 +10,6 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = ['product', 'customer_details', 'token'];
-
     protected $guarded = [
         'status',
         'dispatcher',

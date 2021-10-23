@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Database\Factories;
 
@@ -28,7 +28,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
-            'phone_number' => str_repeat(0, 10),
+            'phone_number' => str_repeat('0', 10),
             'role' => 'delivery_driver',
             'status' => 'active'
         ];
