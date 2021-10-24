@@ -3,12 +3,12 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Interfaces\Responses\CreateProductResponse;
+use Illuminate\Support\Facades\Storage;
 
-class CreateProduct extends Service
+class CreateProduct extends BaseService
 {
     private $data;
-    protected $fileDestination = 'images/products';
-    protected $redirectTo = 'products';
 
     /** @return void */
     public function store(): void
@@ -19,10 +19,13 @@ class CreateProduct extends Service
 
         Product::create($this->data);
 
-        $this->response = [
+        $response = [
             'status' => 'success',
-            'message' => __('product.created')
+            'message' => __('product.created'),
+            'redirect_to' => route('products')
         ];
+
+        $this->createResponse(CreateProductResponse::class, $response);
     }
 
     /** @return bool */
@@ -33,7 +36,7 @@ class CreateProduct extends Service
         if ($this->request->file('image')) {
             $this->file = $this->request->file('image');
 
-            if (!$this->data['image_path'] = $this->storeFile()) {
+            if (!$this->data['image_path'] = Storage::put('images/products', $this->file)) {
                 $this->failed();
 
                 return false;
@@ -61,11 +64,12 @@ class CreateProduct extends Service
      */
     private function failed($message = null)
     {
-        $this->response = [
+        $response = [
             'status' => 'error',
             'message' => $message ?? __('global.failed')
         ];
-        $this->redirectTo = false;
+        
+        $this->createResponse(CreateProductResponse::class, $response);
 
         $this->flashInputs();
     }

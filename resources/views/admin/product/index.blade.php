@@ -11,7 +11,7 @@
                 <div class="border border-gray rounded-sm p-4 relative">
                     <div class="flex justify-center">
                         <div class="text-center grid place-items-center space-y-1">
-                            <img class="object-contain h-40" src="{{ asset($product->image_path) }}" alt="Image"/>
+                            <img class="object-contain h-40" src="{{ asset($product->image_path) }}" onerror="this.src='{{ config('app.default_product_image_path') }}'" alt="Image"/>
                             <div class="text-sm rounded-sm text-gray-700 w-20 truncate">{{ $product->name }}</div>
                         </div>
     

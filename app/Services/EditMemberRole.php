@@ -23,7 +23,8 @@ class EditMemberRole extends BaseService
         $response = [
             'status' => 'success',
             'message' => __("member.{$action}d"),
-            'reason' => ucfirst("{$action}d")
+            'reason' => ucfirst("{$action}d"),
+            'redirect_to' => route('users')
         ];
 
         $this->createResponse(UpdateMemberRoleResponse::class, $response);

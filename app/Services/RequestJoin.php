@@ -5,11 +5,12 @@ namespace App\Services;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\JoinRequested;
 use App\Models\User;
+use App\Interfaces\Responses\RequestJoinResponse;
+use Illuminate\Support\Facades\Storage;
 
-class RequestJoin extends Service
+class RequestJoin extends BaseService
 {
     private $data;
-    protected $fileDestination = 'images/avatars';
 
     /**
      * Store the users data.
@@ -26,10 +27,13 @@ class RequestJoin extends Service
 
         $user->notify((new JoinRequested()));
 
-        $this->response = [
+        $response = [
             'status' => 'success',
-            'message' => __('join.success')
+            'message' => __('join.success'),
+            'redirect_to' => route('login')
         ];
+
+        $this->createResponse(RequestJoinResponse::class, $response);
     }
 
     /** @return bool */
@@ -41,7 +45,7 @@ class RequestJoin extends Service
         if ($this->request->file('avatar')) {
             $this->file = $this->request->file('avatar');
 
-            if (!$this->data['avatar_path'] = $this->storeFile()) {
+            if (!$this->data['avatar_path'] = Storage::put('images/avatars', $this->file)) {
                 $this->failed();
 
                 return false;
@@ -68,10 +72,12 @@ class RequestJoin extends Service
      */
     private function failed(): void
     {
-        $this->response = [
+        $response = [
             'status' => 'error',
             'message' => __('global.failed')
         ];
+
+        $this->createResponse(RequestJoinResponse::class, $response);
 
         $this->flashInputs();
     }

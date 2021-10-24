@@ -5,15 +5,13 @@ namespace App\Services;
 use Illuminate\Support\Facades\Notification;
 use App\Models\Order;
 use App\Notifications\OrderPlaced;
+use App\Interfaces\Responses\PlaceOrderResponse;
 
-class PlaceOrder extends Service
+class PlaceOrder extends BaseService
 {
     private $customer;
-
     private $data;
-
     private $token;
-
     private $productId;
 
     /**
@@ -71,12 +69,15 @@ class PlaceOrder extends Service
      * 
      * @return void
      */
-    public function success(): void
+    public function succeed(): void
     {
-        $this->response = [
+        $response = [
             'status' => 'success',
-            'message' => __('order.placed')
+            'message' => __('order.placed'),
+            'redirect_to' => route('home')
         ];
+
+        $this->createResponse(PlaceOrderResponse::class, $response);
     }
 
     /**
@@ -84,11 +85,13 @@ class PlaceOrder extends Service
      * 
      * @return void
      */
-    public function fail(): void
+    public function failed(): void
     {
-        $this->response = [
+        $response = [
             'status' => 'error',
             'message' => __('global.failed')
         ];
+
+        $this->createResponse(PlaceOrderResponse::class, $response);
     }
 }

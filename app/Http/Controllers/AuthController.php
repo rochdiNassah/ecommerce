@@ -7,10 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\{LoginRequest, JoinRequest};
 use App\Models\User;
 use App\Services\{Authentication, RequestJoin};
-use App\Interfaces\Responses\{
-    LoginResponse,
-    LogoutResponse
-};
+use App\Interfaces\Responses\{LoginResponse,LogoutResponse, RequestJoinResponse};
 
 class AuthController extends Controller
 {
@@ -58,9 +55,9 @@ class AuthController extends Controller
      * Store a join request.
      * 
      * @param  \App\Http\Requests\JoinRequest
-     * @return \App\Services\RequestJoin
+     * @return \App\Interfaces\Responses\RequestJoinResponse
      */
-    public function join(JoinRequest $request): RequestJoin
+    public function join(JoinRequest $request): RequestJoinResponse
     {
         $service = app(
             RequestJoin::class,
@@ -69,6 +66,6 @@ class AuthController extends Controller
 
         $service->store();
         
-        return $service;
+        return app(RequestJoinResponse::class);
     }
 }

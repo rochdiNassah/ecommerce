@@ -3,20 +3,26 @@
 namespace App\Http\Responses;
 
 use Illuminate\Http\RedirectResponse;
-use App\Interfaces\Responses\{
-    LoginResponse,
-    LogoutResponse,
-    ApproveMemberResponse,
-    DeleteMemberResponse,
-    UpdateMemberRoleResponse
-};
+use App\Interfaces\Responses\LoginResponse;
+use App\Interfaces\Responses\LogoutResponse;
+use App\Interfaces\Responses\ApproveMemberResponse;
+use App\Interfaces\Responses\DeleteMemberResponse;
+use App\Interfaces\Responses\UpdateMemberRoleResponse;
+use App\Interfaces\Responses\PlaceOrderResponse;
+use App\Interfaces\Responses\CreateProductResponse;
+use App\Interfaces\Responses\DeleteProductResponse;
+use App\Interfaces\Responses\RequestJoinResponse;
 
 class ServiceResponse implements
     LoginResponse,
     LogoutResponse,
     ApproveMemberResponse,
     DeleteMemberResponse,
-    UpdateMemberRoleResponse
+    UpdateMemberRoleResponse,
+    PlaceOrderResponse,
+    CreateProductResponse,
+    DeleteProductResponse,
+    RequestJoinResponse
 {
     /** @var array */
     private $response;

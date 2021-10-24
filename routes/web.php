@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [ViewController::class, 'dashboard'])->name('dashboard');
 
-    Route::middleware('admin')->group(function () {
+    Route::middleware('role:admin')->group(function () {
         Route::get('/users', [ViewController::class, 'users'])->name('users');
         Route::get('/products', [ViewController::class, 'products'])->name('products');
 
@@ -58,8 +58,12 @@ Route::middleware('auth')->group(function () {
     });
     Route::name('order.')->group(function () {
         Route::prefix('order')->group(function () {
-            Route::get('/reject/{orderId}', [OrderController::class, 'reject'])->name('reject');
-            Route::post('/dispatch', [OrderController::class, '_dispatch'])->name('dispatch');
+            Route::middleware('role:dispatcher')->group(function () {
+                Route::get('/reject/{orderId}', [OrderController::class, 'reject'])->name('reject');
+                Route::post('/dispatch', [OrderController::class, '_dispatch'])->name('dispatch');
+            });
+            Route::get('/update/{orderId}', [OrderController::class, 'updateView'])->name('update-view');
+            Route::post('/update', [OrderController::class, 'update'])->name('update');
         });
     });
 });

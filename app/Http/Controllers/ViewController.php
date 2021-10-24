@@ -33,7 +33,7 @@ class ViewController extends Controller
         if ('delivery_driver' === $request->user()->role) {
             $view = 'delivery_driver.dashboard';
             $data = [
-                'orders' => Order::where('status', 'dispatched')->get()
+                'orders' => Order::all()
             ];
         }
         

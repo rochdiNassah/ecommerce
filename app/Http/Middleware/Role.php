@@ -5,18 +5,19 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class Admin
+class Role
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
+     * @param  string  $role
      * @return mixed
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, string $role)
     {
-        if ('admin' !== $request->user()->role) {
+        if ($role !== $request->user()->role) {
             return redirect(route('dashboard'))
                 ->with([
                     'status' => 'warning',

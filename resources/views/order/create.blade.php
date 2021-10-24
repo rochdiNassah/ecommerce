@@ -15,8 +15,15 @@ $inputs = [
 
     <div class="px-2 container mx-auto max-w-7xl flex flex-wrap justify-center my-20">
         <div class="px-4 sm:px-10 py-4 base-form border border-gray rounded-sm">
-            <h1 class="w-full text-center font-bold text-gray-500 text-md sm:text-xl mb-4">Please fill the given form with your details to place your order.</h1>
-
+            <div class="mb-4 w-full sm:w-80 bg-gray border border-gray rounded-sm relative self-start">
+                <div class="flex justify-between border-b border-gray p-2">
+                    <div class="text-sm rounded-sm text-gray-700 font-bold truncate">{{ $product->name }}</div>
+                    <div class="rounded-xl px-2 py-1 text-center text-{{ $mainColor }}-900 bg-{{ $mainColor }}-100 font-bold text-xs truncate">{{ $product->price }}$</div>
+                </div>
+    
+                <img class="object-cover p-2 w-full h-60" src="{{ asset($product->image_path) }}" alt="Image"/>
+            </div>
+            
             <form action="{{ route('order.create') }}" method="post">
                 @csrf
                 
@@ -43,15 +50,6 @@ $inputs = [
                     Place The Order
                 </button>
             </form>
-
-            <div class="mt-2 w-60 sm:w-80 bg-gray border border-gray rounded-sm relative self-start">
-                <div class="flex justify-between border-b border-gray p-2">
-                    <div class="text-sm rounded-sm text-gray-700 font-bold truncate">{{ $product->name }}</div>
-                    <div class="rounded-xl px-2 py-1 text-center text-{{ $mainColor }}-900 bg-{{ $mainColor }}-100 font-bold text-xs truncate">{{ $product->price }}$</div>
-                </div>
-    
-                <img class="object-cover p-2 w-full h-60" src="{{ asset($product->image_path) }}" alt="Image"/>
-            </div>
         </div>
     </div>
 @stop

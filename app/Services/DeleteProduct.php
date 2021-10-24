@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
-class DeleteProduct extends Service
+use App\Interfaces\Responses\DeleteProductResponse;
+
+class DeleteProduct extends BaseService
 {
     /**
      * Delete the given user.
@@ -14,9 +16,11 @@ class DeleteProduct extends Service
     {
         $product->delete();
 
-        $this->response = [
+        $response = [
             'status' => 'success',
             'message' => __('product.deleted')
         ];
+
+        $this->createResponse(DeleteProductResponse::class, $response);
     }
 }

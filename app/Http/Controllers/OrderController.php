@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\{PlaceOrderRequest, RejectOrderRequest};
 use App\Models\Order;
 use App\Services\PlaceOrder;
+use App\Interfaces\Responses\PlaceOrderResponse;
 
 class OrderController extends Controller
 {
@@ -15,21 +16,21 @@ class OrderController extends Controller
      * @param  \App\Http\Requests\PlaceOrderRequest  $request
      * @return \App\Services\PlaceOrder
      */
-    public function create(PlaceOrderRequest $request): PlaceOrder
+    public function create(PlaceOrderRequest $request): PlaceOrderResponse
     {
-        $responsable = app(
+        $service = app(
             PlaceOrder::class,
             ['request' => $request]
         );
 
-        $responsable->prepareData();
-        $responsable->store();
+        $service->prepareData();
+        $service->store();
 
-        $responsable->notifyCustomer()
-            ? $responsable->success()
-            : $responsable->fail();
+        $service->notifyCustomer()
+            ? $service->succeed()
+            : $service->failed();
             
-        return $responsable;
+        return app(PlaceOrderResponse::class);
     }
 
     /**

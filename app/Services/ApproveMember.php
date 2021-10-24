@@ -33,7 +33,8 @@ class ApproveMember extends BaseService
     {
         $response = [
             'status' => 'warning',
-            'message' => __('member.already.approved')
+            'message' => __('member.already.approved'),
+            'reason' => 'Already'
         ];
 
         $this->createResponse(ApproveMemberResponse::class, $response);

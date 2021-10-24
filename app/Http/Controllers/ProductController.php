@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Requests\CreateProductRequest;
 use App\Services\{CreateProduct, DeleteProduct};
+use App\Interfaces\Responses\CreateProductResponse;
+use App\Interfaces\Responses\DeleteProductResponse;
 
 class ProductController extends Controller
 {
@@ -14,34 +16,34 @@ class ProductController extends Controller
      * Create a new product.
      * 
      * @param  \App\Http\Requests\CreateProductRequest  $request
-     * @return \App\Services\CreateProduct
+     * @return \App\Interfaces\Responses\CreateProductResponse
      */
-    public function create(CreateProductRequest $request): CreateProduct
+    public function create(CreateProductRequest $request): CreateProductResponse
     {
-        $responsable = app(
+        $service = app(
             CreateProduct::class,
             ['request' => $request]
         );
 
-        $responsable->store();
+        $service->store();
 
-        return $responsable;
+        return app(CreateProductResponse::class);
     }
 
     /**
      * Delete the given product.
      * 
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Services\DeleteProduct  $responsable
+     * @param  \App\Services\DeleteProduct  $service
      * @param  int  $id
-     * @return \App\Services\DeleteProduct
+     * @return \App\Interfaces\Responses\DeleteProductResponse
      */
-    public function delete(Request $request, DeleteProduct $responsable, $id): DeleteProduct
+    public function delete(Request $request, DeleteProduct $service, $id): DeleteProductResponse
     {
         $product = Product::findOrFail($id);
 
-        $responsable->delete($product);
+        $service->delete($product);
         
-        return $responsable;
+        return app(DeleteProductResponse::class);
     }
 }

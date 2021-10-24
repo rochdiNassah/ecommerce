@@ -21,21 +21,6 @@ class Orders extends Migration
             $table->json('customer_details');
             $table->set('status', ['pending', 'rejected', 'dispatched', 'shipped', 'in_dlivery', 'delivered'])->default('pending');
             $table->text('token');
-            $table->foreign('product')
-                ->references('id')
-                ->on('products')
-                ->onUpdate('cascade')
-                ->onDelete('set null');
-            $table->foreign('dispatcher')
-                ->references('id')
-                ->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('set null');
-            $table->foreign('delivery_driver')
-                ->references('id')
-                ->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('set null');
             $table->timestamps();
         });
     }
