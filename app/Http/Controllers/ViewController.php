@@ -10,7 +10,7 @@ use App\Models\{User, Product, Order};
 class ViewController extends Controller
 {
     /**
-     * Render the dashboard view depending on user's role.
+     * Render the dashboard view depending on the user's role.
      * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
@@ -27,7 +27,13 @@ class ViewController extends Controller
         if ('dispatcher' === $request->user()->role) {
             $view = 'dispatcher.dashboard';
             $data = [
-                'orders' => Order::all(),
+                'orders' => Order::all()
+            ];
+        }
+        if ('delivery_driver' === $request->user()->role) {
+            $view = 'delivery_driver.dashboard';
+            $data = [
+                'orders' => Order::where('status', 'dispatched')->get()
             ];
         }
         
