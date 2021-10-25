@@ -8,7 +8,7 @@
     <div class="px-4 py-12 sm:px-8 md:px-16 lg:px-32 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         @foreach ($orders as $order)
             @php
-                $customer_details = (object) json_decode($order->customer_details);
+                $customer = (object) json_decode($order->customer);
                 $statusColor = $order->status === 'rejected' ? 'red' : ($order->status === 'pending' ? 'yellow': ($order->status === 'dispatched' ? 'green' : 'blue'));
             @endphp
 
@@ -18,27 +18,27 @@
                 <div class="grid space-y-2">
                     <div class="flex space-x-2">
                         <div class="relative p-2 border border-gray rounded-sm min-w-max w-32 h-20">
-                            <img class="object-contain w-full h-full" src="{{ $order->_product->image_path }}" alt="Image"/>
-                            <div class="absolute -top-1 -right-1 rounded-xl px-2 py-1 text-center text-{{ $mainColor }}-900 bg-{{ $mainColor }}-100 font-bold text-xs truncate">{{ $order->_product->price }}$</div>
+                            <img class="object-contain w-full h-full" src="{{ $order->product->image_path }}" alt="Image"/>
+                            <div class="absolute -top-1 -right-1 rounded-xl px-2 py-1 text-center text-{{ $mainColor }}-900 bg-{{ $mainColor }}-100 font-bold text-xs truncate">{{ $order->product->price }}$</div>
                         </div>
                         <div class="div flex flex-wrap align-items-center">
                             <div class="space-y-2">
                                 <div class="w-32">
                                     <p class="text-gray-400 text-xs">Full Name</p>
-                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $customer_details->fullname }}</p>
+                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $customer->fullname }}</p>
                                 </div>
                                 <div class="w-32">
                                     <p class="text-gray-400 text-xs">Phone Number</p>
-                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $customer_details->phone_number }}</p>
+                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $customer->phone_number }}</p>
                                 </div>
                                 <div class="w-32">
                                     <p class="text-gray-400 text-xs">Address</p>
-                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $customer_details->address }}</p>
+                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $customer->address }}</p>
                                 </div>
-                                @if (isset($order->_dispatcher->fullname))
+                                @if (isset($order->dispatcher->fullname))
                                 <div class="w-32">
                                     <p class="text-gray-400 text-xs">Dispatcher</p>
-                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $order->_dispatcher->fullname }}</p>
+                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $order->dispatcher->fullname }}</p>
                                 </div>
                                 @endif
                                 <div>

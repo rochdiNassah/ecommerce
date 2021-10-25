@@ -9,26 +9,25 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product', 'customer_details', 'token'];
+    protected $fillable = ['product_id', 'customer', 'token'];
     protected $guarded = [
         'status',
-        'dispatcher',
-        'delivery_driver'
+        'dispatcher_id',
+        'delivery_driver_id'
     ];
 
     /**
      * Get the product associated with the order.
      */
-    public function _product()
+    public function product()
     {
-        return $this->belongsTo(Product::class, 'product');
+        return $this->belongsTo(Product::class);
     }
 
     /**
      * Get the order's dispatcher.
-     * 
      */
-    public function _dispatcher()
+    public function dispatcher()
     {
         return $this->belongsTo(User::class);
     }

@@ -58,9 +58,9 @@ class PlaceOrder extends BaseService
         ]);
         $this->token = bin2hex(openssl_random_pseudo_bytes(64));
         $this->data = [
-            'customer_details' => json_encode($this->customer),
+            'customer' => json_encode($this->customer),
             'token' => $this->token,
-            'product' => $this->request['product_id']
+            'product_id' => $this->request['product_id']
         ];
     }
     

@@ -92,13 +92,13 @@ class InitSeeder extends Seeder
         ];
         $order = [
             [    
-                'customer_details' => json_encode([
+                'customer' => json_encode([
                     'fullname' => Str::random(10),
                     'email' => Str::random(10).'@foo.bar',
                     'phone_number' => str_repeat('0', 10),
                     'address' => 'Corge, grault'
                 ]),
-                'product' => 1,
+                'product_id' => 1,
                 'token' => bin2hex(openssl_random_pseudo_bytes(64))
             ]
         ];

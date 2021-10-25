@@ -60,8 +60,8 @@ Route::middleware('auth')->group(function () {
         Route::prefix('order')->group(function () {
             Route::middleware('role:dispatcher')->group(function () {
                 Route::get('/reject/{orderId}', [OrderController::class, 'reject'])->name('reject');
-                Route::get('/dispatch/{orderId}', [ViewController::class, '_dispatch'])->name('dispatch-view');
-                Route::post('/dispatch', [OrderController::class, '_dispatch'])->name('dispatch');
+                Route::get('/dispatch/{orderId}', [ViewController::class, 'dispatchOrder'])->name('dispatch-view');
+                Route::post('/dispatch', [OrderController::class, 'dispatchOrder'])->name('dispatch');
             });
             Route::get('/update/{orderId}', [OrderController::class, 'updateView'])->name('update-view');
             Route::post('/update', [OrderController::class, 'update'])->name('update');

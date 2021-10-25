@@ -105,7 +105,7 @@ class ViewController extends Controller
      * @param  int  $orderId
      * @return \Illuminate\View\View
      */
-    public function _dispatch($orderId): Response
+    public function dispatchOrder($orderId): Response
     {
         return View::make('order.dispatch', [
             'order' => Order::findOrFail($orderId),

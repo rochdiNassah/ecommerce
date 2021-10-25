@@ -15,10 +15,10 @@ class Orders extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product')->nullable();
-            $table->unsignedBigInteger('dispatcher')->nullable();
-            $table->unsignedBigInteger('delivery_driver')->nullable();
-            $table->json('customer_details');
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('dispatcher_id')->nullable();
+            $table->unsignedBigInteger('delivery_driver_id')->nullable();
+            $table->json('customer');
             $table->set('status', ['pending', 'rejected', 'dispatched', 'shipped', 'in_dlivery', 'delivered'])->default('pending');
             $table->text('token');
             $table->timestamps();

@@ -21,13 +21,13 @@ final class OrderTest extends TestCase
             'phone_number' => str_repeat('0', 10),
             'product_id' => $product->id
         ];
-        $customer_details = str_replace(['":"', '","'], ['": "', '", "'], json_encode(array_slice($form, 0, -1), 1));
+        $customer = str_replace(['":"', '","'], ['": "', '", "'], json_encode(array_slice($form, 0, -1), 1));
 
         $this->post(route('order.create'), $form);
         
-        $order = Order::where('product', $product->id)->first();
+        $order = Order::where('product_id', $product->id)->first();
 
-        $this->assertEquals($order->customer_details, $customer_details);
+        $this->assertEquals($order->customer, $customer);
 
         $this->order = $order;
     }

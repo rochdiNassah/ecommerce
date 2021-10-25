@@ -21,7 +21,7 @@ class RejectOrder extends BaseService
 
         $order->save();
 
-        $customer = (object) json_decode($order->customer_details);
+        $customer = (object) json_decode($order->customer);
 
         Notification::route('mail', $customer->email)
             ->notify(new OrderRejected($order, $customer));

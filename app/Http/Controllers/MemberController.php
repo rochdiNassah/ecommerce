@@ -16,12 +16,11 @@ class MemberController extends Controller
     /**
      * Approve a pending member.
      * 
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Services\ApproveMember  $service
      * @param  int  $id
      * @return \App\Interfaces\Responses\ApproveMemberResponse
      */
-    public function approve(Request $request, ApproveMember $service, int $id): ApproveMemberResponse
+    public function approve(ApproveMember $service, int $id): ApproveMemberResponse
     {
         $member = User::findOrFail($id);
 
@@ -35,12 +34,11 @@ class MemberController extends Controller
     /**
      * Delete the given member.
      * 
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Services\DeleteMember  $service
      * @param  int  $id
      * @return \App\Interfaces\Response\DeleteMemberResponse|\App\Http\Responses\UnauthorizedResponse
      */
-    public function delete(Request $request, DeleteMember $service, int $id): DeleteMemberResponse|UnauthorizedResponse
+    public function delete(DeleteMember $service, int $id): DeleteMemberResponse|UnauthorizedResponse
     {
         $member = User::findOrFail($id);
 

@@ -37,17 +37,13 @@ class OrderController extends Controller
     /**
      * Reject the given order.
      * 
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Services\\RejectOrder  $service
      * @param  int  $id
      * @return \App\Interfaces\Responses\RejectOrderResponse
      */
-    public function reject(Request $request, int $id): RejectOrderResponse
+    public function reject(RejectOrder $service, int $id): RejectOrderResponse
     {
-        $order = Order::findOrFail($id);
-        $service = app(
-            RejectOrder::class,
-            ['request' => $request]
-        );
+        $order = Order::findOrFail($id);;
 
         $service->reject($order);
 

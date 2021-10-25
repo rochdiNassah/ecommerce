@@ -33,12 +33,11 @@ class ProductController extends Controller
     /**
      * Delete the given product.
      * 
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Services\DeleteProduct  $service
      * @param  int  $id
      * @return \App\Interfaces\Responses\DeleteProductResponse
      */
-    public function delete(Request $request, DeleteProduct $service, $id): DeleteProductResponse
+    public function delete(DeleteProduct $service, $id): DeleteProductResponse
     {
         $product = Product::findOrFail($id);
 
