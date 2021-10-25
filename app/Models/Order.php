@@ -23,4 +23,13 @@ class Order extends Model
     {
         return $this->belongsTo(Product::class, 'product');
     }
+
+    /**
+     * Get the order's dispatcher.
+     * 
+     */
+    public function _dispatcher()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

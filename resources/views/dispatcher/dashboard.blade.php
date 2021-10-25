@@ -5,7 +5,7 @@
 <div class="flex">
     @include('dispatcher.sidebar')
 
-    <div class="place-items-center px-4 py-12 w-full sm:w-4/5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+    <div class="px-4 py-12 sm:px-8 md:px-16 lg:px-32 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         @foreach ($orders as $order)
             @php
                 $customer_details = (object) json_decode($order->customer_details);
@@ -35,6 +35,12 @@
                                     <p class="text-gray-400 text-xs">Address</p>
                                     <p class="text-xs font-bold text-gray-200 truncate">{{ $customer_details->address }}</p>
                                 </div>
+                                @if (isset($order->_dispatcher->fullname))
+                                <div class="w-32">
+                                    <p class="text-gray-400 text-xs">Dispatcher</p>
+                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $order->_dispatcher->fullname }}</p>
+                                </div>
+                                @endif
                                 <div>
                                     <p class="inline text-xs font-bold text-{{ $statusColor }}-600">{{ $order->status }}</p>
                                 </div>
@@ -46,7 +52,7 @@
                 <div class="flex justify-between space-x-2">
                     <a
                         class="w-full text-center font-bold bg-green-800 hover:bg-green-900 transition text-green-300 text-xs py-1 px-2 rounded-sm"
-                        href="{{ route('order.dispatch', $order->id) }}"
+                        href="{{ route('order.dispatch-view', $order->id) }}"
                     >Dispatch</a>
                     <a
                         class="w-full text-center font-bold bg-red-800 hover:bg-red-900 transition text-red-300 text-xs py-1 px-2 rounded-sm"

@@ -12,6 +12,7 @@ use App\Interfaces\Responses\PlaceOrderResponse;
 use App\Interfaces\Responses\CreateProductResponse;
 use App\Interfaces\Responses\DeleteProductResponse;
 use App\Interfaces\Responses\RequestJoinResponse;
+use App\Interfaces\Responses\RejectOrderResponse;
 
 class ServiceResponse implements
     LoginResponse,
@@ -22,7 +23,8 @@ class ServiceResponse implements
     PlaceOrderResponse,
     CreateProductResponse,
     DeleteProductResponse,
-    RequestJoinResponse
+    RequestJoinResponse,
+    RejectOrderResponse
 {
     /** @var array */
     private $response;

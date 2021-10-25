@@ -17,23 +17,28 @@ class ViewController extends Controller
      */
     public function dashboard(Request $request): Response
     {
-        if ('admin' === $request->user()->role) {
+        $member = $request->user();
+
+        if ('admin' === $member->role) {
             $view = 'admin.dashboard';
             $data = [
                 'usersCount' => User::all()->count(),
                 'productsCount' => Product::all()->count()
             ];
         }
-        if ('dispatcher' === $request->user()->role) {
+        if ('dispatcher' === $member->role) {
             $view = 'dispatcher.dashboard';
             $data = [
-                'orders' => Order::all()
+                'orders' => Order::where('status', '!=', 'rejected')
+                    ->get()
             ];
         }
-        if ('delivery_driver' === $request->user()->role) {
+        if ('delivery_driver' === $member->role) {
             $view = 'delivery_driver.dashboard';
             $data = [
-                'orders' => Order::all()
+                'orders' => Order::where('status', 'dispatched')
+                    ->where('delivery_driver', $member->id)
+                    ->get()
             ];
         }
         
@@ -86,10 +91,25 @@ class ViewController extends Controller
     /**
      * Display create order view.
      * 
+     * @param  int  $productId
      * @return \Illuminate\View\View
      */
     public function createOrder($productId): Response
     {
         return View::make('order.create', ['product' => Product::findOrFail($productId)]);
+    }
+
+    /**
+     * Display dispatch order view.
+     * 
+     * @param  int  $orderId
+     * @return \Illuminate\View\View
+     */
+    public function _dispatch($orderId): Response
+    {
+        return View::make('order.dispatch', [
+            'order' => Order::findOrFail($orderId),
+            'delivery_drivers' => User::where('role', 'delivery_driver')->where('status', 'active')->get()
+        ]);
     }
 }

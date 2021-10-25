@@ -5,49 +5,56 @@
 <div class="flex">
     @include('delivery_driver.sidebar')
 
-    <div class="pt-16 grid place-items-center w-full">
-        <div class="p-2 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            @foreach ($orders as $order)
-                @php
-                    $customer_details = (object) json_decode($order->customer_details);
-                @endphp
-                @for ($i = 0; $i < 50; $i++)
-                    
-                <div class="relative bg-white border border-gray p-2 space-y-2 rounded-sm">
-                    <p class="bg-blue-100 text-blue-600 text-sm py-1 text-center">Order #{{ $order->id }}</p>
+    <div class="px-4 py-12 sm:px-8 md:px-16 lg:px-32 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+        @foreach ($orders as $order)
+            @php
+                $customer_details = (object) json_decode($order->customer_details);
+                $statusColor = $order->status === 'rejected' ? 'red' : ($order->status === 'pending' ? 'yellow': ($order->status === 'dispatched' ? 'green' : 'blue'));
+            @endphp
 
-                    <div>
-                        <span class="font-bold bg-gray-100 text-gray-600 px-4 py-1 text-xs">Customer details</span>
-                        <div class="px-4 py-1">
-                            <p class="text-sm text-gray-600"><span class="text-xs font-bold">FullName: </span>{{ $customer_details->fullname }}</p>
-                            <p class="text-sm text-gray-600"><span class="text-xs font-bold">Phone Number: </span>{{ $customer_details->phone_number }}</p>
-                            <p class="text-sm text-gray-600"><span class="text-xs font-bold">Address: </span>{{ $customer_details->address }}</p>
+            <div class="w-full bg-dark p-2 border border-gray rounded-sm space-y-2">
+                <p class="font-bold rounded-sm text-xs text-{{ $mainColor }}-300 bg-{{ $mainColor }}-800 p-2 text-center">Order #{{ $order->id }}</p>
+
+                <div class="grid space-y-2">
+                    <div class="flex space-x-2">
+                        <div class="relative p-2 border border-gray rounded-sm min-w-max w-32 h-20">
+                            <img class="object-contain w-full h-full" src="{{ $order->_product->image_path }}" alt="Image"/>
+                            <div class="absolute -top-1 -right-1 rounded-xl px-2 py-1 text-center text-{{ $mainColor }}-900 bg-{{ $mainColor }}-100 font-bold text-xs truncate">{{ $order->_product->price }}$</div>
                         </div>
-                    </div>
-                    
-                    @php
-                        $statusColor = $order->status === 'pending' ? 'yellow' : ($order->status === 'canceled' || 'rejected' ? 'red' : ($order->status === 'delivered' ? 'green' : 'blue'))
-                    @endphp
-                    
-                    <div class="mt-4">
-                        <span class="font-bold bg-gray-100 text-gray-600 px-4 py-1 text-xs">Order details</span>
-                        <div class="px-4 py-1">
-                            <p class="text-sm text-gray-600"><span class="text-xs font-bold">Dispatcher: </span>Foobar</p>
-                            <p class="text-sm text-gray-600"><span class="text-xs font-bold">Product Name: </span>Camera</p>
-                            <p class="inline px-2 py-1 font-bold rounded-sm text-xs text-{{ $statusColor }}-600 bg-{{ $statusColor }}-100">{{ $order->status }}</p>
+                        <div class="div flex flex-wrap align-items-center">
+                            <div class="space-y-2">
+                                <div class="w-32">
+                                    <p class="text-gray-400 text-xs">Full Name</p>
+                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $customer_details->fullname }}</p>
+                                </div>
+                                <div class="w-32">
+                                    <p class="text-gray-400 text-xs">Phone Number</p>
+                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $customer_details->phone_number }}</p>
+                                </div>
+                                <div class="w-32">
+                                    <p class="text-gray-400 text-xs">Address</p>
+                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $customer_details->address }}</p>
+                                </div>
+                                <div>
+                                    <p class="inline text-xs font-bold text-{{ $statusColor }}-600">{{ $order->status }}</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="flex space-x-2 justify-between">
-                        <a
-                            class="text-center w-full font-bold bg-blue-100 hover:bg-blue-200 transition text-blue-600 text-xs py-1 px-2 rounded-sm"
-                            href="{{ route('order.update', $order->id) }}"
-                        >Update</a> 
                     </div>
                 </div>
-                @endfor
-            @endforeach
-        </div>
+
+                <div class="flex justify-between space-x-2">
+                    <a
+                        class="w-full text-center font-bold bg-green-800 hover:bg-green-900 transition text-green-300 text-xs py-1 px-2 rounded-sm"
+                        href="{{ route('order.dispatch', $order->id) }}"
+                    >Dispatch</a>
+                    <a
+                        class="w-full text-center font-bold bg-red-800 hover:bg-red-900 transition text-red-300 text-xs py-1 px-2 rounded-sm"
+                        href="{{ route('order.reject', $order->id) }}"
+                    >Reject</a>
+                </div>
+            </div>
+        @endforeach
     </div>
 </div>
 @stop

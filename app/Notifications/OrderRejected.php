@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace App\Notifications;
 
@@ -7,21 +7,25 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class OrderPlaced extends Notification implements ShouldQueue
+class OrderRejected extends Notification implements ShouldQueue
 {
     use Queueable;
 
     /** @var \App\Models\Order */
     protected $order;
 
+    /** @var \object */
+    protected $customer;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($order)
+    public function __construct($order, $customer)
     {
-        $this->order = (object) $order;
+        $this->order = $order;
+        $this->customer = $customer;
     }
 
     /**
@@ -41,13 +45,12 @@ class OrderPlaced extends Notification implements ShouldQueue
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail()
+    public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->greeting("Hello {$this->order->customer->fullname}, and thank you for your order.")
-                    ->line('We\'ve received your order successfully and we would keep you updated with your order\'s status whenever we update it.')
-                    ->line('Click the below button if you want to track or cancel your order.')
-                    ->action('View Order', "/track/{$this->order->token}");
+                    ->greeting("Hello {$this->customer->fullname}, and thank you for your order.")
+                    ->line('Unfortunately, your order is rejected due to an invalid or missing details.')
+                    ->action('Place your order again!', route('order.create', $this->order->id));
     }
 
     /**

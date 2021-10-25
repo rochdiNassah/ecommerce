@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\{PlaceOrderRequest, RejectOrderRequest};
 use App\Models\Order;
-use App\Services\PlaceOrder;
+use App\Services\{PlaceOrder, RejectOrder};
 use App\Interfaces\Responses\PlaceOrderResponse;
+use App\Interfaces\Responses\RejectOrderResponse;
 
 class OrderController extends Controller
 {
@@ -14,7 +15,7 @@ class OrderController extends Controller
      * Place an order.
      * 
      * @param  \App\Http\Requests\PlaceOrderRequest  $request
-     * @return \App\Services\PlaceOrder
+     * @return \App\Interfaces\Responses\PlaceOrderResponse
      */
     public function create(PlaceOrderRequest $request): PlaceOrderResponse
     {
@@ -38,18 +39,18 @@ class OrderController extends Controller
      * 
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \App\Interfaces\Responses\RejectOrderResponse
      */
-    public function reject(Request $request, int $id): \Illuminate\Http\RedirectResponse
+    public function reject(Request $request, int $id): RejectOrderResponse
     {
         $order = Order::findOrFail($id);
-        $order->status = 'rejected';
+        $service = app(
+            RejectOrder::class,
+            ['request' => $request]
+        );
 
-        $order->save();
+        $service->reject($order);
 
-        return back()->with([
-            'status' => 'success',
-            'message' => __('order.rejected')
-        ]);
+        return app(RejectOrderResponse::class);
     }
 }
