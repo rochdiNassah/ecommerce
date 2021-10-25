@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class OrderRejected extends Notification implements ShouldQueue
+class OrderDispatched extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -27,7 +27,7 @@ class OrderRejected extends Notification implements ShouldQueue
         $this->order = $order;
         $this->customer = $customer;
     }
-
+    
     /**
      * Get the notification's delivery channels.
      *
@@ -39,6 +39,7 @@ class OrderRejected extends Notification implements ShouldQueue
         return ['mail'];
     }
 
+
     /**
      * Get the mail representation of the notification.
      *
@@ -48,10 +49,10 @@ class OrderRejected extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->greeting("Hello {$this->customer->fullname}, and thank you for your order.")
-                    ->line('Unfortunately, your order is rejected due to an invalid or missing details.')
-                    ->action('Place Your Order Again!', route('order.create', $this->order->id));
-    }
+            ->greeting("Hello {$this->customer->fullname}, and thank you for your order.")
+            ->line('Your order is dispatched and it will be in your door step shortly.')
+            ->action('View Order', "/track/{$this->order->token}");
+        }
 
     /**
      * Get the array representation of the notification.

@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\{PlaceOrderRequest, RejectOrderRequest};
-use App\Models\Order;
-use App\Services\{PlaceOrder, RejectOrder};
+use App\Http\Requests\{PlaceOrderRequest, RejectOrderRequest, DispatchOrderRequest};
+use App\Models\{Order, User};
+use App\Services\{PlaceOrder, RejectOrder, DispatchOrder};
 use App\Interfaces\Responses\PlaceOrderResponse;
 use App\Interfaces\Responses\RejectOrderResponse;
+use App\Interfaces\Responses\DispatchOrderResponse;
 
 class OrderController extends Controller
 {
@@ -45,8 +46,26 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);;
 
-        $service->reject($order);
+        $order->status !== 'pending'
+            ? $service->isNotPending($order->status)
+            : $service->reject($order);
 
         return app(RejectOrderResponse::class);
+    }
+
+    /**
+     * Dispatch the given order.
+     * 
+     * @param  \App\Http\Requests\DispatchOrderRequest  $request
+     * @return \App\Interfaces\Responses\DispatchOrderResponse
+     */
+    public function dispatchOrder(DispatchOrderRequest $request, DispatchOrder $service)
+    {
+        $order = Order::findOrFail($request->order_id);
+        $delivery_driver = User::findOrFail($request->delivery_driver_id);
+        
+        $service->dispatch($order, $delivery_driver);
+
+        return app(DispatchOrderResponse::class);
     }
 }

@@ -5,6 +5,7 @@ namespace Tests\Admin;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Tests\TestCase;
 use App\Models\{User, Product};
@@ -34,6 +35,9 @@ final class MiddlewareTest extends TestCase
             $this->get(route('user.update-role-view', $user->id))->assertSessionHas('reason', 'Unauthorized');
             $this->post(route('user.update-role', ['id' => $user->id, 'role' => 'dispatcher']))->assertSessionHas('reason', 'Unauthorized');
             $this->get(route('products'))->assertSessionHas('reason', 'Unauthorized');
+            $this->get(route('product.create-view'))->assertSessionHas('reason', 'Unauthorized');
+            $this->post(route('product.create'))->assertSessionHas('reason', 'Unauthorized');
+            $this->get(route('product.delete', $product->id))->assertSessionHas('reason', 'Unauthorized');
         }
 
         $this->assertDatabaseHas('users', [
@@ -41,10 +45,7 @@ final class MiddlewareTest extends TestCase
             'role' => 'delivery_driver',
             'status' => 'pending'
         ]);
-        $this->assertDatabaseHas('products', [
-            'id' => $product->id,
-            'name' => $product->name
-        ]);
+        $this->assertDatabaseHas('products', ['id' => $product->id,]);
 
         return ['user' => $user, 'product' => $product];
     }
@@ -67,15 +68,20 @@ final class MiddlewareTest extends TestCase
         $this->get(route('user.update-role-view', $user->id))->assertSuccessful();
         $this->post(route('user.update-role', ['id' => $user->id, 'role' => 'dispatcher']))->assertSessionHas('reason', 'Upgraded');
         $this->get(route('products'))->assertSuccessful();
+        $this->get(route('product.create-view'))->assertSuccessful();
+        $this->post(route('product.create'), ['name' => Str::random(10), 'price' => '4.00'])->assertSessionHas('status', 'success');
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'name' => $product->name
+        ]);
+        $this->get(route('product.delete', $product->id));
+        $this->assertDatabaseMissing('products', ['id' => $product->id,]);
         $this->assertDatabaseHas('users', [
             'id' => $user->id,
             'role' => 'dispatcher',
             'status' => 'active'
         ]);
-        $this->assertDatabaseHas('products', [
-            'id' => $product->id,
-            'name' => $product->name
-        ]);
+        
         $this->get(route('user.delete', $user->id))->assertSessionHas('status', 'success');
         $this->assertDeleted($user);
     }

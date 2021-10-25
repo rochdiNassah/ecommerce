@@ -33,4 +33,60 @@ class OrderFactory extends Factory
             'token' => bin2hex(openssl_random_pseudo_bytes(64))
         ];
     }
+
+    /**
+     * Indicate that the order should be under pending status.
+     * 
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function pending()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => 'pending'
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the order should be under rejected status.
+     * 
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function rejected()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => 'rejected'
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the order should be under dispatched status.
+     * 
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function dispatched()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => 'dispatched'
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the order should be under delivered status.
+     * 
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function delivered()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => 'delivered'
+            ];
+        });
+    }
 }

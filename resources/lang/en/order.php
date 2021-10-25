@@ -4,6 +4,7 @@ return [
 
     'placed' => 'Great! You\'ve placed your order successfully.',
     'missing' => 'Order not found!',
-    'rejected' => 'Order rejected successfully.'
+    'rejected' => 'Order rejected successfully.',
+    'dispatched' => 'Order dispatched successfully.'
 
 ];

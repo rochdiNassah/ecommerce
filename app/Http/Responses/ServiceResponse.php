@@ -13,6 +13,7 @@ use App\Interfaces\Responses\CreateProductResponse;
 use App\Interfaces\Responses\DeleteProductResponse;
 use App\Interfaces\Responses\RequestJoinResponse;
 use App\Interfaces\Responses\RejectOrderResponse;
+use App\Interfaces\Responses\DispatchOrderResponse;
 
 class ServiceResponse implements
     LoginResponse,
@@ -24,7 +25,8 @@ class ServiceResponse implements
     CreateProductResponse,
     DeleteProductResponse,
     RequestJoinResponse,
-    RejectOrderResponse
+    RejectOrderResponse,
+    DispatchOrderResponse
 {
     /** @var array */
     private $response;

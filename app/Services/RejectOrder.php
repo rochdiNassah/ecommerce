@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Notification;
-use App\Models\Order;
 use App\Notifications\OrderRejected;
 use App\Interfaces\Responses\RejectOrderResponse;
 
@@ -26,9 +25,35 @@ class RejectOrder extends BaseService
         Notification::route('mail', $customer->email)
             ->notify(new OrderRejected($order, $customer));
 
+        $this->succeed();
+    }
+
+    /**
+     * Rejected the order successfully.
+     * 
+     * @return void
+     */
+    public function succeed()
+    {
         $response = [
             'status' => 'success',
-            'message' => __('order.rejected'),
+            'message' => __('order.rejected')
+        ];
+
+        $this->createResponse(RejectOrderResponse::class, $response);
+    }
+
+    /**
+     * Attempted to reject a non-pending order.
+     * 
+     * @param  string  $orderStatus
+     * @return void
+     */
+    public function isNotPending(string $orderStatus): void
+    {
+        $response = [
+            'status' => 'warning',
+            'message' => "This order is already {$orderStatus}.",
         ];
 
         $this->createResponse(RejectOrderResponse::class, $response);

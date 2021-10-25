@@ -35,12 +35,14 @@
                                     <p class="text-gray-400 text-xs">Address</p>
                                     <p class="text-xs font-bold text-gray-200 truncate">{{ $customer->address }}</p>
                                 </div>
-                                @if (isset($order->dispatcher->fullname))
                                 <div class="w-32">
                                     <p class="text-gray-400 text-xs">Dispatcher</p>
-                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $order->dispatcher->fullname }}</p>
+                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $order->dispatcher->fullname ?? 'Not dispatched yet' }}</p>
                                 </div>
-                                @endif
+                                <div class="w-32">
+                                    <p class="text-gray-400 text-xs">Delivery Driver</p>
+                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $order->deliveryDriver->fullname ?? 'Not dispatched yet' }}</p>
+                                </div>
                                 <div>
                                     <p class="inline text-xs font-bold text-{{ $statusColor }}-600">{{ $order->status }}</p>
                                 </div>

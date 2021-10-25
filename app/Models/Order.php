@@ -31,4 +31,12 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Get the order's delivery driver.
+     */
+    public function deliveryDriver()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

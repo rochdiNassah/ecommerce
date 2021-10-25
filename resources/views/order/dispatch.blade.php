@@ -2,7 +2,8 @@
 @section('title', "Dispatch #{$order->id}")
 
 @section('content')
-    @include('layouts.navbar')
+<div class="flex">
+    @include('dispatcher.sidebar')
 
     <div class="px-2 container mx-auto max-w-7xl flex flex-wrap justify-center my-20">
         <div class="px-4 sm:px-10 py-4 bg-dark base-form border border-gray rounded-sm">
@@ -20,7 +21,7 @@
                 <input type="hidden" name="order_id" value="{{ $order->id }}">
 
                 <label class="font-bold text-sm text-gray-300">Choose a delivery driver</label>
-                <select class="bg-lightdark border border-gray w-full p-3 mb-6 font-bold text-sm text-gray-300 rounded-sm appearance-none focus:shadow-outline" name="delivery_driver">
+                <select class="bg-lightdark border border-gray w-full p-3 mb-6 font-bold text-sm text-gray-300 rounded-sm appearance-none focus:shadow-outline" name="delivery_driver_id">
                     @foreach ($delivery_drivers as $delivery_driver)
                         <option value="{{ $delivery_driver->id }}">{{ $delivery_driver->fullname }}</option>
                     @endforeach
@@ -32,4 +33,5 @@
             </form>
         </div>
     </div>
+</div>
 @stop
