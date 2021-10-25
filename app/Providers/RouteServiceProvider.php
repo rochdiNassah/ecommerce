@@ -46,7 +46,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
         });
 
-        View::share('mainColor', 'blue');
+        View::share('mainColor', 'lime');
     }
 
     /**

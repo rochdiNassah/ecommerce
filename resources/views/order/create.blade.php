@@ -14,10 +14,10 @@ $inputs = [
     @include('layouts.navbar')
 
     <div class="px-2 container mx-auto max-w-7xl flex flex-wrap justify-center my-20">
-        <div class="px-4 sm:px-10 py-4 base-form border border-gray rounded-sm">
+        <div class="px-4 sm:px-10 py-4 bg-dark base-form border border-gray rounded-sm">
             <div class="mb-4 w-full sm:w-80 bg-gray border border-gray rounded-sm relative self-start">
                 <div class="flex justify-between border-b border-gray p-2">
-                    <div class="text-sm rounded-sm text-gray-700 font-bold truncate">{{ $product->name }}</div>
+                    <div class="self-center text-sm rounded-sm text-gray-200 font-bold truncate">{{ $product->name }}</div>
                     <div class="rounded-xl px-2 py-1 text-center text-{{ $mainColor }}-900 bg-{{ $mainColor }}-100 font-bold text-xs truncate">{{ $product->price }}$</div>
                 </div>
     
@@ -36,9 +36,9 @@ $inputs = [
                 <input type="hidden" name="product_id" value="{{ $product->id }}">
 
                 @foreach ($inputs as $input)
-                <label class="font-bold text-sm text-gray-500">{{ $input['label'] }}</label>
+                <label class="font-bold text-sm text-gray-300">{{ $input['label'] }}</label>
                 <input
-                    class="text-gray-700 border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
+                    class="bg-lightdark text-gray-200 border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
                     type="{{ $input['type'] }}"
                     name="{{ $input['name'] }}"
                     value="{{ old($input['name']) ?? $input['value'] ?? null }}"
@@ -46,7 +46,7 @@ $inputs = [
                 >
                 @endforeach
 
-                <button class="rounded-sm mb-2 transition w-full text-{{ $mainColor }}-600 bg-{{ $mainColor }}-100 hover:bg-{{ $mainColor }}-200 text-sm py-2 px-4 font-bold" type="submit">
+                <button class="rounded-sm mb-2 transition w-full text-{{ $mainColor }}-300 bg-{{ $mainColor }}-800 hover:bg-{{ $mainColor }}-900 text-sm py-2 px-4 font-bold" type="submit">
                     Place The Order
                 </button>
             </form>

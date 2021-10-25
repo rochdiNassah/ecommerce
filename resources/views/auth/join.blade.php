@@ -15,7 +15,7 @@ $inputs = [
     @include('layouts.navbar')
 
 <div class="px-2 sm:px-0">
-    <div class="border border-gray mx-auto xs:w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 base-form rounded-sm px-4 sm:px-10 py-4 my-20">
+    <div class="border bg-dark border-gray mx-auto xs:w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 base-form rounded-sm px-4 sm:px-10 py-4 my-20">
         <form method="post" enctype="multipart/form-data">
             @csrf
 
@@ -32,15 +32,15 @@ $inputs = [
                     <img class="self-center w-20 h-20 bg-gray-200 rounded-full object-contain" src="{{ asset('images/avatars/default.png') }}" id="avatarImg">
 
                     <label class="cursor-pointer mt-6">
-                        <span class="mt-2 leading-normal px-4 py-2 bg-{{ $mainColor }}-100 hover:bg-{{ $mainColor }}-200 transition text-{{ $mainColor }}-600 font-bold text-sm rounded-sm">Select Image</span>
+                        <span class="mt-2 leading-normal px-4 py-2 text-{{ $mainColor }}-300 bg-{{ $mainColor }}-800 hover:bg-{{ $mainColor }}-900 font-bold text-sm rounded-sm">Select Image</span>
                         <input class="hidden" type="file" name="avatar" id="avatarInput">
                     </label>
                 </div>
 
                 @foreach ($inputs as $input)
-                <label class="font-bold text-sm text-gray-500">{{ $input['label'] }}</label>
+                <label class="font-bold text-sm text-gray-300">{{ $input['label'] }}</label>
                 <input
-                    class="text-gray-700 border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
+                    class="text-gray-200 bg-lightdark border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
                     type="{{ $input['type'] }}"
                     name="{{ $input['name'] }}"
                     value="{{ old($input['name']) }}"
@@ -48,22 +48,22 @@ $inputs = [
                 >
                 @endforeach
 
-                <label class="font-bold text-sm text-gray-500">The role you want to apply for</label>
-                <select class="border border-gray w-full p-3 mb-6 font-bold text-sm text-gray-500 rounded-sm appearance-none focus:shadow-outline" name="role">
+                <label class="font-bold text-sm text-gray-300">The role you want to apply for</label>
+                <select class="border bg-lightdark border-gray w-full p-3 mb-6 font-bold text-sm text-gray-200 rounded-sm appearance-none focus:shadow-outline" name="role">
                     <option>Please choose a role from here</option>
                     <option {{ old('role') === 'delivery_driver' ? 'selected' : null }} value="delivery_driver">Delivery Driver</option>
                     <option {{ old('role') === 'dispatcher' ? 'selected' : null }} value="dispatcher">Dispatcher</option>
                     <option {{ old('role') === 'admin' ? 'selected' : null }} value="admin">Admin</option>
                 </select>
 
-                <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-600 bg-{{ $mainColor }}-100 hover:bg-{{ $mainColor }}-200 text-sm font-bold py-2 px-4" type="submit">
+                <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-300 bg-{{ $mainColor }}-800 hover:bg-{{ $mainColor }}-900 text-sm font-bold py-2 px-4" type="submit">
                     Send Join Request
                 </button>
             </div>
         </form>
 
         <div class="mt-4 mb-2 flex justify-center">
-            <p class="font-bold text-sm text-gray-500">Already a member?</p>&nbsp;
+            <p class="font-bold text-sm text-gray-300">Already a member?</p>&nbsp;
             <a href="{{ route('login') }}" class="transition font-bold text-sm text-{{ $mainColor }}-400 hover:text-{{ $mainColor }}-500">Log In</a>
         </div>
     </div>

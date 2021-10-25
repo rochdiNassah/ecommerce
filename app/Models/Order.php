@@ -15,4 +15,12 @@ class Order extends Model
         'dispatcher',
         'delivery_driver'
     ];
+
+    /**
+     * Get the product associated with the order.
+     */
+    public function _product()
+    {
+        return $this->belongsTo(Product::class, 'product');
+    }
 }

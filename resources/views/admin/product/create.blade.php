@@ -14,7 +14,7 @@ $inputs = [
 
         <div class="grid place-items-center w-full">
             <div class="px-2 sm:px-0">
-                <div class="border border-gray mx-auto xs:w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 base-form rounded-sm px-10 py-4 my-20">
+                <div class="bg-dark border border-gray mx-auto xs:w-full base-form rounded-sm px-10 py-4 my-20">
                     <form action="{{ route('product.create') }}" method="post" enctype="multipart/form-data">
                         @csrf
             
@@ -31,15 +31,15 @@ $inputs = [
                                 <img class="self-center w-40 h-40 rounded-sm object-contain bg-transparent-200" src="{{ asset('images/products/default.png') }}" id="image">
             
                                 <label class="cursor-pointer mt-6">
-                                    <span class="mt-2 leading-normal px-4 py-2 bg-{{ $mainColor }}-100 hover:bg-{{ $mainColor }}-200 transition text-{{ $mainColor }}-600 font-bold text-sm rounded-sm">Select Image</span>
+                                    <span class="mt-2 leading-normal px-4 py-2 text-{{ $mainColor }}-300 bg-{{ $mainColor }}-800 hover:bg-{{ $mainColor }}-900 transition font-bold text-sm rounded-sm">Select Image</span>
                                     <input class="hidden" type="file" name="image" id="imageInput">
                                 </label>
                             </div>
 
                             @foreach ($inputs as $input)
-                            <label class="font-bold text-sm text-gray-500">{{ $input['label'] }}</label>
+                            <label class="font-bold text-sm text-gray-300">{{ $input['label'] }}</label>
                             <input
-                                class="text-gray-700 border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
+                                class="text-gray-200 bg-lightdark border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
                                 type="{{ $input['type'] }}"
                                 name="{{ $input['name'] }}"
                                 value="{{ old($input['name']) }}"
@@ -47,7 +47,7 @@ $inputs = [
                             >
                             @endforeach
                             
-                            <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-600 bg-{{ $mainColor }}-100 hover:bg-{{ $mainColor }}-200 text-sm py-2 px-4 font-bold" type="submit">
+                            <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-300 bg-{{ $mainColor }}-800 hover:bg-{{ $mainColor }}-900 text-sm py-2 px-4 font-bold" type="submit">
                                 Create
                             </button>
                         </div>

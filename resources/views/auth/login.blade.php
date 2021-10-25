@@ -12,7 +12,7 @@ $inputs = [
     @include('layouts.navbar')
 
 <div class="px-2 sm:px-0">
-    <div class="border border-gray mx-auto xs:w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 base-form rounded-sm px-4 sm:px-10 py-4 my-20">
+    <div class="border bg-dark border-gray mx-auto xs:w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 base-form rounded-sm px-4 sm:px-10 py-4 my-20">
         <form method="post">
             @csrf
 
@@ -26,9 +26,9 @@ $inputs = [
 
             <div class="my-3">
                 @foreach ($inputs as $input)
-                <label class="font-bold text-sm text-gray-500">{{ $input['label'] }}</label>
+                <label class="font-bold text-sm text-gray-300">{{ $input['label'] }}</label>
                 <input
-                    class="text-gray-700 border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
+                    class="text-gray-200 bg-lightdark border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
                     type="{{ $input['type'] }}"
                     name="{{ $input['name'] }}"
                     value="{{ old($input['name']) }}"
@@ -41,7 +41,7 @@ $inputs = [
                         <label class="block text-gray-400" for="remember">
                             <input class="leading-tight cursor-pointer" type="checkbox" id="remember" name="remember" {{ old('remember') === 'on' ? 'checked' : null }}>
 
-                            <span class="text-gray-400 font-bold text-sm select-none cursor-pointer">Remember me</span>
+                            <span class="text-gray-300 font-bold text-sm select-none cursor-pointer">Remember me</span>
                         </label>
                     </div>
 
@@ -50,14 +50,14 @@ $inputs = [
                     </div>
                 </div>
 
-                <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-600 bg-{{ $mainColor }}-100 hover:bg-{{ $mainColor }}-200 text-sm font-bold py-2 px-4" type="submit">
+                <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-300 bg-{{ $mainColor }}-800 hover:bg-{{ $mainColor }}-900 text-sm font-bold py-2 px-4" type="submit">
                     Continue
                 </button>
             </div>
         </form>
 
         <div class="mt-4 mb-2 flex justify-center">
-            <p class="font-bold text-sm text-gray-500">Don't have an account?</p>&nbsp;
+            <p class="font-bold text-sm text-gray-300">Don't have an account?</p>&nbsp;
             <a href="{{ route('join') }}" class="transition font-bold text-sm text-{{ $mainColor }}-400 hover:text-{{ $mainColor }}-500">Join</a>
         </div>
     </div>
