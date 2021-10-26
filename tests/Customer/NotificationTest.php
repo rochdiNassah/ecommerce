@@ -41,11 +41,7 @@ final class NotificationTest extends TestCase
         Notification::assertSentTo(app(AnonymousNotifiable::class), OrderDispatched::class);
     }
 
-    /**
-     * Actings as dispatcher.
-     * 
-     * @return void
-     */
+    /** @return void */
     public function setUp(): void
     {
         parent::setUp();

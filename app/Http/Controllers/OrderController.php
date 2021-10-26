@@ -59,12 +59,16 @@ class OrderController extends Controller
      * @param  \App\Http\Requests\DispatchOrderRequest  $request
      * @return \App\Interfaces\Responses\DispatchOrderResponse
      */
-    public function dispatchOrder(DispatchOrderRequest $request, DispatchOrder $service)
+    public function dispatchOrder(DispatchOrderRequest $request, DispatchOrder $service): DispatchOrderResponse
     {
         $order = Order::findOrFail($request->order_id);
         $delivery_driver = User::findOrFail($request->delivery_driver_id);
         
-        $service->dispatch($order, $delivery_driver);
+        $delivery_driver->role !== 'delivery_driver'
+            ? $service->isNotDeliveryDriver()
+            : ('pending' !== $order->status
+                ? $service->isNotPending($order->status)
+                : $service->dispatch($order, $delivery_driver));
 
         return app(DispatchOrderResponse::class);
     }

@@ -71,7 +71,8 @@ class OrderFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => 'dispatched'
+                'status' => 'dispatched',
+                'dispatcher_id' => 0
             ];
         });
     }
@@ -85,7 +86,9 @@ class OrderFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => 'delivered'
+                'status' => 'delivered',
+                'delivery_driver_id' => 0,
+                'dispatcher_id' => 0
             ];
         });
     }

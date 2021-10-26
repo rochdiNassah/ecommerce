@@ -33,7 +33,7 @@ class RejectOrder extends BaseService
      * 
      * @return void
      */
-    public function succeed()
+    private function succeed()
     {
         $response = [
             'status' => 'success',
