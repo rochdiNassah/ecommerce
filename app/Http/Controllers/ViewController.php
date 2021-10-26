@@ -38,7 +38,7 @@ class ViewController extends Controller
             $view = 'delivery_driver.dashboard';
             $data = [
                 'orders' => Order::where('status', 'dispatched')
-                    ->where('delivery_driver', $member->id)
+                    ->where('delivery_driver_id', $member->id)
                     ->orderBy('status')
                     ->get()
             ];
