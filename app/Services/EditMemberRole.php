@@ -14,7 +14,7 @@ class EditMemberRole extends BaseService
      * @param  mixed  $member
      * @return void
      */
-    public function update($member, $role, $action): void
+    public static function update($member, $role, $action): void
     {
         $member->role = $role;
 
@@ -27,18 +27,18 @@ class EditMemberRole extends BaseService
             'redirect_to' => route('users')
         ];
 
-        $this->createResponse(UpdateMemberRoleResponse::class, $response);
+        self::createResponse(UpdateMemberRoleResponse::class, $response);
     }
 
     /** @return void */
-    public function already($message): void
+    public static function already($message): void
     {
         $response = [
             'status' => 'warning',
             'message' => __($message)
         ];
 
-        $this->createResponse(UpdateMemberRoleResponse::class, $response);
+        self::createResponse(UpdateMemberRoleResponse::class, $response);
     }
 
     /**
@@ -48,7 +48,7 @@ class EditMemberRole extends BaseService
      * @param  string  $role
      * @return false|string
      */
-    public function action($member, string $role): false|string
+    public static function getAction($member, string $role): false|string
     {
         $roles = ['admin' => 999, 'dispatcher' => 666, 'delivery_driver' => 333];
         

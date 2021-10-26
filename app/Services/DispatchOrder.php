@@ -15,7 +15,7 @@ class DispatchOrder extends BaseService
      * @param  \App\Models\User  $delivery_driver
      * @return void
      */
-    public function dispatch($order, $delivery_driver): void
+    public static function dispatch($order, $delivery_driver): void
     {
         $order->status = 'dispatched';
         $order->delivery_driver_id = $delivery_driver->id;
@@ -27,8 +27,6 @@ class DispatchOrder extends BaseService
 
         Notification::route('mail', $customer->email)
             ->notify(new OrderDispatched($order, $customer));
-        
-        $this->succeed($delivery_driver);
     }
 
     /**
@@ -37,7 +35,7 @@ class DispatchOrder extends BaseService
      * @param  \App\Models\User  $delivery_driver
      * @return void
      */
-    private function succeed($delivery_driver): void
+    public static function succeed($delivery_driver): void
     {
         $response = [
             'status' => 'success',
@@ -45,18 +43,18 @@ class DispatchOrder extends BaseService
             'redirect_to' => route('dashboard')
         ];
 
-        $this->createResponse(DispatchOrderResponse::class, $response);
+        self::createResponse(DispatchOrderResponse::class, $response);
     }
 
     /** @return void */
-    public function isNotDeliveryDriver(): void
+    public static function isNotDeliveryDriver(): void
     {
         $response = [
             'status' => 'warning',
             'message' => 'Order can be dispatched to delivery drivers only.'
         ];
 
-        $this->createResponse(DispatchOrderResponse::class, $response);
+        self::createResponse(DispatchOrderResponse::class, $response);
     }
 
     /**
@@ -65,7 +63,7 @@ class DispatchOrder extends BaseService
      * @param  string  $orderStatus
      * @return void
      */
-    public function isNotPending(string $orderStatus): void
+    public static function isNotPending(string $orderStatus): void
     {
         $response = [
             'status' => 'warning',
@@ -73,6 +71,6 @@ class DispatchOrder extends BaseService
             'redirect_to' => route('dashboard')
         ];
 
-        $this->createResponse(DispatchOrderResponse::class, $response);
+        self::createResponse(DispatchOrderResponse::class, $response);
     }
 }

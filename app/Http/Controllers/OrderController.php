@@ -20,17 +20,20 @@ class OrderController extends Controller
      */
     public function create(PlaceOrderRequest $request): PlaceOrderResponse
     {
-        $service = app(
-            PlaceOrder::class,
-            ['request' => $request]
+        $customer = json_encode(
+            $request->safe()->only([
+                'fullname', 'email', 'phone_number', 'address'
+            ])
         );
+        $product_id = $request->validated()['product_id'];
+        $validated = ['product_id' => $product_id, 'customer' => $customer];
 
-        $service->prepareData();
-        $service->store();
-
-        $service->notifyCustomer()
-            ? $service->succeed()
-            : $service->failed();
+        if ($order = PlaceOrder::store($validated)) {
+            PlaceOrder::notifyCustomer($order);
+            PlaceOrder::succeed();
+        } else {
+            PlaceOrder::failed();
+        }
             
         return app(PlaceOrderResponse::class);
     }
@@ -38,17 +41,19 @@ class OrderController extends Controller
     /**
      * Reject the given order.
      * 
-     * @param  \App\Services\\RejectOrder  $service
      * @param  int  $id
      * @return \App\Interfaces\Responses\RejectOrderResponse
      */
-    public function reject(RejectOrder $service, int $id): RejectOrderResponse
+    public function reject(int $id): RejectOrderResponse
     {
         $order = Order::findOrFail($id);;
 
-        $order->status !== 'pending'
-            ? $service->isNotPending($order->status)
-            : $service->reject($order);
+        if ('pending' !== $order->status) {
+            RejectOrder::isNotPending($order->status);
+        } else {
+            RejectOrder::reject($order);
+            RejectOrder::succeed();
+        }
 
         return app(RejectOrderResponse::class);
     }
@@ -59,16 +64,19 @@ class OrderController extends Controller
      * @param  \App\Http\Requests\DispatchOrderRequest  $request
      * @return \App\Interfaces\Responses\DispatchOrderResponse
      */
-    public function dispatchOrder(DispatchOrderRequest $request, DispatchOrder $service): DispatchOrderResponse
+    public function dispatchOrder(DispatchOrderRequest $request): DispatchOrderResponse
     {
         $order = Order::findOrFail($request->order_id);
         $delivery_driver = User::findOrFail($request->delivery_driver_id);
         
-        $delivery_driver->role !== 'delivery_driver'
-            ? $service->isNotDeliveryDriver()
-            : ('pending' !== $order->status
-                ? $service->isNotPending($order->status)
-                : $service->dispatch($order, $delivery_driver));
+        if ('delivery_driver' !== $delivery_driver->role) {
+            DispatchOrder::isNotDeliveryDriver();
+        } elseif('pending' !== $order->status) {
+            DispatchOrder::isNotPending($order->status);
+        } else {
+            DispatchOrder::dispatch($order, $delivery_driver);
+            DispatchOrder::succeed($delivery_driver);
+        }
 
         return app(DispatchOrderResponse::class);
     }

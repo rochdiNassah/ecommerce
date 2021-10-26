@@ -6,11 +6,18 @@ use App\Http\Responses\ServiceResponse;
 
 class BaseService
 {
-    protected $request;
+    protected static $request;
 
-    public function __construct($request = null)
+    /** @param  \Illuminate\Http\Request|null  $request */
+    public function __construct(\illuminate\Http\Request $request = null)
     {
-        $this->request = $request;
+        self::$request = $request;
+    }
+
+    /** @return void */
+    public static function flashInputs(): void
+    {
+        self::$request->flashExcept('password');
     }
 
     /**
@@ -18,7 +25,7 @@ class BaseService
      * @param  array  $response
      * @return void
      */
-    protected function createResponse($interface, $response): void
+    protected static function createResponse($interface, $response): void
     {
         app()->singleton($interface, function () use ($response) {
             return new ServiceResponse($response);

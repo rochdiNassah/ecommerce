@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
 use App\Http\Requests\CreateProductRequest;
 use App\Services\{CreateProduct, DeleteProduct};
@@ -20,13 +21,18 @@ class ProductController extends Controller
      */
     public function create(CreateProductRequest $request): CreateProductResponse
     {
-        $service = app(
-            CreateProduct::class,
-            ['request' => $request]
-        );
+        $validated = $request->safe()->only(['name', 'price', 'image']);
 
-        $service->store();
+        if ($request->file('image')) {
+            $validated['image_path'] = Storage::put('images/products', $validated['image']);
+        }
 
+        if ($product = CreateProduct::store($validated)) {
+            CreateProduct::succeed();
+        } else {
+            CreateProduct::failed();
+        }
+    
         return app(CreateProductResponse::class);
     }
 
@@ -41,7 +47,8 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
-        $service->delete($product);
+        DeleteProduct::delete($product);
+        DeleteProduct::succeed();
         
         return app(DeleteProductResponse::class);
     }

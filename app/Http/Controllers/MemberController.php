@@ -16,39 +16,41 @@ class MemberController extends Controller
     /**
      * Approve a pending member.
      * 
-     * @param  \App\Services\ApproveMember  $service
      * @param  int  $id
      * @return \App\Interfaces\Responses\ApproveMemberResponse
      */
-    public function approve(ApproveMember $service, int $id): ApproveMemberResponse
+    public function approve(int $id): ApproveMemberResponse
     {
         $member = User::findOrFail($id);
 
-        'active' === $member->status
-            ? $service->already()
-            : $service->approve($member);
-
+        if ('pending' !== $member->status) {
+            ApproveMember::already();
+        } else {
+            ApproveMember::approve($member);
+            ApproveMember::notify($member);
+            ApproveMember::succeed();
+        }
+        
         return app(ApproveMemberResponse::class);
     }
 
     /**
      * Delete the given member.
      * 
-     * @param  \App\Services\DeleteMember  $service
      * @param  int  $id
      * @return \App\Interfaces\Response\DeleteMemberResponse|\App\Http\Responses\UnauthorizedResponse
      */
-    public function delete(DeleteMember $service, int $id): DeleteMemberResponse|UnauthorizedResponse
+    public function delete(int $id): DeleteMemberResponse|UnauthorizedResponse
     {
         $member = User::findOrFail($id);
 
-        if (! Auth::user()->can('affect', $member)) {
+        if (!Auth::user()->can('affect', $member)) {
             return app(UnauthorizedResponse::class);
         }
         
         'pending' === $member->status
-            ? $service->rejectMember($member)
-            : $service->delete($member);
+            ? DeleteMember::rejectMember($member)
+            : DeleteMember::delete($member);
 
         return app(DeleteMemberResponse::class);
     }
@@ -57,24 +59,23 @@ class MemberController extends Controller
      * Upgrade or downgrade the given user.
      * 
      * @param  \App\Http\Requests\UpdateRoleRequest  $request
-     * @param  \App\Services\EditMemberRole  $service
      * @return \App\Interfaces\Response\UpdateMemberRoleResponse|\App\Http\Responses\UnauthorizedResponse
      */
-    public function updateRole(UpdateRoleRequest $request, EditMemberRole $service): UpdateMemberRoleResponse|UnauthorizedResponse
+    public function updateRole(UpdateRoleRequest $request): UpdateMemberRoleResponse|UnauthorizedResponse
     {
         extract($request->safe()->only('id', 'role'));
 
         $member = User::findOrFail($id);
-        $action = $service->action($member, $role);
+        $action = EditMemberRole::getAction($member, $role);
 
         if (false === $action) {
-            $service->already("This member is already {$role}.");
+            EditMemberRole::already("This member is already {$role}.");
         } else {
             if (! Auth::user()->can('affect', $member)) {
                 return app(UnauthorizedResponse::class, ['redirect_to' => route('users')]);
             }
 
-            $service->update($member, $role, $action);
+            EditMemberRole::update($member, $role, $action);
         }
         
         return app(UpdateMemberRoleResponse::class);

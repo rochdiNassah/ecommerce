@@ -3,14 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\{Auth, Storage, Hash};
 use App\Http\Requests\{LoginRequest, JoinRequest};
 use App\Models\User;
-use App\Services\{Authentication, RequestJoin};
+use App\Services\{Authentication, RequestJoin, BaseService};
 use App\Interfaces\Responses\{LoginResponse,LogoutResponse, RequestJoinResponse};
 
 class AuthController extends Controller
 {
+    /** @param  \Illuminate\Http\Request  $request */
+    public function __construct(Request $request)
+    {
+        app(BaseService::class, ['request' => $request]);
+    }
+
     /**
      * Handle an authentication attempt.
      * 
@@ -19,16 +25,18 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request): LoginResponse
     {
-        $service = app(
-            Authentication::class,
-            ['request' => $request]
-        );
-        $credentials = $request->safe()->only('email', 'password');
-        $remember =  $request->safe()->only('remember');
+        $credentials = $request->safe()->only([
+            'email', 'password'
+        ]);
+        $remember = $request->safe()->only('remmebr');
 
-        Auth::attempt($credentials, $remember)
-            ? $service->succeed()
-            : $service->failed();
+        if (!Auth::attempt($credentials, $remember)) {
+            Authentication::loginFailed();
+        } else {
+            'pending' === Auth::user()->status
+                ? Authentication::memberIsPending()
+                : Authentication::loginSucceed();
+        }    
 
         return app(LoginResponse::class);
     }
@@ -41,12 +49,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request): LogoutResponse
     {
-        $service = app(
-            Authentication::class,
-            ['request' => $request]
-        );
-
-        $service->logout();
+        Authentication::logout();
 
         return app(LogoutResponse::class);
     }
@@ -59,12 +62,21 @@ class AuthController extends Controller
      */
     public function join(JoinRequest $request): RequestJoinResponse
     {
-        $service = app(
-            RequestJoin::class,
-            ['request' => $request]
-        );
+        $validated = $request->safe()->only([
+            'fullname', 'email', 'phone_number', 'password', 'role', 'avatar'
+        ]);
+        $validated['password'] = Hash::make($validated['password']);
 
-        $service->store();
+        if ($request->file('avatar')) {
+            $validated['avatar_path'] = Storage::put('images/avatars', $validated['avatar']);
+        }
+
+        if ($user = RequestJoin::store($validated)) {
+            RequestJoin::notify($user);
+            RequestJoin::succeed();
+        } else {
+            RequestJoin::failed();
+        }
         
         return app(RequestJoinResponse::class);
     }

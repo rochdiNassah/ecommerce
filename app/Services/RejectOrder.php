@@ -14,7 +14,7 @@ class RejectOrder extends BaseService
      * @param  \App\Models\Order  $order
      * @return void
      */
-    public function reject($order): void
+    public static function reject($order): void
     {
         $order->status = 'rejected';
 
@@ -24,8 +24,6 @@ class RejectOrder extends BaseService
 
         Notification::route('mail', $customer->email)
             ->notify(new OrderRejected($order, $customer));
-
-        $this->succeed();
     }
 
     /**
@@ -33,14 +31,14 @@ class RejectOrder extends BaseService
      * 
      * @return void
      */
-    private function succeed()
+    public static function succeed()
     {
         $response = [
             'status' => 'success',
             'message' => __('order.rejected')
         ];
 
-        $this->createResponse(RejectOrderResponse::class, $response);
+        self::createResponse(RejectOrderResponse::class, $response);
     }
 
     /**
@@ -49,13 +47,13 @@ class RejectOrder extends BaseService
      * @param  string  $orderStatus
      * @return void
      */
-    public function isNotPending(string $orderStatus): void
+    public static function isNotPending(string $orderStatus): void
     {
         $response = [
             'status' => 'warning',
             'message' => "This order is already {$orderStatus}.",
         ];
 
-        $this->createResponse(RejectOrderResponse::class, $response);
+        self::createResponse(RejectOrderResponse::class, $response);
     }
 }

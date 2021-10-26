@@ -26,7 +26,7 @@ class CreateProductRequest extends FormRequest
         return [
             'name' => ['required', 'min:2', 'max:100', 'unique:products'],
             'price' => ['required', 'numeric', 'min:0.01'],
-            'avatar' => ['image']
+            'image' => ['image']
         ];
     }
 }

@@ -9,59 +9,29 @@ use App\Interfaces\Responses\PlaceOrderResponse;
 
 class PlaceOrder extends BaseService
 {
-    private $customer;
-    private $data;
-    private $token;
-    private $productId;
-
     /**
-     * Store the order.
-     * 
-     * @return bool
+     * @param  array  $validated
+     * @return mixed
      */
-    public function store(): bool
+    public static function store(array $validated)
     {
-        Order::create($this->data);
+        $validated['token'] = bin2hex(openssl_random_pseudo_bytes(64));
 
-        return true;
+        return Order::create($validated);
     }
 
     /**
      * Notify the customer.
      * 
-     * @return bool
-     */
-    public function notifyCustomer(): bool
-    {
-        // TODO: Rollback on failure.
-
-        $order = [
-            'token' => $this->token,
-            'customer' => $this->customer
-        ];
-
-        Notification::route('mail', $this->customer->email)
-            ->notify(new OrderPlaced($order));
-
-        return true;
-    }
-
-    /**
-     * Prepare data to be stored.
-     * 
+     * @param  \App\Models\Order  $order
      * @return void
      */
-    public function prepareData(): void
+    public static function notifyCustomer($order): void
     {
-        $this->customer = (object) $this->request->only([
-            'fullname', 'email', 'phone_number', 'address'
-        ]);
-        $this->token = bin2hex(openssl_random_pseudo_bytes(64));
-        $this->data = [
-            'customer' => json_encode($this->customer),
-            'token' => $this->token,
-            'product_id' => $this->request['product_id']
-        ];
+        $customer = (object) json_decode($order->customer);
+
+        Notification::route('mail', $customer->email)
+            ->notify(new OrderPlaced($order));
     }
     
     /**
@@ -69,7 +39,7 @@ class PlaceOrder extends BaseService
      * 
      * @return void
      */
-    public function succeed(): void
+    public static function succeed(): void
     {
         $response = [
             'status' => 'success',
@@ -77,7 +47,7 @@ class PlaceOrder extends BaseService
             'redirect_to' => route('home')
         ];
 
-        $this->createResponse(PlaceOrderResponse::class, $response);
+        self::createResponse(PlaceOrderResponse::class, $response);
     }
 
     /**
@@ -85,13 +55,13 @@ class PlaceOrder extends BaseService
      * 
      * @return void
      */
-    public function failed(): void
+    public static function failed(): void
     {
         $response = [
             'status' => 'error',
             'message' => __('global.failed')
         ];
 
-        $this->createResponse(PlaceOrderResponse::class, $response);
+        self::createResponse(PlaceOrderResponse::class, $response);
     }
 }

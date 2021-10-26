@@ -10,75 +10,44 @@ use Illuminate\Support\Facades\Storage;
 
 class RequestJoin extends BaseService
 {
-    private $data;
+    /**
+     * @param  array  $validated
+     * @return false|\App\Models\User
+     */
+    public static function store(array $validated): false|User
+    {
+        return User::create($validated);
+    }
 
     /**
-     * Store the users data.
-     * 
-     * @return void
+     * @param  \App\Models\User  $user
      */
-    public function store(): void
+    public static function notify(User $user)
     {
-        if (!$this->extract()) {
-            return;
-        }
+        $user->notify(app(JoinRequested::class));
+    }
 
-        $user = User::create($this->data);
-
-        $user->notify((new JoinRequested()));
-
+    /** @return void */
+    public static function succeed(): void
+    {
         $response = [
             'status' => 'success',
             'message' => __('join.success'),
             'redirect_to' => route('login')
         ];
 
-        $this->createResponse(RequestJoinResponse::class, $response);
+        self::createResponse(RequestJoinResponse::class, $response);
     }
 
-    /** @return bool */
-    private function extract(): bool
-    {
-        $this->data = $this->request->safe()->except('avatar');
-        $this->data['password'] = Hash::make($this->data['password']);
-
-        if ($this->request->file('avatar')) {
-            $this->file = $this->request->file('avatar');
-
-            if (!$this->data['avatar_path'] = Storage::put('images/avatars', $this->file)) {
-                $this->failed();
-
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Flash inputs to the session.
-     * 
-     * @return void
-     */
-    private function flashInputs()
-    {
-        $this->request->flashExcept('avatar', 'password');
-    }
-
-    /**
-     * Request join failed.
-     * 
-     * @return void
-     */
-    private function failed(): void
+    /** @return void */
+    public static function failed(): void
     {
         $response = [
             'status' => 'error',
             'message' => __('global.failed')
         ];
 
-        $this->createResponse(RequestJoinResponse::class, $response);
-
-        $this->flashInputs();
+        self::createResponse(RequestJoinResponse::class, $response);
+        self::flashInputs();
     }
 }

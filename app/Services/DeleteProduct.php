@@ -12,15 +12,19 @@ class DeleteProduct extends BaseService
      * @param  \App\Models\Product  $product
      * @return void
      */
-    public function delete($product): void
+    public static function delete($product): void
     {
         $product->delete();
+    }
 
+    /** @return void */
+    public static function succeed(): void
+    {
         $response = [
             'status' => 'success',
             'message' => __('product.deleted')
         ];
 
-        $this->createResponse(DeleteProductResponse::class, $response);
+        self::createResponse(DeleteProductResponse::class, $response);
     }
 }

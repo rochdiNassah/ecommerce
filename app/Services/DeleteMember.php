@@ -14,7 +14,7 @@ class DeleteMember extends BaseService
      * @param  \App\Models\User  $member
      * @return void
      */
-    public function delete($member)
+    public static function delete($member)
     {
         $member->forceDelete();
 
@@ -23,7 +23,7 @@ class DeleteMember extends BaseService
             'message' => __('member.deleted')
         ];
 
-        $this->createResponse(DeleteMemberResponse::class, $response);
+        self::createResponse(DeleteMemberResponse::class, $response);
     }
 
     /**
@@ -32,7 +32,7 @@ class DeleteMember extends BaseService
      * @param  \App\Models\User  $member
      * @return void
      */
-    public function rejectMember($member): void
+    public static function rejectMember($member): void
     {
         $member->delete();
         $member->notify(new UserRejected());
@@ -44,6 +44,6 @@ class DeleteMember extends BaseService
             'message' => __('member.rejected')
         ];
 
-        $this->createResponse(DeleteMemberResponse::class, $response);
+        self::createResponse(DeleteMemberResponse::class, $response);
     }
 }

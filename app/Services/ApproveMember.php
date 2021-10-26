@@ -13,23 +13,46 @@ class ApproveMember extends BaseService
      * @param  \App\Models\User  $member
      * @return void
      */
-    public function approve($member): void
+    public static function approve($member): void
     {
         $member->status = 'active';
 
         $member->save();
-        $member->notify((new UserApproved()));
-        
+    }
+
+    /**
+     * @param  \App\Models\User  $member
+     * @return void
+     */
+    public static function notify($member): void
+    {
+        $member->notify(app(UserApproved::class));
+    }
+
+    /** @return void */
+    public static function succeed(): void
+    {
         $response = [
             'status' => 'success',
             'message' => __('member.approved')
         ];
 
-        $this->createResponse(ApproveMemberResponse::class, $response);
+        self::createResponse(ApproveMemberResponse::class, $response);
     }
 
     /** @return void */
-    public function already(): void
+    public static function failed(): void
+    {
+        $response = [
+            'status' => 'error',
+            'message' => __('global.failed')
+        ];
+
+        self::createResponse(ApproveMemberResponse::class, $response);
+    }
+
+    /** @return void */
+    public static function already(): void
     {
         $response = [
             'status' => 'warning',
@@ -37,6 +60,6 @@ class ApproveMember extends BaseService
             'reason' => 'Already'
         ];
 
-        $this->createResponse(ApproveMemberResponse::class, $response);
+        self::createResponse(ApproveMemberResponse::class, $response);
     }
 }
