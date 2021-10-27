@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Admin;
+namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -61,7 +61,7 @@ final class EditMemberRoleTest extends TestCase
     }
 
     /** @return void */
-    public function testCannotDowngradeSuperAdmin(): void
+    public function testSuperAdminIsUndowngradable(): void
     {
         $admin = User::factory()->admin()->create();
         $superAdmin = User::factory()->superAdmin()->make();

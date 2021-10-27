@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Customer;
+namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -14,7 +14,7 @@ use App\Notifications\{OrderRejected, OrderDispatched};
 final class NotificationTest extends TestCase
 {
     /** @return void */
-    public function testIsNotifiedWhenTheirOrderIsRejected(): void
+    public function testCustomerIsNotifiedWhenTheirOrderIsRejected(): void
     {
         Notification::fake();
 
@@ -26,7 +26,7 @@ final class NotificationTest extends TestCase
     }
 
     /** @return void */
-    public function testIsNotifiedWhenTheirOrderIsDispatched(): void
+    public function testCustomerIsNotifiedWhenTheirOrderIsDispatched(): void
     {
         Notification::fake();
 

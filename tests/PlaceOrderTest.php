@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Customer;
+namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -20,7 +20,7 @@ final class PlaceOrderTest extends TestCase
     private $delivery_driver;
 
     /** @return void */
-    public function testCanPlaceValidOrder(): void
+    public function testCustomerCanPlaceValidOrder(): void
     {
         Notification::fake();
 

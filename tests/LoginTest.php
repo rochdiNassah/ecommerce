@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Member;
+namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -70,7 +70,7 @@ final class LoginTest extends TestCase
      * 
      * @return void
      */
-    public function testInputsAreFlashedExceptPassword(): void
+    public function testInputsAreFlashedOnFailure(): void
     {
         $form = [
             'email' => 'not-existent-email@foo.bar',

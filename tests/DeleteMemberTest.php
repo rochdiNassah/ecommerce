@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Admin;
+namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -40,7 +40,7 @@ final class DeleteMemberTest extends TestCase
     }
 
     /** @return void */
-    public function testCannotDeleteSuperAdmin(): void
+    public function testSuperAdminIsUndeletable(): void
     {
         $admin = User::factory()->admin()->make();
         $superAdmin = User::factory()->superAdmin()->create();

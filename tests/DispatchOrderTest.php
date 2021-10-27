@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Dispatcher;
+namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -13,7 +13,7 @@ use App\Models\{User, Order};
 final class DispatchOrderTest extends TestCase
 {
     /** @return void */
-    public function testCanDispatchPendingOrder(): void
+    public function testDispatcherCanDispatchPendingOrder(): void
     {
         $order = Order::factory()->create();
         $deliver_driver = User::factory()->create(['role' => 'delivery_driver']);
@@ -28,7 +28,7 @@ final class DispatchOrderTest extends TestCase
     }
 
     /** @return void */
-    public function testCannotDispatchOrderToNonDeliveryDriverMember(): void
+    public function testDispatcherCannotDispatchOrderToNonDeliveryDriverMember(): void
     {
         $order = Order::factory()->create();
         $dispatcher = User::factory()->make(['role' => 'dispatcher']);
@@ -48,7 +48,7 @@ final class DispatchOrderTest extends TestCase
     }
 
     /** @return void */
-    public function testCannotDispatchNonPendingOrder(): void
+    public function testDispatcherCannotDispatchNonPendingOrder(): void
     {
         $dispatched = Order::factory()->dispatched()->create();
         $dispatcher = User::factory()->create(['role' => 'dispatcher']);

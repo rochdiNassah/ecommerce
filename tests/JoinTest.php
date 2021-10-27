@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Tests\Member;
+namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -78,7 +78,7 @@ final class JoinTest extends TestCase
      * @param  array  $form
      * @return void
      */
-    public function testInputsAreFlashedExceptPassword($form): void
+    public function testInputsAreFlashedOnFailure($form): void
     {
         $inputs = array_flip(
             array_intersect(
