@@ -9,7 +9,7 @@ class BaseService
     protected static $request;
 
     /** @param  \Illuminate\Http\Request|null  $request */
-    public function __construct(\illuminate\Http\Request $request = null)
+    public function __construct($request = null)
     {
         self::$request = $request;
     }
@@ -21,14 +21,14 @@ class BaseService
     }
 
     /**
-     * @param  string  $interface
+     * @param  string  $abstract
      * @param  array  $response
      * @return void
      */
-    protected static function createResponse($interface, $response): void
+    protected static function createResponse($abstract, $response): void
     {
-        app()->singleton($interface, function () use ($response) {
-            return new ServiceResponse($response);
-        });
+        app()->bind($abstract, function () use ($response) {
+            return app(ServiceResponse::class, ['response' => $response]);
+        }, 1);
     }
 }
