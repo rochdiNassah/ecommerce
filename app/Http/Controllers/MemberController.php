@@ -71,7 +71,7 @@ class MemberController extends Controller
         if (false === $action) {
             EditMemberRole::already("This member is already {$role}.");
         } else {
-            if (! Auth::user()->can('affect', $member)) {
+            if (!Auth::user()->can('affect', $member)) {
                 return app(UnauthorizedResponse::class, ['redirect_to' => route('users')]);
             }
 
