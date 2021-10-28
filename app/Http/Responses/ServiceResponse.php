@@ -34,11 +34,9 @@ class ServiceResponse implements
     /** @var bool|string */
     private $redirect_to = false;
 
-    /**
-     * @param  string  $status
-     * @return void
-     */
-    public function __construct(array $response) {
+    /** @param  array  $response */
+    public function __construct(array $response)
+    {
         $this->response = $response;
 
         if (array_key_exists('redirect_to', $response)) {
