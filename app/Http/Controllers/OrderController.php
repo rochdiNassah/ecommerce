@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\{PlaceOrderRequest, RejectOrderRequest, DispatchOrderRequest};
+use Illuminate\Support\Facades\{Auth, Gate};
 use App\Models\{Order, User};
+use App\Http\Requests\{PlaceOrderRequest, RejectOrderRequest, DispatchOrderRequest};
 use App\Services\{PlaceOrder, RejectOrder, DispatchOrder, UpdateOrderStatus};
 use App\Interfaces\Responses\PlaceOrderResponse;
 use App\Interfaces\Responses\RejectOrderResponse;
@@ -52,7 +53,7 @@ class OrderController extends Controller
         if ('pending' !== $order->status) {
             RejectOrder::isNotPending($order->status);
         } else {
-            RejectOrder::reject($order);
+            RejectOrder::reject($order, Auth::id());
             RejectOrder::succeed();
         }
 
@@ -92,6 +93,10 @@ class OrderController extends Controller
     public function updateStatus(int $id, string $status): UpdateOrderStatusResponse
     {
         $order = Order::findOrFail($id);
+
+        UpdateOrderStatus::unauthorized();
+        
+        Gate::authorize('update-status', $order);
 
         if (UpdateOrderStatus::checkSequence($order->status, $status)) {
             UpdateOrderStatus::update($order, $status);

@@ -30,7 +30,9 @@ class OrderFactory extends Factory
                 'address' => 'Corge, grault'
             ]),
             'product_id' => 1,
-            'token' => bin2hex(openssl_random_pseudo_bytes(64))
+            'token' => bin2hex(openssl_random_pseudo_bytes(64)),
+            'dispatcher_id' => 3,
+            'delivery_driver_id' => 4,
         ];
     }
 
@@ -65,14 +67,17 @@ class OrderFactory extends Factory
     /**
      * Indicate that the order should be under dispatched status.
      * 
+     * @param  int  $delivery_driver_id
+     * @param  int  $dispatcher_id
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function dispatched()
+    public function dispatched(int $delivery_driver_id = 4, int $dispatcher_id = 3)
     {
-        return $this->state(function (array $attributes) {
+        return $this->state(function (array $attributes) use ($delivery_driver_id, $dispatcher_id) {
             return [
                 'status' => 'dispatched',
-                'dispatcher_id' => 0
+                'delivery_driver_id' => $delivery_driver_id,
+                'dispatcher_id' => $dispatcher_id
             ];
         });
     }
@@ -80,15 +85,17 @@ class OrderFactory extends Factory
     /**
      * Indicate that the order should be under delivered status.
      * 
+     * @param  int  $delivery_driver_id
+     * @param  int  $dispatcher_id
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function delivered()
+    public function delivered(int $delivery_driver_id = 4, int $dispatcher_id = 3)
     {
-        return $this->state(function (array $attributes) {
+        return $this->state(function (array $attributes) use ($delivery_driver_id, $dispatcher_id) {
             return [
                 'status' => 'delivered',
-                'delivery_driver_id' => 0,
-                'dispatcher_id' => 0
+                'delivery_driver_id' => $delivery_driver_id,
+                'dispatcher_id' => $dispatcher_id
             ];
         });
     }

@@ -5,7 +5,9 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Auth\Access\AuthorizationException;
 use App\Http\Responses\ModelNotFoundResponse;
+use App\Http\Responses\UnauthorizedResponse;
 
 class Handler extends ExceptionHandler
 {
@@ -43,6 +45,10 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
+        if ($e instanceof AuthorizationException) {
+            return app(UnauthorizedResponse::class);
+        }
+
         if ($e instanceof ModelNotFoundException) {
             preg_match('#(?!\\\)(\w*)$#', $e->getModel(), $match);
 

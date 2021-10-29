@@ -4,6 +4,7 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 use App\Models\{User, Order};
@@ -18,7 +19,8 @@ final class RejectOrderTest extends TestCase
         $this->get(route('order.reject', $order->id))->assertSessionHas('status', 'success');
         $this->assertDatabaseHas('orders', [
             'id' => $order->id,
-            'status' => 'rejected'
+            'status' => 'rejected',
+            'dispatcher_id' => Auth::id()
         ]);
     }
 
@@ -29,14 +31,14 @@ final class RejectOrderTest extends TestCase
         $dispatched = Order::factory()->dispatched()->create();
         $delivered = Order::factory()->delivered()->create();
         $orders = [$rejected, $dispatched, $delivered];
-        $statuses = ['rejected', 'dispatched', 'delivered'];
+        $status = ['rejected', 'dispatched', 'delivered'];
 
         foreach ($orders as $key => $order) {
             $this->get(route('order.reject', $order->id))->assertSessionHas('status', 'warning');
 
             $this->assertDatabaseHas('orders', [
                 'id' => $order->id,
-                'status' => $statuses[$key]
+                'status' => $status[$key]
             ]);
         }
     }

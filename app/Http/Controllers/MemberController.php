@@ -13,6 +13,15 @@ use App\Http\Responses\UnauthorizedResponse;
 
 class MemberController extends Controller
 {
+    public function __construct()
+    {
+        $callback = function () {
+            return new UnauthorizedResponse(['redirect_to' => route('users')]);
+        };
+
+        app()->bind(UnauthorizedResponse::class, $callback, 1);
+    }
+
     /**
      * Approve a pending member.
      * 
@@ -72,7 +81,7 @@ class MemberController extends Controller
             EditMemberRole::already("This member is already {$role}.");
         } else {
             if (!Auth::user()->can('affect', $member)) {
-                return app(UnauthorizedResponse::class, ['redirect_to' => route('users')]);
+                return app(unauthorizedResponse::class);
             }
 
             EditMemberRole::update($member, $role, $action);

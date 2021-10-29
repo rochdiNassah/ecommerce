@@ -8,13 +8,17 @@ use Illuminate\Http\RedirectResponse;
 class UnauthorizedResponse implements Responsable
 {
     /** @var bool|string */
-    private $redirect_to = false;
+    private $redirect_to;
 
-    public function __construct($redirect_to = false)
+    /** @var array */
+    private $response;
+
+    public function __construct($response = null)
     {
-        if ($redirect_to) {
-            $this->redirect_to = $redirect_to;
-        }
+        $this->response['status'] = $response['status'] ?? 'error';
+        $this->response['message'] = $response['message'] ?? __('global.unauthorized');
+        $this->response['reason'] = $response['reason'] ?? 'Unauthorized';
+        $this->redirect_to = $response['redirect_to'] ?? false;
     }
 
     /**
@@ -25,17 +29,11 @@ class UnauthorizedResponse implements Responsable
      */
     public function toResponse($request): RedirectResponse
     {
-        $response = [
-            'status' => 'error',
-            'message' => __('global.unauthorized'),
-            'reason' => 'Unauthorized'
-        ];
-
         if ($this->redirect_to) {
             return redirect($this->redirect_to)
-                ->with($response);
+                ->with($this->response);
         }
 
-        return back()->with($response);
+        return back()->with($this->response);
     }
 }

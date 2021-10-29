@@ -63,7 +63,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the user should be admin.
+     * Indicate that the user should be an admin.
      * 
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
@@ -77,7 +77,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the user should be super admin.
+     * Indicate that the user should be a super admin.
      * 
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
@@ -87,6 +87,34 @@ class UserFactory extends Factory
             return [
                 'role' => 'admin',
                 'is_super_admin' => true
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the user should be a delivery driver.
+     * 
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function deliveryDriver()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role' => 'delivery_driver'
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the user should be a dispatcher.
+     * 
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function dispatcher()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role' => 'dispatcher'
             ];
         });
     }

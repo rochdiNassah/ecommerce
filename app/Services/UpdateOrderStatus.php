@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Interfaces\Responses\UpdateOrderStatusResponse;
+use App\Http\Responses\UnauthorizedResponse;
 
 class UpdateOrderStatus extends BaseService
 {
@@ -70,5 +71,19 @@ class UpdateOrderStatus extends BaseService
         ];
 
         self::createResponse(UpdateOrderStatusResponse::class, $response);
+    }
+
+    /** @return void */
+    public static function unauthorized()
+    {
+        $response = [
+            'status' => 'warning',
+            'message' => 'You are not authorized to update this order.',
+            'redirect_to' => route('dashboard')
+        ];
+
+        app()->singleton(UnauthorizedResponse::class, function ($app) use ($response) {
+            return new UnauthorizedResponse($response);
+        });
     }
 }

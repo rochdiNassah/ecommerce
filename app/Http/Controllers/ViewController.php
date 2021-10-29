@@ -37,8 +37,8 @@ class ViewController extends Controller
         if ('delivery_driver' === $member->role) {
             $view = 'delivery_driver.dashboard';
             $data = [
-                'orders' => Order::where('status', 'dispatched')
-                    ->orWhere('status', 'shipped')
+                'orders' => Order::where('delivery_driver_id', $member->id)
+                    ->where(function ($query) { $query->where('status', 'dispatched')->orWhere('status', 'shipped'); })
                     ->where('delivery_driver_id', $member->id)
                     ->orderBy('status', 'desc')
                     ->get()

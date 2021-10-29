@@ -20,8 +20,6 @@ class UserPolicy
     }
 
     /**
-     * Determine if the given user can be deleted.
-     * 
      * @param  User  $user
      * @param  User  $target
      * @return bool

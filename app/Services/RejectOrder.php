@@ -12,11 +12,13 @@ class RejectOrder extends BaseService
      * Reject the given order and notify the customer.
      * 
      * @param  \App\Models\Order  $order
+     * @param  int  $dispatcher_id
      * @return void
      */
-    public static function reject($order): void
+    public static function reject($order, $dispatcher_id): void
     {
         $order->status = 'rejected';
+        $order->dispatcher_id = $dispatcher_id;
 
         $order->save();
 
