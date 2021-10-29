@@ -7,8 +7,8 @@ return [
     'rejected' => 'Order rejected successfully.',
     'dispatched' => 'Order dispatched successfully.',
     'updated' => [
-        'shipped' => 'Order marked as shipped succeessfully.',
-        'delivered' => 'Order marked as delivered succeessfully.',
+        'shipped' => 'Order marked as shipped successfully.',
+        'delivered' => 'Order marked as delivered successfully.',
     ]
 
 ];
