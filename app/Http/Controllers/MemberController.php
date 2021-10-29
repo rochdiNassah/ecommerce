@@ -75,9 +75,9 @@ class MemberController extends Controller
         extract($request->safe()->only('id', 'role'));
 
         $member = User::findOrFail($id);
-        $action = EditMemberRole::getAction($member, $role);
+        $action = EditMemberRole::getAction($member->role, $role);
 
-        if (false === $action) {
+        if ($role === $member->role) {
             EditMemberRole::already("This member is already {$role}.");
         } else {
             if (!Auth::user()->can('affect', $member)) {
