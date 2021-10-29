@@ -97,7 +97,7 @@ class OrderController extends Controller
             UpdateOrderStatus::update($order, $status);
             UpdateOrderStatus::succeed($status);
         } else {
-            UpdateOrderStatus::already($status);
+            UpdateOrderStatus::failed($status);
         }
 
         return app(UpdateOrderStatusResponse::class);

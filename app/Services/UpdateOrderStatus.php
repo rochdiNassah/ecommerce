@@ -57,15 +57,16 @@ class UpdateOrderStatus extends BaseService
     }
 
     /**
+     * Failed to update the order's status.
+     * 
      * @param  string  $status
      * @return void
      */
-    public static function already(string $status): void
+    public static function failed(string $status): void
     {
         $response = [
-            'status' => 'warning',
-            'message' => "This order is already {$status}.",
-            'reason' => 'Already'
+            'status' => 'error',
+            'message' => "Cannot update this order to {$status}."
         ];
 
         self::createResponse(UpdateOrderStatusResponse::class, $response);
