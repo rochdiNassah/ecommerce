@@ -44,18 +44,19 @@ class EditMemberRole extends BaseService
     /**
      * Determine if the given action is upgrade or downgrade.
      * 
-     * @param  \App\Models\User  $member
-     * @param  string  $role
+     * @param  string|null  $currentRole
+     * @param  string  $newRole
      * @return false|string
      */
-    public static function getAction($member, string $role): false|string
+    public static function getAction(string|null $currentRole, string $newRole): false|string
     {
-        $roles = ['admin' => 999, 'dispatcher' => 666, 'delivery_driver' => 333];
+        $roles = ['delivery_driver, 'dispatcher', 'admin'];
         
-        return $member->role === $role
-            ? false
-            : ($roles[$role] > ($roles[$member->role] ?? 333)
-                ? 'upgrade'
-                : 'downgrade');
+        $currentRole = array_search($currentRole ?? $roles[0], $roles);
+        $newRole = array_search($newRole, $roles);
+        
+        return $currentRole < $newRole
+            ? 'upgrade'
+            : 'downgrade';
     }
 }
