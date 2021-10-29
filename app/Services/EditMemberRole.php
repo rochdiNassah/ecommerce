@@ -50,7 +50,7 @@ class EditMemberRole extends BaseService
      */
     public static function getAction(string|null $currentRole, string $newRole): false|string
     {
-        $roles = ['delivery_driver, 'dispatcher', 'admin'];
+        $roles = ['delivery_driver', 'dispatcher', 'admin'];
         
         $currentRole = array_search($currentRole ?? $roles[0], $roles);
         $newRole = array_search($newRole, $roles);
