@@ -14,6 +14,7 @@ use App\Interfaces\Responses\DeleteProductResponse;
 use App\Interfaces\Responses\RequestJoinResponse;
 use App\Interfaces\Responses\RejectOrderResponse;
 use App\Interfaces\Responses\DispatchOrderResponse;
+use App\Interfaces\Responses\UpdateOrderStatusResponse;
 
 class ServiceResponse implements
     LoginResponse,
@@ -26,7 +27,8 @@ class ServiceResponse implements
     DeleteProductResponse,
     RequestJoinResponse,
     RejectOrderResponse,
-    DispatchOrderResponse
+    DispatchOrderResponse,
+    UpdateOrderStatusResponse
 {
     /** @var array */
     private $response;

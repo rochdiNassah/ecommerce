@@ -63,8 +63,9 @@ Route::middleware('auth')->group(function () {
                 Route::get('/dispatch/{orderId}', [ViewController::class, 'dispatchOrder'])->name('dispatch-view');
                 Route::post('/dispatch', [OrderController::class, 'dispatchOrder'])->name('dispatch');
             });
-            Route::get('/update/{orderId}', [OrderController::class, 'updateView'])->name('update-view');
-            Route::post('/update', [OrderController::class, 'update'])->name('update');
+            Route::middleware('role:delivery_driver')->group(function () {
+                Route::get('/{orderId}/update-status/{status}', [OrderController::class, 'updateStatus'])->name('update-status');
+            });
         });
     });
 });

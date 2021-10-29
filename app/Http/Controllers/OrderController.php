@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\{PlaceOrderRequest, RejectOrderRequest, DispatchOrderRequest};
 use App\Models\{Order, User};
-use App\Services\{PlaceOrder, RejectOrder, DispatchOrder};
+use App\Services\{PlaceOrder, RejectOrder, DispatchOrder, UpdateOrderStatus};
 use App\Interfaces\Responses\PlaceOrderResponse;
 use App\Interfaces\Responses\RejectOrderResponse;
 use App\Interfaces\Responses\DispatchOrderResponse;
+use App\Interfaces\Responses\UpdateOrderStatusResponse;
 
 class OrderController extends Controller
 {
@@ -79,5 +80,26 @@ class OrderController extends Controller
         }
 
         return app(DispatchOrderResponse::class);
+    }
+
+    /**
+     * Update order's status.
+     * 
+     * @param  int  $id
+     * @param  string  $status
+     * @return void
+     */
+    public function updateStatus(int $id, string $status): UpdateOrderStatusResponse
+    {
+        $order = Order::findOrFail($id);
+
+        if (UpdateOrderStatus::checkSequence($order->status, $status)) {
+            UpdateOrderStatus::update($order, $status);
+            UpdateOrderStatus::succeed($status);
+        } else {
+            UpdateOrderStatus::already($status);
+        }
+
+        return app(UpdateOrderStatusResponse::class);
     }
 }

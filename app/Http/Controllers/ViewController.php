@@ -30,7 +30,7 @@ class ViewController extends Controller
             $view = 'dispatcher.dashboard';
             $data = [
                 'orders' => Order::where('status', '!=', 'rejected')
-                    ->orderBy('status')
+                    ->orderBy('status', 'asc')
                     ->get()
             ];
         }
@@ -38,8 +38,9 @@ class ViewController extends Controller
             $view = 'delivery_driver.dashboard';
             $data = [
                 'orders' => Order::where('status', 'dispatched')
+                    ->orWhere('status', 'shipped')
                     ->where('delivery_driver_id', $member->id)
-                    ->orderBy('status')
+                    ->orderBy('status', 'desc')
                     ->get()
             ];
         }

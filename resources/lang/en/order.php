@@ -5,6 +5,10 @@ return [
     'placed' => 'Great! You\'ve placed your order successfully.',
     'missing' => 'Order not found!',
     'rejected' => 'Order rejected successfully.',
-    'dispatched' => 'Order dispatched successfully.'
+    'dispatched' => 'Order dispatched successfully.',
+    'updated' => [
+        'shipped' => 'Order marked as shipped succeessfully.',
+        'delivered' => 'Order marked as delivered succeessfully.',
+    ]
 
 ];

@@ -58,12 +58,12 @@
                                 @if ('dispatched' === $order->status)
                                     <a
                                         class="w-20 text-center font-bold bg-blue-800 hover:bg-blue-900 transition text-blue-300 text-xs py-1 px-2 rounded-sm"
-                                        href="{{ '#TODO:' }}"
+                                        href="{{ route('order.update-status', ['orderId' => $order->id, 'status' => 'shipped']) }}"
                                     >Mark as shipped</a>
                                 @elseif ('shipped' === $order->status)
                                     <a
-                                        class="w-20 text-center font-bold bg-blue-800 hover:bg-blue-900 transition text-blue-300 text-xs py-1 px-2 rounded-sm"
-                                        href="{{ '#TODO:' }}"
+                                        class="w-20 text-center font-bold bg-green-800 hover:bg-green-900 transition text-green-300 text-xs py-1 px-2 rounded-sm"
+                                        href="{{ route('order.update-status', ['orderId' => $order->id, 'status' => 'delivered']) }}"
                                     >Mark as delivered</a>
                                 @endif
                             </div>
