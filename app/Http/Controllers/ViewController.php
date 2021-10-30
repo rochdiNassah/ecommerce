@@ -10,6 +10,19 @@ use App\Models\{User, Product, Order};
 class ViewController extends Controller
 {
     /**
+     * Render track order status view.
+     * 
+     * @param  string  $token
+     * @return \Illuminate\View\View
+     */
+    public function trackOrderView(string $token): Response
+    {
+        $order = Order::where('token', $token)->firstOrFail();
+
+        return view('order.track', ['order' => $order]);
+    }
+
+    /**
      * Render the dashboard view depending on the user's role.
      * 
      * @param  \Illuminate\Http\Request  $request

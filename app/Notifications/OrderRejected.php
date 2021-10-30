@@ -14,12 +14,13 @@ class OrderRejected extends Notification implements ShouldQueue
     /** @var \App\Models\Order */
     protected $order;
 
-    /** @var \object */
+    /** @var object */
     protected $customer;
 
     /**
      * Create a new notification instance.
      *
+     * @param  \App\Models\Order  $order
      * @return void
      */
     public function __construct($order, $customer)
@@ -50,7 +51,8 @@ class OrderRejected extends Notification implements ShouldQueue
         return (new MailMessage)
                     ->greeting("Hello {$this->customer->fullname}, and thank you for your order.")
                     ->line('Unfortunately, your order is rejected due to an invalid or missing details.')
-                    ->action('Place Your Order Again!', route('order.create', $this->order->id));
+                    ->action('View Order', route('order.track-view', $this->order->token))
+                    ->action('Place Your Order Again!', route('order.create-view', $this->order->id));
     }
 
     /**

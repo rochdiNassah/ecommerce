@@ -31,7 +31,7 @@ class PlaceOrder extends BaseService
         $customer = (object) json_decode($order->customer);
 
         Notification::route('mail', $customer->email)
-            ->notify(new OrderPlaced($order));
+            ->notify(new OrderPlaced($order, $customer));
     }
     
     /**

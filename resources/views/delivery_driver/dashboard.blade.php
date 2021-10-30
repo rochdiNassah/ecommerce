@@ -9,14 +9,39 @@
         @foreach ($orders as $order)
             @php
                 $customer = (object) json_decode($order->customer);
-                $statusColor = $order->status === 'delivered' ? 'green' : 'blue';
-                $percentage = $order->status === 'pending' ? 0 : ($order->status === 'dispatched' ? 30 : ($order->status === 'shipped' ? 60 : ($order->status === 'delivered' ? 100 : 0)));
+
+                switch($order->status) {
+                    case 'rejected':
+                    case 'canceled':
+                        $statusColor = 'red';
+                        $percentage = 100;
+                        break;
+                    case 'pending':
+                        $statusColor = 'yellow';
+                        $percentage = 0;
+                        break;
+                    case 'dispatched':
+                        $statusColor = 'blue';
+                        $percentage = 30;
+                        break;
+                    case 'shipped':
+                        $statusColor = 'lime';
+                        $percentage = 60;
+                        break;
+                    case 'delivered':
+                        $statusColor = 'green';
+                        $percentage = 100;
+                        break;
+                    default:
+                        $statusColor = 'blue';
+                        $percentage = 0;
+                }
             @endphp
 
             <div class="w-full lg:w-800 bg-dark border border-gray rounded-sm space-y-2">
                 <div class="border-b border-gray p-2">
                     <div class="w-full bg-gray-600 rounded-md">
-                        <div class="bg-{{ $mainColor }}-600 text-xs font-medium text-{{ $mainColor }}-100 text-center p-0.5 leading-none rounded-md" style="width: {{ $percentage }}%">{{ $percentage }}%</div>
+                        <div class="bg-{{ $statusColor }}-600 text-xs font-medium text-{{ $statusColor }}-100 text-center p-0.5 leading-none rounded-md" style="width: {{ $percentage }}%">{{ $percentage }}%</div>
                     </div>
                 </div>
 
@@ -59,20 +84,23 @@
                                 <div>
                                     <p class="inline text-xs font-bold text-{{ $statusColor }}-500">{{ $order->status }}</p>
                                 </div>
-                                @if ('dispatched' === $order->status)
-                                    <a
-                                        class="w-20 text-center font-bold bg-blue-800 hover:bg-blue-900 transition text-blue-300 text-xs py-1 px-2 rounded-sm"
-                                        href="{{ route('order.update-status', ['orderId' => $order->id, 'status' => 'shipped']) }}"
-                                    >Mark as shipped</a>
-                                @elseif ('shipped' === $order->status)
-                                    <a
-                                        class="w-20 text-center font-bold bg-green-800 hover:bg-green-900 transition text-green-300 text-xs py-1 px-2 rounded-sm"
-                                        href="{{ route('order.update-status', ['orderId' => $order->id, 'status' => 'delivered']) }}"
-                                    >Mark as delivered</a>
-                                @endif
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="flex w-full space-x-2 border-t border-gray p-2">
+                    @if ('dispatched' === $order->status)
+                        <a
+                            class="w-32 text-center font-bold bg-blue-800 hover:bg-blue-900 transition text-blue-300 text-xs py-1 px-2 rounded-sm"
+                            href="{{ route('order.update-status', ['orderId' => $order->id, 'status' => 'shipped']) }}"
+                        >Mark as shipped</a>
+                    @elseif ('shipped' === $order->status)
+                        <a
+                            class="w-32 text-center font-bold bg-green-800 hover:bg-green-900 transition text-green-300 text-xs py-1 px-2 rounded-sm"
+                            href="{{ route('order.update-status', ['orderId' => $order->id, 'status' => 'delivered']) }}"
+                        >Mark as delivered</a>
+                    @endif
                 </div>
             </div>
         @endforeach

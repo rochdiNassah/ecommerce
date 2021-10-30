@@ -9,8 +9,34 @@
         @foreach ($orders as $order)
             @php
                 $customer = (object) json_decode($order->customer);
-                $statusColor = $order->status === 'rejected' ? 'red' : ($order->status === 'pending' ? 'yellow': ($order->status === 'delivered' ? 'green' : 'blue'));
-                $percentage = $order->status === 'pending' ? 0 : ($order->status === 'dispatched' ? 30 : ($order->status === 'shipped' ? 60 : ($order->status === 'delivered' ? 100 : 0)));
+
+                switch ($order->status) {
+                    case 'rejected':
+                    case 'canceled':
+                        $statusColor = 'red';
+                        $percentage = 100;
+                        break;
+                    case 'pending':
+                        $statusColor = 'yellow';
+                        $percentage = 0;
+                        break;
+                    case 'dispatched':
+                        $statusColor = 'blue';
+                        $percentage = 30;
+                        break;
+                    case 'shipped':
+                        $statusColor = 'lime';
+                        $percentage = 60;
+                        break;
+                    case 'delivered':
+                        $statusColor = 'green';
+                        $percentage = 100;
+                        break;
+                    default:
+                        $statusColor = 'blue';
+                        $percentage = 0;
+                }
+
                 $authorized = true;
 
                 if (isset($order->dispatcher)) {
@@ -22,7 +48,7 @@
             <div class="w-full lg:w-800 bg-dark border border-gray rounded-sm space-y-2">
                 <div class="border-b border-gray p-2">
                     <div class="w-full bg-gray-600 rounded-md">
-                        <div class="bg-{{ $mainColor }}-600 text-xs font-medium text-{{ $mainColor }}-100 text-center p-0.5 leading-none rounded-md" style="width: {{ $percentage }}%">{{ $percentage }}%</div>
+                        <div class="bg-{{ $statusColor }}-600 text-xs font-medium text-{{ $statusColor }}-100 text-center p-0.5 leading-none rounded-md" style="width: {{ $percentage }}%">{{ $percentage }}%</div>
                     </div>
                 </div>
 
@@ -65,22 +91,23 @@
                                 <div>
                                     <p class="inline text-xs font-bold text-{{ $statusColor }}-500">{{ $order->status }}</p>
                                 </div>
-                                @if ('pending' === $order->status)
-                                    <div class="flex space-x-2">
-                                        <a
-                                            class="w-100 text-center font-bold bg-lime-800 hover:bg-lime-900 transition text-lime-300 text-xs py-1 px-2 rounded-sm"
-                                            href="{{ route('order.dispatch-view', $order->id) }}"
-                                        >Dispatch</a>
-                                        <a
-                                            class="w-100 text-center font-bold bg-orange-800 hover:bg-orange-900 transition text-orange-300 text-xs py-1 px-2 rounded-sm"
-                                            href="{{ route('order.reject', $order->id) }}"
-                                        >Reject</a>
-                                    </div>
-                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
+
+                @if ('pending' === $order->status)
+                    <div class="flex space-x-2 border-t border-gray p-2">
+                        <a
+                            class="w-100 text-center font-bold bg-lime-800 hover:bg-lime-900 transition text-lime-300 text-xs py-1 px-2 rounded-sm"
+                            href="{{ route('order.dispatch-view', $order->id) }}"
+                        >Dispatch</a>
+                        <a
+                            class="w-100 text-center font-bold bg-orange-800 hover:bg-orange-900 transition text-orange-300 text-xs py-1 px-2 rounded-sm"
+                            href="{{ route('order.reject', $order->id) }}"
+                        >Reject</a>
+                    </div>
+                @endif
             </div>
             @endif
         @endforeach

@@ -15,6 +15,8 @@ use App\Http\Controllers\{MemberController, ProductController};
 |
 */
 
+Route::get('order/track/{token}', [ViewController::class, 'trackOrderView'])->name('order.track-view');
+
 Route::middleware('guest')->group(function () {
     Route::view('/login', 'auth.login')->name('login');
     Route::view('/join', 'auth.join')->name('join');
@@ -27,6 +29,7 @@ Route::middleware('guest')->group(function () {
 
     Route::name('order.')->group(function () {
         Route::prefix('order')->group(function () {
+            // Route::get('/track/{token}', [ViewController::class, 'trackOrderView'])->name('track-view');
             Route::get('/create/{productId}', [ViewController::class, 'createOrder'])->name('create-view');
             Route::post('/create', [OrderController::class, 'create'])->name('create');
         });

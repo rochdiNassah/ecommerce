@@ -14,14 +14,20 @@ class OrderPlaced extends Notification implements ShouldQueue
     /** @var \App\Models\Order */
     protected $order;
 
+    /** @var object */
+    protected $customer;
+
     /**
      * Create a new notification instance.
      *
+     * @param  \App\Models\Order  $order
+     * @param  object  $customer
      * @return void
      */
-    public function __construct($order)
+    public function __construct($order, $customer)
     {
-        $this->order = (object) $order;
+        $this->order = $order;
+        $this->customer = $customer;
     }
 
     /**
@@ -44,10 +50,10 @@ class OrderPlaced extends Notification implements ShouldQueue
     public function toMail()
     {
         return (new MailMessage)
-                    ->greeting("Hello {$this->order->customer->fullname}, and thank you for your order.")
+                    ->greeting("Hello {$this->customer->fullname}, and thank you for your order.")
                     ->line('We\'ve received your order successfully and we would keep you updated with your order\'s status whenever we update it.')
                     ->line('Click the below button if you want to track or cancel your order.')
-                    ->action('View Order', "/track/{$this->order->token}");
+                    ->action('View Order', route('order.track-view', $this->order->token));
     }
 
     /**

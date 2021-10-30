@@ -51,7 +51,8 @@ class OrderDispatched extends Notification implements ShouldQueue
         return (new MailMessage)
             ->greeting("Hello {$this->customer->fullname}, and thank you for your order.")
             ->line('Your order is dispatched and it will be in your door step shortly.')
-            ->action('View Order', "/track/{$this->order->token}");
+            ->line('If you would track your order status, click the below button.')
+            ->action('View Order', route('order.track-view', $this->order->token));
         }
 
     /**
