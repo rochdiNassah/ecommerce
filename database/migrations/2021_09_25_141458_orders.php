@@ -21,7 +21,6 @@ class Orders extends Migration
             $table->json('customer');
             $table->set('status', ['pending', 'rejected', 'canceled', 'dispatched', 'shipped', 'delivered'])->default('pending');
             $table->text('token');
-            $table->text('globalToken')->nullable();
             $table->timestamps();
         });
     }
