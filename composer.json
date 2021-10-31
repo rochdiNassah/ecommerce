@@ -10,7 +10,9 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.54",
         "laravel/sanctum": "^2.11",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "cboden/ratchet": "^0.4.3",
+        "react/zmq": "0.2.*|0.3.*"
     },
     "require-dev": {
         "brianium/paratest": "^6.3",

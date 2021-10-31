@@ -40,7 +40,7 @@
             <div class="w-full lg:w-800 bg-dark border border-gray rounded-sm space-y-2">
                 <div class="border-b border-gray p-2">
                     <div class="w-full bg-gray-600 rounded-md">
-                        <div class="bg-{{ $statusColor }}-600 text-xs font-medium text-{{ $statusColor }}-100 text-center p-0.5 leading-none rounded-md" style="width: {{ $percentage }}%">{{ $percentage }}%</div>
+                        <div class="bg-{{ $statusColor }}-600 transition text-xs font-medium text-{{ $statusColor }}-100 text-center p-0.5 leading-none rounded-md" id="progressBar" style="width: {{ $percentage }}%">{{ $percentage }}%</div>
                     </div>
                 </div>
 
@@ -70,22 +70,63 @@
                                     <p class="text-xs font-bold text-gray-200 break-words">{{ $customer->address }}</p>
                                 </div>
                                 <div>
-                                    <p class="inline text-xs font-bold text-{{ $statusColor }}-500">{{ $order->status }}</p>
+                                    <p class="text-{{ $statusColor }}-500 inline text-xs font-bold" id="statusText">{{ $order->status }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                @if (!in_array($order->status, ['delivered', 'rejected', 'canceled']))
-                    <div class="flex space-x-2 border-t border-gray p-2">
-                        <a
-                            class="w-200 text-center font-bold bg-red-800 hover:bg-red-900 transition text-red-300 text-xs py-1 px-2 rounded-sm"
-                            href="{{ route('order.reject', $order->id) }}"
-                        >Cancel Your Order</a>
-                    </div>
-                @endif
+                <div id="actions">
+                    @if (!in_array($order->status, ['delivered', 'rejected', 'canceled']))
+                        <div class="flex space-x-2 border-t border-gray p-2">
+                            <a
+                                class="w-200 text-center font-bold bg-red-800 hover:bg-red-900 transition text-red-300 text-xs py-1 px-2 rounded-sm"
+                                href="{{ route('order.reject', $order->id) }}"
+                            >Cancel Your Order</a>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
+
+        <script src="{{ asset('js/autobahn.js') }}"></script>
+        <script>
+            var orderStatus = {
+                rejected: ['red', '100%'],
+                canceled: ['red', '100%'],
+                pending: ['yellow', '0%'],
+                dispatched: ['blue', '30%'],
+                shipped: ['lime', '60%'],
+                delivered: ['green', '100%']
+            }
+            var orderStatusLayou = null
+            var progressBarElement = document.getElementById('progressBar')
+            var statusTextElement = document.getElementById('statusText')
+            var cardActionsElement = document.getElementById('actions')
+
+            var conn = new ab.Session('ws://localhost:8080',
+                function() {
+                    conn.subscribe(window.location.href.split('/')[5], function(order, data) {
+                        orderStatusLayout = orderStatus[data.status]
+
+                        progressBarElement.innerText = orderStatusLayout[1]
+                        progressBarElement.classList.replace(progressBarElement.classList[0], 'bg-'+orderStatusLayout[0]+'-600')
+                        progressBarElement.style.width = orderStatusLayout[1]
+
+                        statusTextElement.innerText = data.status
+                        statusTextElement.classList.replace(statusTextElement.classList[0], 'text-'+orderStatusLayout[0]+'-600')
+                    
+                        if ('100%' === orderStatusLayout[1]) {
+                            cardActionsElement.remove()
+                        }
+                    });
+                },
+                function() {
+                    console.warn('WebSocket connection closed');
+                },
+                {'skipSubprotocolCheck': true}
+            );
+        </script>
     @include('layouts.footer')
 @stop
