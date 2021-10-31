@@ -19,7 +19,7 @@ class Orders extends Migration
             $table->unsignedBigInteger('dispatcher_id')->nullable();
             $table->unsignedBigInteger('delivery_driver_id')->nullable();
             $table->json('customer');
-            $table->set('status', ['pending', 'rejected', 'dispatched', 'shipped', 'delivered'])->default('pending');
+            $table->set('status', ['pending', 'rejected', 'canceled', 'dispatched', 'shipped', 'delivered'])->default('pending');
             $table->text('token');
             $table->timestamps();
         });

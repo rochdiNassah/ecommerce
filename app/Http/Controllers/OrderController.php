@@ -100,7 +100,7 @@ class OrderController extends Controller
      * 
      * @param  int  $id
      * @param  string  $status
-     * @return void
+     * @return \App\Interfaces\Responses\UpdateOrderStatusResponse
      */
     public function updateStatus(int $id, string $status): UpdateOrderStatusResponse
     {
@@ -121,6 +121,33 @@ class OrderController extends Controller
             $socket->send(json_encode(['order' => json_encode($order)]));
         } else {
             UpdateOrderStatus::failed($status);
+        }
+
+        return app(UpdateOrderStatusResponse::class);
+    }
+
+    /**
+     * Cancel the given order.
+     * 
+     * @param  string  $token
+     * @return \App\Interfaces\Responses\UpdateOrderStatusResponse
+     */
+    public function cancel(string $token): UpdateOrderStatusResponse
+    {
+        $order = Order::where('token', $token)->firstOrFail();
+        $status = 'canceled';
+
+        if (in_array($order->status, ['canceled', 'rejected', 'delivered'])) {
+            UpdateOrderStatus::failed($status);
+        } else {
+            UpdateOrderStatus::update($order, $status);
+            UpdateOrderStatus::succeed($status);
+
+            $context = new \ZMQContext();
+            $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'my pusher');
+
+            $socket->connect('tcp://localhost:5555');
+            $socket->send(json_encode(['order' => json_encode($order)]));
         }
 
         return app(UpdateOrderStatusResponse::class);

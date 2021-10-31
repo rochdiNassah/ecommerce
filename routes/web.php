@@ -29,7 +29,7 @@ Route::middleware('guest')->group(function () {
 
     Route::name('order.')->group(function () {
         Route::prefix('order')->group(function () {
-            // Route::get('/track/{token}', [ViewController::class, 'trackOrderView'])->name('track-view');
+            Route::get('/cancel/{token}', [OrderController::class, 'cancel'])->name('cancel');
             Route::get('/create/{productId}', [ViewController::class, 'createOrder'])->name('create-view');
             Route::post('/create', [OrderController::class, 'create'])->name('create');
         });

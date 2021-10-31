@@ -60,34 +60,44 @@ class InitSeeder extends Seeder
         ];
         $products = [
             [
-                'name' => 'Coffee',
-                'price' => 3.45,
-                'image_path' => asset('images/products/coffee.jpg')
-            ],
-            [
-                'name' => 'Camera',
-                'price' => 600.00,
-                'image_path' => asset('images/products/camera.jpg')
-            ],
-            [
-                'name' => 'Dog',
-                'price' => 90.00,
-                'image_path' => asset('images/products/dog.jpg')
-            ],
-            [
-                'name' => 'Cat',
-                'price' => 69.95,
-                'image_path' => asset('images/products/cat.jpg')
-            ],
-            [
                 'name' => 'Table',
-                'price' => 30.00,
+                'price' => 29.98,
                 'image_path' => asset('images/products/table.jpg')
             ],
             [
-                'name' => 'Mac pro',
-                'price' => 5000.00,
-                'image_path' => asset('images/products/mac-pro.jpg')
+                'name' => 'Solid wooden bed',
+                'price' => 950.00,
+                'image_path' => asset('images/products/solid-wooden-bed.jpg')
+            ],
+            [
+                'name' => 'Sofa',
+                'price' => 399.90,
+                'image_path' => asset('images/products/sofa.jpg')
+            ],
+            [
+                'name' => 'Bookshelves',
+                'price' => 59.90,
+                'image_path' => asset('images/products/bookshelves.jpg')
+            ],
+            [
+                'name' => 'Wooden bookshelve',
+                'price' => 79.90,
+                'image_path' => asset('images/products/wooden-bookshelve.jpg')
+            ],
+            [
+                'name' => 'Chair',
+                'price' => 45.00,
+                'image_path' => asset('images/products/chair.jpg')
+            ],
+            [
+                'name' => 'Desk',
+                'price' => 499.90,
+                'image_path' => asset('images/products/desk.jpg')
+            ],
+            [
+                'name' => 'Small desk',
+                'price' => 299.90,
+                'image_path' => asset('images/products/small-desk.jpg')
             ]
         ];
         $order = [
@@ -96,7 +106,7 @@ class InitSeeder extends Seeder
                     'fullname' => Str::random(10),
                     'email' => Str::random(10).'@foo.bar',
                     'phone_number' => str_repeat('0', 10),
-                    'address' => 'Corge, grault'
+                    'address' => '9692 East 3rd Rd. Havertown, PA 19083.'
                 ]),
                 'product_id' => 1,
                 'token' => bin2hex(openssl_random_pseudo_bytes(64))

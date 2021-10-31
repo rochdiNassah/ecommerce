@@ -16,7 +16,7 @@ class UpdateOrderStatus extends BaseService
      */
     public static function checkSequence(string $currentStatus, string $newStatus): bool
     {
-        $sequence = ['dispatched', 'shipped', 'delivered'];
+        $sequence = ['pending', 'rejected', 'canceled', 'dispatched', 'shipped', 'delivered'];
         $currentStatus = array_search($currentStatus, $sequence);
         $newStatus = array_search($newStatus, $sequence);
 
@@ -51,7 +51,7 @@ class UpdateOrderStatus extends BaseService
     {
         $response = [
             'status' => 'success',
-            'message' => __("order.updated.{$status}")
+            'message' => __("Order is now {$status}.")
         ];
 
         self::createResponse(UpdateOrderStatusResponse::class, $response);
@@ -67,7 +67,7 @@ class UpdateOrderStatus extends BaseService
     {
         $response = [
             'status' => 'error',
-            'message' => "Cannot update this order to {$status}."
+            'message' => "This order cannot be {$status}."
         ];
 
         self::createResponse(UpdateOrderStatusResponse::class, $response);

@@ -82,7 +82,7 @@
                         <div class="flex space-x-2 border-t border-gray p-2">
                             <a
                                 class="w-200 text-center font-bold bg-red-800 hover:bg-red-900 transition text-red-300 text-xs py-1 px-2 rounded-sm"
-                                href="{{ route('order.reject', $order->id) }}"
+                                href="{{ route('order.cancel', $order->token) }}"
                             >Cancel Your Order</a>
                         </div>
                     @endif

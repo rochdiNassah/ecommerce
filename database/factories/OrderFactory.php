@@ -27,7 +27,7 @@ class OrderFactory extends Factory
                 'fullname' => Str::random(10),
                 'email' => Str::random(10).'@foo.bar',
                 'phone_number' => str_repeat('0', 10),
-                'address' => 'Corge, grault'
+                'address' => '9692 East 3rd Rd. Havertown, PA 19083.'
             ]),
             'product_id' => 1,
             'token' => bin2hex(openssl_random_pseudo_bytes(64)),

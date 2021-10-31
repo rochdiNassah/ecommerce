@@ -2,16 +2,19 @@
 # What is this?
 This is a simple eCommerce web application created with Laravel and designed using Tailwind.
 
+### Demo
+* TODO
+
 ## Application objects
 * Members can join and login.
 * Admin can approve, reject, upgrade, downgrade, or delete members.
 * Admin can create or delete products.
 * Customer can browse products.
 * Customer can order a product.
+* Customer can track their order.
+* Customer can cancel their order.
 * Dispatcher can dispatch or reject orders.
 * Delivery driver can update the status of dispatched orders.
-* Customer can track their order.
-* Customer can cancel their non-delivered order.
 
 ### Server requirements
 * TODO
@@ -32,7 +35,4 @@ This is a simple eCommerce web application created with Laravel and designed usi
 | __<sub>Admin</sub>__           | <sub>admin@foo.bar<sub>       | __<sub>1234</sub>__ |
 | __<sub>Dispatcher</sub>__      | <sub>dispatcher@foo.bar<sub>  | __<sub>1234</sub>__ |
 | __<sub>Delivery driver</sub>__ | <sub>delivery@foo.bar<sub>    | __<sub>1234</sub>__ |
-
-### Demo
-* TODO
     

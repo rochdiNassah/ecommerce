@@ -3,10 +3,10 @@
 
 @php
 $inputs = [
-    ['type' => 'text', 'name' => 'fullname', 'label' => 'Full Name', 'value' => 'Foobar'],
-    ['type' => 'text', 'name' => 'email', 'label' => 'Email Address', 'value' => 'foo@bar.baz'],
-    ['type' => 'text', 'name' => 'phone_number', 'label' => 'Phone Number', 'value' => '0000000000'],
-    ['type' => 'text', 'name' => 'address', 'label' => 'Address', 'value' => 'Morocco, Casablanca.']
+    ['type' => 'text', 'name' => 'fullname', 'label' => 'Full Name', 'value' => 'Rochdi Nassah'],
+    ['type' => 'text', 'name' => 'email', 'label' => 'Email Address', 'value' => 'rochdinassah.1998@gmail.com'],
+    ['type' => 'text', 'name' => 'phone_number', 'label' => 'Phone Number', 'value' => '0620901143'],
+    ['type' => 'text', 'name' => 'address', 'label' => 'Address', 'value' => '9692 East 3rd Rd. Havertown, PA 19083.']
 ];
 @endphp
 
