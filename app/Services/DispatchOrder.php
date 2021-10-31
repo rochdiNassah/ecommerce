@@ -40,7 +40,7 @@ class DispatchOrder extends BaseService
         $response = [
             'status' => 'success',
             'message' => "Order dispatched to {$delivery_driver->fullname} successfully.",
-            //'redirect_to' => route('dashboard')
+            'redirect_to' => route('dashboard')
         ];
 
         self::createResponse(DispatchOrderResponse::class, $response);

@@ -38,6 +38,12 @@ class OrderController extends Controller
         }
             
         return app(PlaceOrderResponse::class);
+
+        /*$context = new \ZMQContext();
+        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'my pusher');
+
+        $socket->connect('tcp://localhost:5555');
+        $socket->send(json_encode(['order' => json_encode($order)]));*/
     }
 
     /**
@@ -54,13 +60,7 @@ class OrderController extends Controller
             RejectOrder::isNotPending($order->status);
         } else {
             RejectOrder::reject($order, Auth::id());
-            RejectOrder::succeed();
-
-            $context = new \ZMQContext();
-            $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'my pusher');
-
-            $socket->connect('tcp://localhost:5555');
-            $socket->send(json_encode(['order' => json_encode($order)]));
+            RejectOrder::succeed();;
         }
 
         return app(RejectOrderResponse::class);
@@ -79,17 +79,11 @@ class OrderController extends Controller
         
         if ('delivery_driver' !== $delivery_driver->role) {
             DispatchOrder::isNotDeliveryDriver();
-        /*} elseif('pending' !== $order->status) {
+        } elseif('pending' !== $order->status) {
             DispatchOrder::isNotPending($order->status);
-        */} else {
+        } else {
             DispatchOrder::dispatch($order, $delivery_driver);
             DispatchOrder::succeed($delivery_driver);
-
-            $context = new \ZMQContext();
-            $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'my pusher');
-
-            $socket->connect('tcp://localhost:5555');
-            $socket->send(json_encode(['order' => json_encode($order)]));
         }
 
         return app(DispatchOrderResponse::class);
@@ -113,12 +107,6 @@ class OrderController extends Controller
         if (UpdateOrderStatus::checkSequence($order->status, $status)) {
             UpdateOrderStatus::update($order, $status);
             UpdateOrderStatus::succeed($status);
-
-            $context = new \ZMQContext();
-            $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'my pusher');
-
-            $socket->connect('tcp://localhost:5555');
-            $socket->send(json_encode(['order' => json_encode($order)]));
         } else {
             UpdateOrderStatus::failed($status);
         }
@@ -142,12 +130,6 @@ class OrderController extends Controller
         } else {
             UpdateOrderStatus::update($order, $status);
             UpdateOrderStatus::succeed($status);
-
-            $context = new \ZMQContext();
-            $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'my pusher');
-
-            $socket->connect('tcp://localhost:5555');
-            $socket->send(json_encode(['order' => json_encode($order)]));
         }
 
         return app(UpdateOrderStatusResponse::class);

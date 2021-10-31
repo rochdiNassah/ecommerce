@@ -37,7 +37,7 @@ final class DispatchOrderTest extends TestCase
             ['role' => 'dispatcher'],
             ['role' => '']
         );
-        $members = User::factory()->count(2)->state($sequence)->create();
+        $members = User::factory()->count(3)->state($sequence)->create();
 
         foreach ($members as $member) {
             $this->post(route('order.dispatch'), [

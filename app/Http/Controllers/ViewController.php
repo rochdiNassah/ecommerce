@@ -43,6 +43,7 @@ class ViewController extends Controller
             $view = 'dispatcher.dashboard';
             $data = [
                 'orders' => Order::where('status', '!=', 'rejected')
+                    ->where('status', '!=', 'canceled')
                     ->orderBy('status', 'asc')
                     ->get()
             ];
