@@ -38,7 +38,7 @@ class InitSeeder extends Seeder
                 'is_super_admin' => false
             ],
             [ // Dispatcher
-                'fullname' => 'Samir',
+                'fullname' => 'Sacri',
                 'email' => 'dispatcher@foo.bar',
                 'password' => Hash::make('1234'),
                 'phone_number' => '1020304050',
@@ -48,7 +48,7 @@ class InitSeeder extends Seeder
                 'is_super_admin' => false
             ],
             [ // Delivery driver
-                'fullname' => 'Ali',
+                'fullname' => 'Ecaflip',
                 'email' => 'delivery@foo.bar',
                 'password' => Hash::make('1234'),
                 'phone_number' => '1020304050',

@@ -6,7 +6,7 @@
     <h1 class="text-center font-bold text-gray-200 text-xl sm:text-2xl mt-8 mb-6">Deliver to your doorstep!</h1>
 
     <div class="container mx-auto lg:max-w-6xl">
-        <div class="mb-12 p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center gap-4">
+        <div class="mb-12 p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center gap-12">
             @foreach ($products as $product)
             <div class="w-80 sm:w-60 bg-lightdark border border-gray rounded-sm relative">
                 <div class="flex justify-between border-b border-gray p-2">

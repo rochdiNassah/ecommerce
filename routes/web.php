@@ -32,6 +32,9 @@ Route::middleware('guest')->group(function () {
             Route::get('/cancel/{token}', [OrderController::class, 'cancel'])->name('cancel');
             Route::get('/create/{productId}', [ViewController::class, 'createOrder'])->name('create-view');
             Route::post('/create', [OrderController::class, 'create'])->name('create');
+            Route::get('/request-my-orders', [ViewController::class, 'requestMyOrders'])->name('request-my-orders-view');
+            Route::post('/request-my-orders', [OrderController::class, 'requestMyOrders'])->name('request-my-orders');
+            Route::get('/my-orders/{email}/{token}', [ViewController::class, 'myOrders'])->name('my-orders');
         });
     });
 });

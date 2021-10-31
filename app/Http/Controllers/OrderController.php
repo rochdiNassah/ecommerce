@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{Auth, Gate};
+use Illuminate\Support\Facades\{Auth, Gate, Notification};
 use App\Models\{Order, User};
 use App\Http\Requests\{PlaceOrderRequest, RejectOrderRequest, DispatchOrderRequest};
 use App\Services\{PlaceOrder, RejectOrder, DispatchOrder, UpdateOrderStatus};
@@ -133,5 +133,29 @@ class OrderController extends Controller
         }
 
         return app(UpdateOrderStatusResponse::class);
+    }
+
+    /**
+     * Send a link to the customer where they can view all of their orders from.
+     * 
+     * @param  \Illumintae\Http\Request  $request
+     * @return void
+     */
+    public function requestMyOrders(Request $request)
+    {
+        $email = $request->input('email');
+        $order = Order::where('customer->email', $email)->firstOrFail();
+
+        $customer = (object) json_decode($order->customer);
+
+        Notification::route('mail', $customer->email)
+            ->notify(new \App\Notifications\RequestMyOrders($order, $customer));
+
+        $response = [
+            'status' => 'success',
+            'message' => 'We have sent a link to you. Please check your inbox.'
+        ];
+
+        return redirect(route('home'))->with($response);
     }
 }

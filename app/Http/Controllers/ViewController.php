@@ -10,6 +10,32 @@ use App\Models\{User, Product, Order};
 class ViewController extends Controller
 {
     /**
+     * Render my orders view.
+     * 
+     * @param  string  $email
+     * @param  string  $token
+     * @return \Illuminate\View\View
+     */
+    public function myOrders(string $email, string $token): Response
+    {
+        Order::where('customer->email', $email)->where('token', $token)->firstOrFail();
+
+        $orders = Order::where('customer->email', $email)->get();
+
+        return view('order.my-orders', ['orders' => $orders]);
+    }
+
+    /**
+     * Render request to view my orders view.
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function requestMyOrders(): Response
+    {
+        return view('order.request-my-orders');
+    }
+    
+    /**
      * Render track order status view.
      * 
      * @param  string  $token
