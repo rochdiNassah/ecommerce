@@ -85,7 +85,7 @@ final class ViewTest extends TestCase
     }
 
     /** @return void */
-    public function testUserViewIsRenderable(): void
+    public function testUsersViewIsRenderable(): void
     {
         $admin = User::factory()->admin()->create();
         
