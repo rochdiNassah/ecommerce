@@ -25,7 +25,9 @@
             </div>
             @endforeach
         </div>
+        <div class="px-4 my-4">
+            {{ $products->appends(['search' => $query])->links() }}
+        </div>
     </div>
-
     @include('layouts.footer')
 @stop

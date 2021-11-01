@@ -22,8 +22,7 @@ class Pusher implements WampServerInterface
 
     public function onOrderEntry($entry)
     {
-        $entryData = (object) json_decode($entry);
-        $order = (object) json_decode($entryData->order);
+        $order = (object) json_decode($entry);
 
         if (!array_key_exists($order->token, $this->subscribedOrders)) {
             return;

@@ -54,9 +54,6 @@
                         <div class="div flex flex-wrap align-items-center">
                             <div class="space-y-2">
                                 <div class="w-200 break-words truncate flex space-x-1">
-                                    <a class="text-red-600" href="{{ route('order.track-view', $order->token) }}">Track Order</a>
-                                </div>
-                                <div class="w-200 break-words truncate flex space-x-1">
                                     <p class="text-gray-400 text-xs">Order ID:</p>
                                     <p class="text-xs font-bold text-gray-200 truncate">{{ $order->id }}</p>
                                 </div>

@@ -3,7 +3,7 @@
 
 @section('content')
     @include('layouts.navbar')
-        <h1 class="text-center font-bold text-gray-200 text-xl sm:text-2xl mt-8 mb-6">Track your order's status.</h1>
+        <h1 class="text-center font-bold text-gray-200 text-xl sm:text-2xl mt-8 mb-6">Track your order's status in real-time!</h1>
 
         @php
             $customer = (object) json_decode($order->customer);
@@ -36,7 +36,7 @@
             }
         @endphp
 
-        <div class="flex flex-wrap justify-center mb-16 mt-10">
+        <div class="mx-2 flex flex-wrap justify-center mb-8 mt-10">
             <div class="w-full lg:w-800 bg-dark border border-gray rounded-sm space-y-2">
                 <div class="border-b border-gray p-2">
                     <div class="w-full bg-gray-600 rounded-md">
@@ -86,8 +86,17 @@
                             >Cancel Your Order</a>
                         </div>
                     @endif
+                        
+                    
                 </div>
             </div>
+        </div>
+
+        <div class="grid place-items-center mb-8">
+            <a
+                class="self-center w-200 text-center font-bold bg-{{ $mainColor }}-800 hover:bg-{{ $mainColor }}-900 transition text-{{ $mainColor }}-300 text-md py-1 px-2 rounded-full"
+                href="{{ route('order.my-orders', ['email' => $customer->email, 'token' => $order->token]) }}"
+            >View all orders</a>
         </div>
 
         <script src="{{ asset('js/autobahn.js') }}"></script>
@@ -105,7 +114,7 @@
             var statusTextElement = document.getElementById('statusText')
             var cardActionsElement = document.getElementById('actions')
 
-            var conn = new ab.Session('ws://localhost:8080',
+            var conn = new ab.Session('ws://localhost:7070',
                 function() {
                     conn.subscribe(window.location.href.split('/')[5], function(order, data) {
                         orderStatusLayout = orderStatus[data.status]

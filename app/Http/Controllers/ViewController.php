@@ -20,9 +20,23 @@ class ViewController extends Controller
     {
         Order::where('customer->email', $email)->where('token', $token)->firstOrFail();
 
-        $orders = Order::where('customer->email', $email)->get();
+        $filter = request('filter') ?? null;
+        $orders = Order::where('customer->email', $email)
+            ->orderBy('created_at', 'desc')
+            ->where(function ($query) use ($filter) {
+                if ('canceled' === $filter) {
+                    $query->where('status', $filter);
+                } elseif ('rejected' === $filter) {
+                    $query->where('status', $filter);
+                } elseif (null === $filter) {
+                    $query->where('status', '!=', 'canceled')->where('status', '!=', 'rejected');
+                } else {
+                    $query->where('status', $filter);
+                }
+            })
+            ->paginate(8);
 
-        return view('order.my-orders', ['orders' => $orders]);
+        return view('order.my-orders', ['orders' => $orders, 'query' => request('filter')]);
     }
 
     /**
@@ -128,7 +142,13 @@ class ViewController extends Controller
      */
     public static function home(): Response
     {
-        return View::make('home', ['products' => Product::all()]);
+        if (request('search')) {
+            $products = Product::where('name', 'like', '%'.request('search').'%')->paginate(12);
+        } else {
+            $products = Product::paginate(12);
+        }
+
+        return View::make('home', ['products' => $products, 'query' => request('search')]);
     }
 
     /**

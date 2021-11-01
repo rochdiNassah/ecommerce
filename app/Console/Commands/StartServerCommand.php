@@ -53,7 +53,7 @@ class StartServerCommand extends Command
         $pull->bind('tcp://127.0.0.1:5555');
         $pull->on('message', [$pusher, 'onOrderEntry']);
         
-        $webSocket = new Server('0.0.0.0:8080', $loop);
+        $webSocket = new Server('0.0.0.0:7070', $loop);
         $webServer = new IoServer(
             new HttpServer(
                 new WsServer(

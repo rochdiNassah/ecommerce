@@ -31,4 +31,14 @@ class BaseService
             return app(ServiceResponse::class, ['response' => $response]);
         }, 1);
     }
+
+    /** @return void */
+    public static function publish($object): void
+    {
+        $context = new \ZMQContext();
+        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'my pusher');
+
+        $socket->connect('tcp://localhost:5555');
+        $socket->send(json_encode($object));
+    }
 }

@@ -38,12 +38,6 @@ class OrderController extends Controller
         }
             
         return app(PlaceOrderResponse::class);
-
-        /*$context = new \ZMQContext();
-        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'my pusher');
-
-        $socket->connect('tcp://localhost:5555');
-        $socket->send(json_encode(['order' => json_encode($order)]));*/
     }
 
     /**
@@ -84,6 +78,7 @@ class OrderController extends Controller
         } else {
             DispatchOrder::dispatch($order, $delivery_driver);
             DispatchOrder::succeed($delivery_driver);
+            DispatchOrder::publish($order);
         }
 
         return app(DispatchOrderResponse::class);
@@ -107,6 +102,7 @@ class OrderController extends Controller
         if (UpdateOrderStatus::checkSequence($order->status, $status)) {
             UpdateOrderStatus::update($order, $status);
             UpdateOrderStatus::succeed($status);
+            UpdateOrderStatus::publish($order);
         } else {
             UpdateOrderStatus::failed($status);
         }
