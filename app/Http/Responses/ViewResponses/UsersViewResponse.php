@@ -4,9 +4,9 @@ namespace App\Http\Responses\ViewResponses;
 
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\View\View;
-use App\Models\Order;
+use App\Models\User;
 
-class DispatcherDashboardViewResponse implements Responsable
+class UsersViewResponse implements Responsable
 {
     /**
      * Create an HTTP response that represents the object.
@@ -16,11 +16,8 @@ class DispatcherDashboardViewResponse implements Responsable
      */
     public function toResponse($request): View
     {
-        $orders = Order::where('status', '!=', 'rejected')
-            ->where('status', '!=', 'canceled')
-            ->orderBy('status', 'asc')
-            ->get();
-
-        return view('dispatcher.dashboard', ['orders' => $orders]);
+        return view('admin.user.index', [
+            'users' => User::orderBy('status')->paginate(12)
+        ]);
     }
 }

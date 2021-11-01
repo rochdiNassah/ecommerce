@@ -7,7 +7,7 @@
     <div class="px-2 container mx-auto max-w-7xl flex flex-wrap justify-center my-20">
         <div class="px-4 sm:px-10 py-4 bg-dark base-form border border-gray rounded-sm">
             <form action="{{ route('order.request-my-orders') }}" method="post">
-                <h1 class="my-2 font-bold text-xl text-{{ $mainColor }}-400">We will send a link to you where you can view all of your orders from.</h1>
+                <h1 class="my-2 font-bold text-md text-{{ $mainColor }}-400">We will send a link to you where you can view all of your orders from.</h1>
 
                 @csrf
                 
@@ -17,7 +17,7 @@
                 </div>
                 @endif
 
-                <label class="font-bold text-sm text-gray-300">Please enter the email your orders placed with.</label>
+                <label class="text-xs text-gray-300">Please enter the email your orders placed with.</label>
                 <input
                     class="text-gray-200 bg-lightdark border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
                     type="email"

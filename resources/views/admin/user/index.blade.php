@@ -45,6 +45,9 @@
             </div>
             @endforeach
         </div>
+        <div class="px-4 mb-8 mt-4 grid place-items-center">
+            {{ $users->links() }}
+        </div>
     </div>
 </div>
 @stop

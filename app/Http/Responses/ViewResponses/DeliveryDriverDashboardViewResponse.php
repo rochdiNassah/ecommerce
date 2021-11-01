@@ -6,7 +6,7 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\View\View;
 use App\Models\Order;
 
-class DeliveryDriverDashboardResponse implements Responsable
+class DeliveryDriverDashboardViewResponse implements Responsable
 {
     /**
      * Create an HTTP response that represents the object.
@@ -20,9 +20,11 @@ class DeliveryDriverDashboardResponse implements Responsable
             $query->where('status', 'dispatched')
                 ->orWhere('status', 'shipped');
         };
-        $orders = Order::where('delivery_driver_id', $member->id)
-            ->where($whereCallback)->where('delivery_driver_id', $member->id)
+        $orders = Order::where('delivery_driver_id', $request->user()->id)
+            ->where($whereCallback)
             ->orderBy('status', 'desc')
             ->get();
+        
+        return view('delivery_driver.dashboard', ['orders' => $orders]);
     }
 }

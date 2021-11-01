@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', "Update {$user->fullname }'s role")
+@section('title', "Update {$member->fullname }'s role")
 
 @section('content')
     <div class="flex">
@@ -11,7 +11,7 @@
                     <form action="{{ route('user.update-role') }}" method="post">
                         @csrf
             
-                        <h1 class="my-2 font-bold text-lg text-{{ $mainColor }}-400">Update {{ $user->fullname }}'s role</h1>
+                        <h1 class="my-2 font-bold text-lg text-{{ $mainColor }}-400">Update {{ $member->fullname }}'s role</h1>
             
                         @if ($errors->any())
                             <div class="rounded-sm mt-4 my-2 bg-red-200 text-red-800 text-sm p-3 relative" role="alert">
@@ -20,11 +20,11 @@
                         @endif
             
                         <div class="my-3">
-                            <input type="hidden" value="{{ $user->id }}" name="id">
+                            <input type="hidden" value="{{ $member->id }}" name="id">
                             <select class="bg-lightdark border border-gray w-full p-3 mb-6 font-bold text-sm text-gray-300 rounded-sm appearance-none focus:shadow-outline" name="role">
-                                <option {{ $user->role === 'delivery_driver' ? 'selected' : null }} value="delivery_driver">Delivery Driver</option>
-                                <option {{ $user->role === 'dispatcher' ? 'selected' : null }} value="dispatcher">Dispatcher</option>
-                                <option {{ $user->role === 'admin' ? 'selected' : null }} value="admin">Admin</option>
+                                <option {{ $member->role === 'delivery_driver' ? 'selected' : null }} value="delivery_driver">Delivery Driver</option>
+                                <option {{ $member->role === 'dispatcher' ? 'selected' : null }} value="dispatcher">Dispatcher</option>
+                                <option {{ $member->role === 'admin' ? 'selected' : null }} value="admin">Admin</option>
                             </select>
             
                             <button class="rounded-sm my-2 transition w-full text-{{ $mainColor }}-300 bg-{{ $mainColor }}-800 hover:bg-{{ $mainColor }}-900 text-sm font-bold py-2 px-4" type="submit">

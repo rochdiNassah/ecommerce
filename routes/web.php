@@ -28,9 +28,9 @@ Route::middleware('guest')->group(function () {
     Route::name('order.')->group(function () {
         Route::prefix('order')->group(function () {
             Route::get('/cancel/{token}', [OrderController::class, 'cancel'])->name('cancel');
-            Route::get('/create/{productId}', [ViewController::class, 'createOrder'])->name('create-view');
+            Route::get('/create/{product_id}', [ViewController::class, 'createOrder'])->name('create-view');
             Route::post('/create', [OrderController::class, 'create'])->name('create');
-            Route::get('/request-my-orders', [ViewController::class, 'requestMyOrders'])->name('request-my-orders-view');
+            Route::view('/request-my-orders', 'order.request-my-orders')->name('request-my-orders-view');
             Route::post('/request-my-orders', [OrderController::class, 'requestMyOrders'])->name('request-my-orders');
             Route::get('/my-orders/{email}/{token}', [ViewController::class, 'myOrders'])->name('my-orders');
             Route::get('/track/{token}', [ViewController::class, 'trackOrder'])->name('track-view');
@@ -47,9 +47,9 @@ Route::middleware('auth')->group(function () {
 
         Route::name('user.')->group(function () {
             Route::prefix('user')->group(function () {
-                Route::get('/approve/{id}', [MemberController::class, 'approve'])->name('approve');
-                Route::get('/delete/{id}', [MemberController::class, 'delete'])->name('delete');
-                Route::get('/update-role/{id}', [ViewController::class, 'updateMemberRole'])->name('update-role-view');
+                Route::get('/approve/{member_id}', [MemberController::class, 'approve'])->name('approve');
+                Route::get('/delete/{member_id}', [MemberController::class, 'delete'])->name('delete');
+                Route::get('/update-role/{member_id}', [ViewController::class, 'updateMemberRole'])->name('update-role-view');
                 Route::post('/update-role', [MemberController::class, 'updateRole'])->name('update-role');
             });
         });
@@ -64,8 +64,8 @@ Route::middleware('auth')->group(function () {
     Route::name('order.')->group(function () {
         Route::prefix('order')->group(function () {
             Route::middleware('role:dispatcher')->group(function () {
-                Route::get('/reject/{orderId}', [OrderController::class, 'reject'])->name('reject');
-                Route::get('/dispatch/{orderId}', [ViewController::class, 'dispatchOrder'])->name('dispatch-view');
+                Route::get('/reject/{order_id}', [OrderController::class, 'reject'])->name('reject');
+                Route::get('/dispatch/{order_id}', [ViewController::class, 'dispatchOrder'])->name('dispatch-view');
                 Route::post('/dispatch', [OrderController::class, 'dispatchOrder'])->name('dispatch');
             });
             Route::middleware('role:delivery_driver')->group(function () {

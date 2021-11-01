@@ -5,21 +5,38 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\View\View as Response;
-use App\Models\{User, Product, Order};
+use Illuminate\Contracts\Support\Responsable;
+use App\Http\Responses\ViewResponses\HomeViewResponse;
 use App\Http\Responses\ViewResponses\AdminDashboardViewResponse;
+use App\Http\Responses\ViewResponses\UsersViewResponse;
+use App\Http\Responses\ViewResponses\ProductsViewResponse;
 use App\Http\Responses\ViewResponses\DispatcherDashboardViewResponse;
 use App\Http\Responses\ViewResponses\DeliveryDriverDashboardViewResponse;
-
+use App\Http\Responses\ViewResponses\MyOrdersViewResponse;
+use App\Http\Responses\ViewResponses\TrackOrderViewResponse;
+use App\Http\Responses\ViewResponses\CreateOrderViewResponse;
+use App\Http\Responses\ViewResponses\DispatchOrderViewResponse;
+use App\Http\Responses\ViewResponses\UpdateMemberRoleViewResponse;
 
 class ViewController extends Controller
 {
     /**
+     * Display all products for customer.
+     * 
+     * @return \Illuminate\Contracts\Support\Responsable
+     */
+    public function home(): Responsable
+    {
+        return app(HomeViewResponse::class);
+    }
+    
+    /**
      * Render the dashboard view depending on the user's role.
      * 
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function dashboard(Request $request): AdminDashboardViewResponse
+    public function dashboard(Request $request): Responsable
     {
         $member = $request->user();
 
@@ -39,125 +56,77 @@ class ViewController extends Controller
      * 
      * @param  string  $email
      * @param  string  $token
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function myOrders(string $email, string $token): Response
+    public function myOrders(string $email, string $token): Responsable
     {
-        Order::where('customer->email', $email)->where('token', $token)->firstOrFail();
-
-        $filter = request('filter') ?? null;
-        $orders = Order::where('customer->email', $email)
-            ->orderBy('created_at', 'desc')
-            ->where(function ($query) use ($filter) {
-                if ('canceled' === $filter) {
-                    $query->where('status', $filter);
-                } elseif ('rejected' === $filter) {
-                    $query->where('status', $filter);
-                } elseif (null === $filter) {
-                    $query->where('status', '!=', 'canceled')->where('status', '!=', 'rejected');
-                } else {
-                    $query->where('status', $filter);
-                }
-            })
-            ->paginate(8);
-
-        return view('order.my-orders', ['orders' => $orders, 'query' => request('filter')]);
+        return app(MyOrdersViewResponse::class, [
+            'email' => $email,
+            'token' => $token
+        ]);
     }
 
-    /**
-     * Render request to view my orders view.
-     * 
-     * @return \Illuminate\View\View
-     */
-    public function requestMyOrders(): Response
-    {
-        return view('order.request-my-orders');
-    }
-    
     /**
      * Render track order view.
      * 
      * @param  string  $token
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function trackOrder(string $token): Response
+    public function trackOrder(string $token): Responsable
     {
-        $order = Order::where('token', $token)->firstOrFail();
-
-        return view('order.track', ['order' => $order]);
+        return app(TrackOrderViewResponse::class, ['token' => $token]);
     }
 
     /**
      * Display all members for admin.
      * 
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function users(): Response
+    public function users(): Responsable
     {
-        return View::make('admin.user.index', [
-            'users' => User::orderBy('status')->get()
-        ]);
-    }
-
-    /**
-     * Display the update role screen.
-     * 
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
-    public function updateMemberRole(int $id): Response
-    {
-        return View::make('admin.user.update-role', ['user' => User::findOrFail($id)]);
+        return app(UsersViewResponse::class);
     }
 
     /**
      * Display all products for admin.
      * 
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\Support\Responsable
      */
-    public static function products(): Response
+    public function products(): Responsable
     {
-        return View::make('admin.product.index', ['products' => Product::all()]);
+        return app(ProductsViewResponse::class);
     }
 
     /**
-     * Display all products for customer.
+     * Display the update role view.
      * 
-     * @return \Illuminate\View\View
+     * @param  int  $member_id
+     * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function home(): Response
+    public function updateMemberRole(int $member_id): Responsable
     {
-        $search = request('search') ?? null;
-        $products = Product::where(function ($query) use ($search) {
-            !$search ?: $query->where('name', 'like', '%'.$search.'%');
-        })->paginate(12);
-        $data = ['products' => $products, 'query' => $search];
-
-        return view('home', $data);
+        return app(UpdateMemberRoleViewResponse::class, ['member_id' => $member_id]);
     }
 
     /**
-     * Display create order view.
+     * Render create order view.
      * 
-     * @param  int  $productId
-     * @return \Illuminate\View\View
+     * @param  int  $product_id
+     * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function createOrder($productId): Response
+    public function createOrder(int $product_id): Responsable
     {
-        return View::make('order.create', ['product' => Product::findOrFail($productId)]);
+        return app(CreateOrderViewResponse::class, ['product_id' => $product_id]);
     }
 
     /**
-     * Display dispatch order view.
+     * Render dispatch order view.
      * 
-     * @param  int  $orderId
-     * @return \Illuminate\View\View
+     * @param  int  $order_id
+     * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function dispatchOrder($orderId): Response
+    public function dispatchOrder($order_id): Responsable
     {
-        return View::make('order.dispatch', [
-            'order' => Order::findOrFail($orderId),
-            'delivery_drivers' => User::where('role', 'delivery_driver')->where('status', 'active')->get()
-        ]);
+        return app(DispatchOrderViewResponse::class, ['order_id' => $order_id]);
     }
 }

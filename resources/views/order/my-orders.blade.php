@@ -72,7 +72,7 @@
         @endforeach
     </div>
     <div class="grid place-items-center mb-10">
-        {{ $orders->appends(['filter' => $query])->links() }}
+        {{ $orders->appends(['filter' => $filter])->links() }}
     </div>
     @include('layouts.footer')
 @stop

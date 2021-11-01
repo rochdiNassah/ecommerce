@@ -6,8 +6,17 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\View\View;
 use App\Models\Order;
 
-class DispatcherDashboardViewResponse implements Responsable
+class TrackOrderViewResponse implements Responsable
 {
+    /** @var string */
+    private $token;
+
+    /** @param  string  $token */
+    public function __construct(string $token)
+    {
+        $this->token = $token;
+    }
+
     /**
      * Create an HTTP response that represents the object.
      * 
@@ -16,11 +25,8 @@ class DispatcherDashboardViewResponse implements Responsable
      */
     public function toResponse($request): View
     {
-        $orders = Order::where('status', '!=', 'rejected')
-            ->where('status', '!=', 'canceled')
-            ->orderBy('status', 'asc')
-            ->get();
+        $order = Order::where('token', $this->token)->firstOrFail();
 
-        return view('dispatcher.dashboard', ['orders' => $orders]);
+        return view('order.track', ['order' => $order]);
     }
 }

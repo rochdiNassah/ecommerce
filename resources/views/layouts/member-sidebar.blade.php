@@ -6,11 +6,11 @@
 </div>
 
 <div
-    class="fixed lg:left-0 hidden z-10 w-full h-screen sm:w-80 bg-dark transition border-r border-gray"
+    class="fixed -left-800 z-10 w-full h-screen sm:w-80 bg-dark transition border-r border-gray"
     id="dashboard-sidebar"
 >
     <div
-        class="transition bg-{{ $mainColor }}-800 hover:bg-{{ $mainColor }}-900 cursor-pointer transition w-12 px-3 py-2 fixed top-2 left-2 z-10 grid place-items-center space-y-1 rounded-sm"
+        class="-left-800 transition bg-{{ $mainColor }}-800 hover:bg-{{ $mainColor }}-900 cursor-pointer transition w-12 px-3 py-2 fixed top-2 left-2 z-10 grid place-items-center space-y-1 rounded-sm"
         id="close-dashboard-sidebar"
     >
         <div class="w-full h-1 bg-{{ $mainColor }}-300 rounded-sm transform rotate-45 translate-y-1"></div>

@@ -4,9 +4,9 @@ namespace App\Http\Responses\ViewResponses;
 
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\View\View;
-use App\Models\Order;
+use App\Models\Product;
 
-class DispatcherDashboardViewResponse implements Responsable
+class HomeViewResponse implements Responsable
 {
     /**
      * Create an HTTP response that represents the object.
@@ -16,11 +16,12 @@ class DispatcherDashboardViewResponse implements Responsable
      */
     public function toResponse($request): View
     {
-        $orders = Order::where('status', '!=', 'rejected')
-            ->where('status', '!=', 'canceled')
-            ->orderBy('status', 'asc')
-            ->get();
+        $search = request('search') ?? null;
+        $products = Product::where(function ($query) use ($search) {
+            !$search ?: $query->where('name', 'like', '%'.$search.'%');
+        })->paginate(12);
+        $data = ['products' => $products, 'query' => $search];
 
-        return view('dispatcher.dashboard', ['orders' => $orders]);
+        return view('home', $data);
     }
 }
