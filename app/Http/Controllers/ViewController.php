@@ -6,9 +6,34 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\View\View as Response;
 use App\Models\{User, Product, Order};
+use App\Http\Responses\ViewResponses\AdminDashboardViewResponse;
+use App\Http\Responses\ViewResponses\DispatcherDashboardViewResponse;
+use App\Http\Responses\ViewResponses\DeliveryDriverDashboardViewResponse;
+
 
 class ViewController extends Controller
 {
+    /**
+     * Render the dashboard view depending on the user's role.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
+     */
+    public function dashboard(Request $request): AdminDashboardViewResponse
+    {
+        $member = $request->user();
+
+        if ('admin' === $member->role) {
+            return app(AdminDashboardViewResponse::class);
+        }
+        if ('dispatcher' === $member->role) {
+            return app(DispatcherDashboardViewResponse::class);
+        }
+        if ('delivery_driver' === $member->role) {
+            return app(DeliveryDriverDashboardViewResponse::class);
+        }
+    }
+
     /**
      * Render my orders view.
      * 
@@ -63,46 +88,6 @@ class ViewController extends Controller
     }
 
     /**
-     * Render the dashboard view depending on the user's role.
-     * 
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\View\View
-     */
-    public function dashboard(Request $request): Response
-    {
-        $member = $request->user();
-
-        if ('admin' === $member->role) {
-            $view = 'admin.dashboard';
-            $data = [
-                'usersCount' => User::all()->count(),
-                'productsCount' => Product::all()->count()
-            ];
-        }
-        if ('dispatcher' === $member->role) {
-            $view = 'dispatcher.dashboard';
-            $data = [
-                'orders' => Order::where('status', '!=', 'rejected')
-                    ->where('status', '!=', 'canceled')
-                    ->orderBy('status', 'asc')
-                    ->get()
-            ];
-        }
-        if ('delivery_driver' === $member->role) {
-            $view = 'delivery_driver.dashboard';
-            $data = [
-                'orders' => Order::where('delivery_driver_id', $member->id)
-                    ->where(function ($query) { $query->where('status', 'dispatched')->orWhere('status', 'shipped'); })
-                    ->where('delivery_driver_id', $member->id)
-                    ->orderBy('status', 'desc')
-                    ->get()
-            ];
-        }
-        
-        return view($view, $data);
-    }
-
-    /**
      * Display all members for admin.
      * 
      * @return \Illuminate\View\View
@@ -140,15 +125,15 @@ class ViewController extends Controller
      * 
      * @return \Illuminate\View\View
      */
-    public static function home(): Response
+    public function home(): Response
     {
-        if (request('search')) {
-            $products = Product::where('name', 'like', '%'.request('search').'%')->paginate(12);
-        } else {
-            $products = Product::paginate(12);
-        }
+        $search = request('search') ?? null;
+        $products = Product::where(function ($query) use ($search) {
+            !$search ?: $query->where('name', 'like', '%'.$search.'%');
+        })->paginate(12);
+        $data = ['products' => $products, 'query' => $search];
 
-        return View::make('home', ['products' => $products, 'query' => request('search')]);
+        return view('home', $data);
     }
 
     /**
