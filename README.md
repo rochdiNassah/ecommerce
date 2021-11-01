@@ -1,6 +1,6 @@
 
 # What is this?
-This is a simple eCommerce web application created with Laravel and designed using Tailwind.
+This is a simple eCommerce web application created with Laravel 8 and designed using Tailwind.
 
 ### Demo
 * TODO
@@ -17,8 +17,9 @@ This is a simple eCommerce web application created with Laravel and designed usi
 * Dispatcher can dispatch or reject orders.
 * Delivery driver can update the status of dispatched orders.
 
-### Server requirements
-* TODO
+### Extra server requirements
+* Redis PHP extension.
+* Zmq PHP extension.
 
 ### Installation
 * Clone this repository.
@@ -28,10 +29,6 @@ This is a simple eCommerce web application created with Laravel and designed usi
        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`composer install`\
        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`php artisan key:generate`\
        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`php artisan migrate --seed`
-
-### Hidden routes
-- `/join`
-- `/login`
 
 ### Credentials for testing
 | <sub>ROLE</sub>                | <sub>EMAIL ADDRESS</sub>      | <sub>PASSWORD</sub> |
