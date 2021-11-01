@@ -15,8 +15,6 @@ use App\Http\Controllers\{MemberController, ProductController};
 |
 */
 
-Route::get('order/track/{token}', [ViewController::class, 'trackOrderView'])->name('order.track-view');
-
 Route::middleware('guest')->group(function () {
     Route::view('/login', 'auth.login')->name('login');
     Route::view('/join', 'auth.join')->name('join');
@@ -35,6 +33,7 @@ Route::middleware('guest')->group(function () {
             Route::get('/request-my-orders', [ViewController::class, 'requestMyOrders'])->name('request-my-orders-view');
             Route::post('/request-my-orders', [OrderController::class, 'requestMyOrders'])->name('request-my-orders');
             Route::get('/my-orders/{email}/{token}', [ViewController::class, 'myOrders'])->name('my-orders');
+            Route::get('/track/{token}', [ViewController::class, 'trackOrder'])->name('track-view');
         });
     });
 });
@@ -50,7 +49,7 @@ Route::middleware('auth')->group(function () {
             Route::prefix('user')->group(function () {
                 Route::get('/approve/{id}', [MemberController::class, 'approve'])->name('approve');
                 Route::get('/delete/{id}', [MemberController::class, 'delete'])->name('delete');
-                Route::get('/update-role/{id}', [ViewController::class, 'updateUserRole'])->name('update-role-view');
+                Route::get('/update-role/{id}', [ViewController::class, 'updateMemberRole'])->name('update-role-view');
                 Route::post('/update-role', [MemberController::class, 'updateRole'])->name('update-role');
             });
         });
