@@ -75,12 +75,12 @@ class ViewController extends Controller
     }
     
     /**
-     * Render track order status view.
+     * Render track order view.
      * 
      * @param  string  $token
      * @return \Illuminate\View\View
      */
-    public function trackOrderView(string $token): Response
+    public function trackOrder(string $token): Response
     {
         $order = Order::where('token', $token)->firstOrFail();
 
@@ -100,12 +100,12 @@ class ViewController extends Controller
     }
 
     /**
-     * Display the edit role screen.
+     * Display the update role screen.
      * 
      * @param  int  $id
      * @return \Illuminate\View\View
      */
-    public function updateUserRole(int $id): Response
+    public function updateMemberRole(int $id): Response
     {
         return View::make('admin.user.update-role', ['user' => User::findOrFail($id)]);
     }
