@@ -1,8 +1,8 @@
 {
-    "name": "laravel/laravel",
+    "name": "rochdinassah/ecommerce",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "A simple eCommerce web application created with Laravel 8 and designed using Tailwind.",
+    "keywords": ["php", "laravel", "tailwind", "web-sockets", "ratchet"],
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
