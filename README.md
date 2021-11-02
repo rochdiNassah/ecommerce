@@ -27,7 +27,7 @@ This is a simple eCommerce web application created with Laravel 8 and designed u
 > Note: `redis` and `zmq` PHP extensions should be present in the server, otherwise, some features may not be available.
 * Clone this repository.
 * Copy `.env.example` to `.env`.
-* Adjust database details in your `.env`.
+* Adjust database, mail, and redis details in your `.env`.
 * Run these commands within the project's root directory:\
        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`composer install`\
        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`php artisan key:generate`\
