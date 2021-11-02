@@ -24,7 +24,7 @@ This is a simple eCommerce web application created with Laravel 8 and designed u
 * Delivery driver can update the status of dispatched orders.
 
 ### Installation
-> Note: `redis` and `zmq` PHP extensions should be present in the server, otherwise, some features may not be available.
+> Note: `redis` and `zmq` PHP extensions should be present in the server. Otherwise, the application will work fine, but some features may not be available.
 * Clone this repository.
 * Copy `.env.example` to `.env`.
 * Adjust database, mail, and redis details in your `.env`.
