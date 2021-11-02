@@ -53,6 +53,16 @@ final class ViewTest extends TestCase
         $this->get(route('login'))->assertOk()->assertViewIs('auth.login');
     }
 
+    public function testForgotPasswordViewIsRenderable(): void
+    {
+        $this->get(route('password.request'))->assertOk()->assertViewIs('auth.forgot-password');
+    }
+
+    public function testResetPasswordViewIsRenderable(): void
+    {
+        $this->get(route('password.reset', 'foo'))->assertOk()->assertViewIs('auth.reset-password');
+    }
+
     public function testJoinViewIsRendarable(): void
     {
         $this->get(route('join'))->assertOk()->assertViewIs('auth.join');
@@ -87,7 +97,6 @@ final class ViewTest extends TestCase
         $this->actingAs($admin)->get(route('user.update-role-view', $member->id))->assertOk()->assertViewIs('admin.user.update-role');
     }
 
-    /** @return void */
     public function testProductsViewIsRenderable(): void
     {
         $admin = User::factory()->admin()->create();
@@ -95,7 +104,6 @@ final class ViewTest extends TestCase
         $this->actingAs($admin)->get(route('products'))->assertOk()->assertViewIs('admin.product.index');
     }
 
-    /** @return void */
     public function testCreateProductViewIsRenderable(): void
     {
         $admin = User::factory()->admin()->create();
@@ -103,7 +111,6 @@ final class ViewTest extends TestCase
         $this->actingAs($admin)->get(route('product.create'))->assertOk()->assertViewIs('admin.product.create');
     }
 
-    /** @return void */
     public function testDispatchOrderViewIsRenderable(): void
     {
         $dispatcher = User::factory()->dispatcher()->create();
