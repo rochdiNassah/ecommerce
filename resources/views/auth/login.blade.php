@@ -39,7 +39,14 @@ $inputs = [
                 <div class="my-2 mb-4 flex items-center justify-between" style="margin-top: -4px">
                     <div>
                         <label class="block text-gray-400" for="remember">
-                            <input class="leading-tight cursor-pointer" type="checkbox" id="remember" name="remember" {{ old('remember') === 'on' ? 'checked' : null }}>
+                            @php
+                                $checked = 'on' === old('remember')
+                                    ? true
+                                    : (old('email') && null === old('remember')
+                                        ? false
+                                        : true)
+                            @endphp
+                            <input class="leading-tight cursor-pointer" type="checkbox" id="remember" name="remember" {{ $checked ? 'checked' : null }}>
 
                             <span class="text-gray-300 font-bold text-sm select-none cursor-pointer">Remember me</span>
                         </label>
