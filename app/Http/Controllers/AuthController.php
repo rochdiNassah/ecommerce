@@ -30,7 +30,7 @@ class AuthController extends Controller
         $credentials = $request->safe()->only([
             'email', 'password'
         ]);
-        $remember = $request->safe()->only('remmebr');
+        $remember = $request->safe()->only('remember');
 
         if (!Auth::attempt($credentials, $remember)) {
             Authentication::loginFailed();
