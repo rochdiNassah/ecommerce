@@ -4,7 +4,7 @@
 
 .base-form { width: 500px }
 .transition { transition: .4s ease-out }
-.border-gray { border-color: #38393a !important }
+.border-gray { border-color: #dfe1e5 !important }
 
 @media only screen and (max-width: 500px) {
     .base-form { width: 100% } 

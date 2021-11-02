@@ -38,7 +38,7 @@ class BaseService
         /*$context = new \ZMQContext();
         $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'my pusher');
 
-        $socket->connect('tcp://localhost:5555');
+        $socket->connect('tcp://192.168.1.105:5555');
         $socket->send(json_encode($object));*/
     }
 }

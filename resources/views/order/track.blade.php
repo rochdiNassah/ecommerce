@@ -3,7 +3,7 @@
 
 @section('content')
     @include('layouts.navbar')
-        <h1 class="text-center font-bold text-gray-200 text-xl sm:text-2xl mt-8 mb-6">Track your order's status in real-time!</h1>
+        <h1 class="text-center font-bold text-gray-600 dark:text-gray-200 text-xl sm:text-2xl mt-8 mb-6">Track your order's status in real-time!</h1>
 
         @php
             $customer = (object) json_decode($order->customer);
@@ -16,7 +16,7 @@
                     break;
                 case 'pending':
                     $statusColor = 'yellow';
-                    $percentage = 0;
+                    $percentage = 10;
                     break;
                 case 'dispatched':
                     $statusColor = 'blue';
@@ -37,16 +37,16 @@
         @endphp
 
         <div class="mx-2 flex flex-wrap justify-center mb-8 mt-10">
-            <div class="w-full lg:w-800 bg-dark border border-gray rounded-sm space-y-2">
+            <div class="w-full lg:w-800 dark:bg-gray-800 border border-gray rounded-sm space-y-2">
                 <div class="border-b border-gray p-2">
-                    <div class="w-full bg-gray-600 rounded-md">
-                        <div class="bg-{{ $statusColor }}-600 transition text-xs font-medium text-{{ $statusColor }}-100 text-center p-0.5 leading-none rounded-md" id="progressBar" style="width: {{ $percentage }}%">{{ $percentage }}%</div>
+                    <div class="w-full bg-gray-100 dark:bg-gray-600 rounded-md">
+                        <div class="@if($statusColor === 'yellow') bg-yellow-400 @else bg-{{$statusColor}}-600 @endif text-white dark:bg-{{ $statusColor }}-600 dark:text-{{ $statusColor }}-100 text-xs font-bold  text-center p-0.5 leading-none rounded-md" id="progressBar" style="width: {{ $percentage }}%; transition: 2s ease-out">{{ $percentage }}%</div>
                     </div>
                 </div>
 
                 <div class="mx-2 relative p-2 border border-gray rounded-sm min-w-max w-40 h-32">
                     <img class="object-contain w-full h-full" src="{{ $order->product->image_path }}" alt="Image"/>
-                    <div class="absolute -top-1 -right-1 rounded-xl px-2 py-1 text-center text-{{ $mainColor }}-900 bg-{{ $mainColor }}-100 font-bold text-xs truncate">{{ $order->product->price }}$</div>
+                    <div class="absolute -top-1 -right-1 rounded-xl px-2 py-1 text-center text-current-600 bg-current-100 font-bold text-xs truncate">{{ $order->product->price }}$</div>
                 </div>
 
                 <div class="grid space-y-2">
@@ -54,20 +54,20 @@
                         <div class="div flex flex-wrap align-items-center">
                             <div class="space-y-2">
                                 <div class="w-200 break-words truncate flex space-x-1">
-                                    <p class="text-gray-400 text-xs">Order ID:</p>
-                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $order->id }}</p>
+                                    <p class="text-gray-500 dark:text-gray-400 text-xs">Order ID:</p>
+                                    <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">#{{ $order->id }}</p>
                                 </div>
                                 <div class="w-200 break-words truncate">
-                                    <p class="text-gray-400 text-xs">Your fullname</p>
-                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $customer->fullname }}</p>
+                                    <p class="text-gray-500 dark:text-gray-400 text-xs">Full Name</p>
+                                    <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">{{ $customer->fullname }}</p>
                                 </div>
                                 <div class="w-200 break-words">
-                                    <p class="text-gray-400 text-xs">Your phone number</p>
-                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $customer->phone_number }}</p>
+                                    <p class="text-gray-500 dark:text-gray-400 text-xs">Phone number</p>
+                                    <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">{{ $customer->phone_number }}</p>
                                 </div>
                                 <div class="w-6/6 break-words">
-                                    <p class="text-gray-400 text-xs">Your delivery address</p>
-                                    <p class="text-xs font-bold text-gray-200 break-words">{{ $customer->address }}</p>
+                                    <p class="text-gray-500 dark:text-gray-400 text-xs">Delivery address</p>
+                                    <p class="text-xs font-bold text-gray-600 dark:text-gray-200 break-words">{{ $customer->address }}</p>
                                 </div>
                                 <div>
                                     <p class="text-{{ $statusColor }}-500 inline text-xs font-bold" id="statusText">{{ $order->status }}</p>
@@ -81,9 +81,9 @@
                     @if (!in_array($order->status, ['delivered', 'rejected', 'canceled']))
                         <div class="flex space-x-2 border-t border-gray p-2">
                             <a
-                                class="w-200 text-center font-bold bg-red-800 hover:bg-red-900 transition text-red-300 text-xs py-1 px-2 rounded-sm"
+                                class="w-32 text-center font-bold bg-red-100 hover:bg-red-200 text-red-600 dark:text-red-300 dark:bg-red-800 dark:hover:bg-red-900 text-xs py-1 px-2 rounded-sm"
                                 href="{{ route('order.cancel', $order->token) }}"
-                            >Cancel Your Order</a>
+                            >Cancel Order</a>
                         </div>
                     @endif
                         
@@ -94,7 +94,7 @@
 
         <div class="grid place-items-center mb-8">
             <a
-                class="self-center w-200 text-center font-bold bg-{{ $mainColor }}-800 hover:bg-{{ $mainColor }}-900 transition text-{{ $mainColor }}-300 text-md py-1 px-2 rounded-full"
+                class="w-32 rounded-sm mb-2 transition text-center bg-current-100 hover:bg-current-200 text-current-600 dark:text-current-300 dark:bg-current-800 dark:hover:bg-current-900 text-xs py-2 px-4 font-bold"
                 href="{{ route('order.my-orders', ['email' => $customer->email, 'token' => $order->token]) }}"
             >View all orders</a>
         </div>
@@ -114,7 +114,7 @@
             var statusTextElement = document.getElementById('statusText')
             var cardActionsElement = document.getElementById('actions')
 
-            var conn = new ab.Session('ws://localhost:7070',
+            var conn = new ab.Session('ws://192.168.1.105:7070',
                 function() {
                     conn.subscribe(window.location.href.split('/')[5], function(order, data) {
                         orderStatusLayout = orderStatus[data.status]

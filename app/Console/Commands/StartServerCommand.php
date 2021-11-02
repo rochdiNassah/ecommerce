@@ -50,7 +50,7 @@ class StartServerCommand extends Command
         $context = new Context($loop);
         $pull = $context->getSocket(\ZMQ::SOCKET_PULL);
         
-        $pull->bind('tcp://127.0.0.1:5555');
+        $pull->bind('tcp://192.168.1.105:5555');
         $pull->on('message', [$pusher, 'onOrderEntry']);
         
         $webSocket = new Server('0.0.0.0:7070', $loop);
