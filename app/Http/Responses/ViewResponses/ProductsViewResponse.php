@@ -16,8 +16,25 @@ class ProductsViewResponse implements Responsable
      */
     public function toResponse($request): View
     {
+        $sort = request('sort') ?? null;
+        $search = request('search') ?? null;
+        $products = Product::where(function ($query) use ($search) {
+                if ($search) {
+                    $query->where('name', 'like', '%'.$search.'%');
+                }
+            });
+        
+        if ($sort) {
+            $products->orderBy('price', $sort === 'highest' ? 'desc' : 'asc');
+        } else {
+            $products->orderBy('id', 'desc');
+        }
+        
+
         return view('admin.product.index', [
-            'products' => Product::orderBy('created_at')->paginate(12)
+            'products' => $products->paginate(12),
+            'sort' => $sort,
+            'search' => $search
         ]);
     }
 }
