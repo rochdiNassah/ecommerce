@@ -2,26 +2,29 @@
 # What is this?
 This is a simple eCommerce web application created with Laravel 8 and designed using Tailwind.
 
-### Demo
-* TODO
+### Quick demo
+* Video
+
+### Full demo
+* Video
+
+### Screenshots
+* Screenshots link
 
 ## Application objects
-* Members can join and login.
+* Members can join, login, and reset their password.
 * Admin can approve, reject, upgrade, downgrade, or delete members.
 * Admin can create or delete products.
 * Customer can browse products.
 * Customer can order a product.
-* Customer can track their order.
+* Customer can track their order in real-time.
 * Customer can view all of their orders.
 * Customer can cancel their order.
 * Dispatcher can dispatch or reject orders.
 * Delivery driver can update the status of dispatched orders.
 
-### Extra server requirements
-* Redis PHP extension.
-* Zmq PHP extension.
-
 ### Installation
+> Note: `redis` and `zmq` PHP extensions should be present in the server, otherwise, some features may not be available.
 * Clone this repository.
 * Copy `.env.example` to `.env`.
 * Adjust database details in your `.env`.
