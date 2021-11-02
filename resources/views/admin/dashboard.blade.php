@@ -8,10 +8,10 @@
         <div class="grid place-items-center w-full">
             <div class="p-4 w-full lg:w-4/5 xl:w-3/5 grid grid-cols-1 sm:grid-cols-2 gap-4 h-screen place-items-center">
                 <div class="bg-dark h-80 w-full relative rounded-sm border border-gray">
-                    <div class="border-b border-gray py-4 text-center text-gray-300 text-xl font-bold">Users</div>
+                    <div class="border-b border-gray py-4 text-center text-gray-300 text-xl font-bold">Members</div>
 
                     <div class="h-3/5 grid place-items-center">
-                        <span class="self-center block text-6xl text-gray-300 font-bold">{{ $usersCount }}</span>
+                        <span class="self-center block text-6xl text-gray-300 font-bold">{{ $membersCount }}</span>
                     </div>
 
                     <div class="border-t border-gray bottom-0 left-0 p-4 px-8 absolute w-full">

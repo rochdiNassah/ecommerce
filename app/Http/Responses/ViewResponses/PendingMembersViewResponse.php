@@ -6,7 +6,7 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\View\View;
 use App\Models\User;
 
-class UsersViewResponse implements Responsable
+class PendingMembersViewResponse implements Responsable
 {
     /**
      * Create an HTTP response that represents the object.
@@ -27,10 +27,10 @@ class UsersViewResponse implements Responsable
                     $query->where('fullname', 'like', '%'.$search.'%');
                 }
             })
-            ->where('status', 'active')
+            ->where('status', 'pending')
             ->paginate(12);
         
-        return view('admin.user.index', [
+        return view('admin.user.pending', [
             'members' => $members,
             'filter' => $filter,
             'search' => $search

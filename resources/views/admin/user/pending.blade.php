@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Active members')
+@section('title', 'Pending members')
 
 @section('content')
 <div class="flex">

@@ -55,7 +55,7 @@
                             <div class="space-y-2">
                                 <div class="w-200 break-words truncate flex space-x-1">
                                     <p class="text-gray-400 text-xs">Order ID:</p>
-                                    <p class="text-xs font-bold text-gray-200 truncate">{{ $order->id }}</p>
+                                    <p class="text-xs font-bold text-gray-200 truncate">#{{ $order->id }}</p>
                                 </div>
                                 <div class="w-200 break-words truncate">
                                     <p class="text-gray-400 text-xs">Customer's fullname</p>

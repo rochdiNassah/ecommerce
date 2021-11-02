@@ -18,6 +18,7 @@ use App\Http\Responses\ViewResponses\CreateOrderViewResponse;
 use App\Http\Responses\ViewResponses\DispatchOrderViewResponse;
 use App\Http\Responses\ViewResponses\UpdateMemberRoleViewResponse;
 use App\Http\Responses\ViewResponses\ResetPasswordViewResponse;
+use App\Http\Responses\ViewResponses\PendingMembersViewResponse;
 
 class ViewController extends Controller
 {
@@ -79,13 +80,24 @@ class ViewController extends Controller
     }
 
     /**
-     * Display all members for admin.
+     * Display active members for admin.
      * 
      * @return \Illuminate\Contracts\Support\Responsable
      */
     public function users(): Responsable
     {
+        // TODO: Change it to members.
         return app(UsersViewResponse::class);
+    }
+
+    /**
+     * Display pending members for admin.
+     * 
+     * @return \Illuminate\Contracts\Support\Responsable
+     */
+    public function pendingMembers()
+    {
+        return app(PendingMembersViewResponse::class);
     }
 
     /**

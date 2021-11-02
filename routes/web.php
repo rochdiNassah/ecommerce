@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
 
         Route::name('user.')->group(function () {
             Route::prefix('user')->group(function () {
+                Route::get('/pending', [ViewController::class, 'pendingMembers'])->name('pending');
                 Route::get('/approve/{member_id}', [MemberController::class, 'approve'])->name('approve');
                 Route::get('/delete/{member_id}', [MemberController::class, 'delete'])->name('delete');
                 Route::get('/update-role/{member_id}', [ViewController::class, 'updateMemberRole'])->name('update-role-view');
