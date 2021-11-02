@@ -13,13 +13,9 @@ use App\Notifications\OrderPlaced;
 
 final class PlaceOrderTest extends TestCase
 {
-    /** @var \App\Models\User */
     private $dispatcher;
-
-    /** @var \App\Models\User */
     private $delivery_driver;
 
-    /** @return void */
     public function testCustomerCanPlaceValidOrder(): void
     {
         Notification::fake();

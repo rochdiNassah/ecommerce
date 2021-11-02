@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Auth, Storage, Hash};
-use App\Http\Requests\{LoginRequest, JoinRequest};
+use App\Http\Requests\{LoginRequest, JoinRequest, ResetPasswordRequest};
 use App\Models\User;
-use App\Services\{Authentication, RequestJoin, BaseService};
-use App\Interfaces\Responses\{LoginResponse,LogoutResponse, RequestJoinResponse};
+use App\Services\{Authentication, RequestJoin, BaseService, ForgotPassword, ResetPassword};
+use App\Interfaces\Responses\{LoginResponse, LogoutResponse, RequestJoinResponse};
+use App\Interfaces\Responses\{ForgotPasswordResponse, ResetPasswordResponse};
+
 
 class AuthController extends Controller
 {
@@ -44,10 +46,9 @@ class AuthController extends Controller
     /**
      * Log the user out from the application.
      * 
-     * @param  \Illuminate\Http\Request
      * @return \App\Interfaces\Responses\LogoutResponse
      */
-    public function logout(Request $request): LogoutResponse
+    public function logout(): LogoutResponse
     {
         Authentication::logout();
 
@@ -79,5 +80,46 @@ class AuthController extends Controller
         }
         
         return app(RequestJoinResponse::class);
+    }
+
+    /**
+     * Send password reset link.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \App\Interfaces\Response\ForgotPasswordResponse
+     */
+    public function forgotPassword(Request $request): ForgotPasswordResponse
+    {
+        $request->validate(['email' => 'email']);
+
+        if (ForgotPassword::sendLink($request->only('email'))) {
+            ForgotPassword::succeed();
+        } else {
+            ForgotPassword::failed();
+        }
+
+        return app(ForgotPasswordResponse::class);
+    }
+
+    /**
+     * Handle reset password form submission.
+     * 
+     * @param  \App\Requests\ResetPasswordRequest
+     * @return \App\Interfaces\Response\ResetPasswordResponse
+     */
+    public function resetPassword(ResetPasswordRequest $request): ResetPasswordResponse
+    {
+        $validated = $request->only([
+            'token', 'email', 'password', 'password_confirmation'
+        ]);
+        $password = Hash::make($validated['password']);
+
+        if (ResetPassword::reset($validated, $password)) {
+            ResetPassword::succeed();
+        } else {
+            ResetPassword::failed();
+        }
+
+        return app(ResetPasswordResponse::class);
     }
 }

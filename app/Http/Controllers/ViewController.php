@@ -17,6 +17,7 @@ use App\Http\Responses\ViewResponses\TrackOrderViewResponse;
 use App\Http\Responses\ViewResponses\CreateOrderViewResponse;
 use App\Http\Responses\ViewResponses\DispatchOrderViewResponse;
 use App\Http\Responses\ViewResponses\UpdateMemberRoleViewResponse;
+use App\Http\Responses\ViewResponses\ResetPasswordViewResponse;
 
 class ViewController extends Controller
 {
@@ -128,5 +129,16 @@ class ViewController extends Controller
     public function dispatchOrder($order_id): Responsable
     {
         return app(DispatchOrderViewResponse::class, ['order_id' => $order_id]);
+    }
+
+    /**
+     * Render reset password view.
+     * 
+     * @param  string  $token
+     * @return \Illuminate\Contracts\Support\Responsable
+     */
+    public function resetPassword(string $token): Responsable
+    {
+        return app(ResetPasswordViewResponse::class, ['token' => $token]);
     }
 }

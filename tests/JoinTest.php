@@ -12,7 +12,6 @@ use App\Notifications\JoinRequested;
 
 final class JoinTest extends TestCase
 {
-    /** @return array */
     public function testValidJoinRequestCanBePlaced(): array
     {
         Notification::fake();
@@ -43,14 +42,8 @@ final class JoinTest extends TestCase
         return $form;
     }
 
-    /**
-     * Assert that the data is validated properly.
-     * 
-     * @depends testValidJoinRequestCanBePlaced
-     * 
-     * @param  array  $form
-     * @return void
-     */
+
+    /** @depends testValidJoinRequestCanBePlaced */
     public function testJoinRequestValidation($form): void
     {
         $invalidRoles =  [
@@ -70,14 +63,7 @@ final class JoinTest extends TestCase
         $this->post(route('join'), ['password' => '123', 'password_confirmation' => '123'])->assertSessionHasErrors('password');
     }
 
-    /**
-     * Assert that the form is repopulated when validation fails.
-     * 
-     * @depends testValidJoinRequestCanBePlaced
-     * 
-     * @param  array  $form
-     * @return void
-     */
+    /** @depends testValidJoinRequestCanBePlaced */
     public function testInputsAreFlashedOnFailure($form): void
     {
         $inputs = array_flip(

@@ -7,7 +7,6 @@ use App\Models\{User, Order};
 
 final class CancelOrderTest extends TestCase
 {
-    /** @return void */
     public function testCustomerCanCancelTheirOrder(): void
     {
         $sequence = new Sequence(
@@ -28,7 +27,6 @@ final class CancelOrderTest extends TestCase
         }
     }
 
-    /** @return void */
     public function testCustomerCannotCancelTheirUncancelableOrder(): void
     {
         $sequence = new Sequence(

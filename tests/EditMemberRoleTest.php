@@ -9,7 +9,6 @@ use App\Models\User;
 
 final class EditMemberRoleTest extends TestCase
 {
-    /** @return void */
     public function testAdminCanUpgradeAndDowngradeUser(): void
     {
         $target = User::factory()->create();
@@ -30,7 +29,6 @@ final class EditMemberRoleTest extends TestCase
         }
     }
 
-    /** @return void */
     public function testAdminCannotBeDowngradedExceptByTheSuperAdmin(): void
     {
         $target = User::factory()->admin()->create();
@@ -60,7 +58,6 @@ final class EditMemberRoleTest extends TestCase
         $this->assertDatabaseHas('users', $data);
     }
 
-    /** @return void */
     public function testSuperAdminIsUndowngradable(): void
     {
         $admin = User::factory()->admin()->create();
@@ -74,7 +71,6 @@ final class EditMemberRoleTest extends TestCase
         $this->assertDatabaseMissing('users', $data);
     }
 
-    /** @return void */
     public function testAdminCannotUpgradeOrDowngradeNonExistentUser(): void
     {
         $admin = User::factory()->admin()->make();

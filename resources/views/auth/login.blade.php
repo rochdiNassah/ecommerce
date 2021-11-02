@@ -46,7 +46,7 @@ $inputs = [
                     </div>
 
                     <div>
-                        <a href="{{ route('forgot-password') }}" class="transition text-sm text-{{ $mainColor }}-400 hover:text-{{ $mainColor }}-500 font-bold">Forgot password?</a>
+                        <a href="{{ route('password.request') }}" class="transition text-sm text-{{ $mainColor }}-400 hover:text-{{ $mainColor }}-500 font-bold">Forgot password?</a>
                     </div>
                 </div>
 

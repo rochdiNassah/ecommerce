@@ -9,7 +9,6 @@ use App\Models\{User, Product};
 
 final class DeleteProductTest extends TestCase
 {
-    /** @return void */
     public function setUp(): void
     {
         parent::setUp();
@@ -17,7 +16,6 @@ final class DeleteProductTest extends TestCase
         $this->actingAs(User::factory()->admin()->make());
     }
 
-    /** @return \App\Models\Product */
     public function testAdminCanDeleteProduct(): Product
     {
         $product = Product::factory()->create();
@@ -28,12 +26,7 @@ final class DeleteProductTest extends TestCase
         return $product;
     }
 
-    /**
-     * @depends testAdminCanDeleteProduct
-     * 
-     * @param  \App\Models\Product  $nonExistentProduct
-     * @return void
-     */
+    /** @depends testAdminCanDeleteProduct */
     public function testAdminCannotDeleteNonExistentProduct($nonExistentProduct): void
     {
         $this->get(route('product.delete', $nonExistentProduct->id))

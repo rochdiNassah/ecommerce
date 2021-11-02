@@ -16,14 +16,24 @@ use App\Http\Controllers\{MemberController, ProductController};
 */
 
 Route::middleware('guest')->group(function () {
-    Route::view('/login', 'auth.login')->name('login');
-    Route::view('/join', 'auth.join')->name('join');
     Route::get('/', [ViewController::class, 'home'])->name('home');
-    Route::get('/forgot-password', function () {
-        return back()->with(['status' => 'warning', 'message' => 'Sorry! Forgot password feature is not available for now.']);
-    })->name('forgot-password');
+
+    // Login
+    Route::view('/login', 'auth.login')->name('login');
     Route::post('/login', [AuthController::class, 'login']);
+
+    // Forgot password
+    Route::view('/forgot-password', 'auth.forgot-password')->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('password.email');
+
+    // Reset password
+    Route::get('/reset-password/{token}', [ViewController::class, 'resetPassword'])->name('password.reset');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+
+    // Request join
+    Route::view('/join', 'auth.join')->name('join');
     Route::post('/join', [AuthController::class, 'join']);
+
 
     Route::name('order.')->group(function () {
         Route::prefix('order')->group(function () {

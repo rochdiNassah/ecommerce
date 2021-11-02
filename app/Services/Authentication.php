@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
-use App\Interfaces\Responses\{LoginResponse,LogoutResponse};
+use App\Interfaces\Responses\{LoginResponse, LogoutResponse};
 
 class Authentication extends BaseService
 {

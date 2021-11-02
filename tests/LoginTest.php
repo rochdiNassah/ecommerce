@@ -9,8 +9,6 @@ use App\Models\User;
 
 final class LoginTest extends TestCase
 {
-
-    /** @return array */
     public function testGuestCanLoginWithValidCredentials(): string
     {
         $user = User::factory()->create();
@@ -28,14 +26,7 @@ final class LoginTest extends TestCase
         return $user->email;
     }
 
-    /**
-     * Assert that a member cannot login with invalid credentials.
-     * 
-     * @depends testGuestCanLoginWithValidCredentials
-     * 
-     * @param  string  $email
-     * @return void
-     */
+    /** @depends testGuestCanLoginWithValidCredentials */
     public function testGuestCannotLoginWithInvalidCredentials($email): void
     {
         $emails = [$email, 'non-existent@foo.bar'];
@@ -48,11 +39,6 @@ final class LoginTest extends TestCase
         $this->assertGuest();
     }
 
-    /**
-     * Assert that a pending member cannot be authenticated.
-     * 
-     * @return void
-     */
     public function testPendingMemberCannotBeAuthenticated(): void
     {
         $user = User::factory()->pending()->create();
@@ -65,11 +51,6 @@ final class LoginTest extends TestCase
         $this->assertGuest();
     }
 
-    /**
-     * Assert that the form is repopulated when validation fails.
-     * 
-     * @return void
-     */
     public function testInputsAreFlashedOnFailure(): void
     {
         $form = [

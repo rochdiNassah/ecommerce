@@ -7,7 +7,6 @@ use App\Models\{User, Order};
 
 final class UpdateOrderStatusTest extends TestCase
 {
-    /** @return void */
     public function testOrderIsUpdatedInTheCorrectSequence(): void
     {
         $order = Order::factory()->dispatched(Auth::id())->create();
@@ -27,7 +26,6 @@ final class UpdateOrderStatusTest extends TestCase
         $this->assertDatabaseHas('orders', ['id' => $order->id, 'status' => 'delivered']);
     }
 
-    /** @return void */
     public function testDeliveryDriverCannotUpdateAnOrderNotDispatchedToThem()
     {
         $delivery_driver = User::factory()->deliveryDriver()->create();
@@ -43,11 +41,6 @@ final class UpdateOrderStatusTest extends TestCase
         $this->assertDatabaseHas('orders', ['id' => $order->id, 'status' => 'shipped']);
     }
 
-    /**
-     * Acting as delivery driver.
-     * 
-     * @return void
-     */
     public function setUp(): void
     {
         parent::setUp();

@@ -8,13 +8,11 @@ use App\Models\{User, Product, Order};
 
 final class ViewTest extends TestCase
 {
-    /** @return void */
     public function testHomePageViewIsRenderable(): void
     {
         $this->get(route('home'))->assertOk()->assertViewIs('home');
     }
 
-    /** @return void */
     public function testCreateOrderViewIsRenderble(): void
     {
         $product = Product::factory()->create();
@@ -22,7 +20,6 @@ final class ViewTest extends TestCase
         $this->get(route('order.create-view', $product->id))->assertOk()->assertViewIs('order.create');
     }
 
-    /** @return void */
     public function testRequestMyOrdersViewIsRenderable(): void
     {
         // $this->markTestSkipped('TODO');
@@ -30,7 +27,6 @@ final class ViewTest extends TestCase
         $this->get(route('order.request-my-orders-view'))->assertOk()->assertViewIs('order.request-my-orders');
     }
 
-    /** @return array */
     public function testMyOrdersViewIsRenderable(): array
     {
         // $this->markTestSkipped('TODO');
@@ -44,12 +40,7 @@ final class ViewTest extends TestCase
         return $params;
     }
 
-    /**
-     * @depends testMyOrdersViewIsRenderable
-     * 
-     * @param  array  $params
-     * @return void
-     */
+    /** @depends testMyOrdersViewIsRenderable */
     public function testTrackMyOrderViewIsRenderable(array $params): void
     {
         // $this->markTestSkipped('TODO');
@@ -57,19 +48,16 @@ final class ViewTest extends TestCase
         $this->get(route('order.track-view', $params))->assertOk()->assertViewIs('order.track');
     }
 
-    /** @return void */
     public function testLoginViewIsRenderable(): void
     {
         $this->get(route('login'))->assertOk()->assertViewIs('auth.login');
     }
 
-    /** @return void */
     public function testJoinViewIsRendarable(): void
     {
         $this->get(route('join'))->assertOk()->assertViewIs('auth.join');
     }
 
-    /** @return void */
     public function testDashboardViewIsRenderable(): void
     {
         $sequence = new Sequence(
@@ -84,7 +72,6 @@ final class ViewTest extends TestCase
         }
     }
 
-    /** @return void */
     public function testUsersViewIsRenderable(): void
     {
         $admin = User::factory()->admin()->create();
@@ -92,7 +79,6 @@ final class ViewTest extends TestCase
         $this->actingAs($admin)->get(route('users'))->assertOk()->assertViewIs('admin.user.index');
     }
 
-    /** @return void */
     public function testUpdateMemberRoleViewIsRenderable(): void
     {
         $admin = User::factory()->admin()->create();

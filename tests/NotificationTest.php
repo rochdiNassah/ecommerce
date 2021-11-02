@@ -13,7 +13,6 @@ use App\Notifications\{OrderRejected, OrderDispatched};
 
 final class NotificationTest extends TestCase
 {
-    /** @return void */
     public function testCustomerIsNotifiedWhenTheirOrderIsRejected(): void
     {
         Notification::fake();
@@ -25,7 +24,6 @@ final class NotificationTest extends TestCase
         Notification::assertSentTo(app(AnonymousNotifiable::class), OrderRejected::class);
     }
 
-    /** @return void */
     public function testCustomerIsNotifiedWhenTheirOrderIsDispatched(): void
     {
         Notification::fake();
@@ -41,7 +39,6 @@ final class NotificationTest extends TestCase
         Notification::assertSentTo(app(AnonymousNotifiable::class), OrderDispatched::class);
     }
 
-    /** @return void */
     public function setUp(): void
     {
         parent::setUp();

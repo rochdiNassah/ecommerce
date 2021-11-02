@@ -11,7 +11,6 @@ use App\Models\{User, Order};
 
 final class RejectOrderTest extends TestCase
 {
-    /** @return void */
     public function testDispatcherCanRejectPendingOrder(): void
     {
         $order = Order::factory()->pending()->create();
@@ -24,7 +23,6 @@ final class RejectOrderTest extends TestCase
         ]);
     }
 
-    /** @return void */
     public function testDispatcherCannotRejectNonPendingOrder(): void
     {
         $rejected = Order::factory()->rejected()->create();
@@ -43,18 +41,12 @@ final class RejectOrderTest extends TestCase
         }
     }
 
-    /** @return void */
     public function testDispatcherCannotRejectNonExistentOrder(): void
     {
         $this->get(route('order.reject', PHP_INT_MAX))
             ->assertSessionHas(['status' => 'error', 'reason' => 'Not Found']);
     }
 
-    /**
-     * Actings as dispatcher.
-     * 
-     * @return void
-     */
     public function setUp(): void
     {
         parent::setUp();

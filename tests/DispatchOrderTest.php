@@ -12,7 +12,6 @@ use App\Models\{User, Order};
 
 final class DispatchOrderTest extends TestCase
 {
-    /** @return void */
     public function testDispatcherCanDispatchPendingOrder(): void
     {
         $order = Order::factory()->create();
@@ -27,7 +26,6 @@ final class DispatchOrderTest extends TestCase
         ]);
     }
 
-    /** @return void */
     public function testDispatcherCannotDispatchOrderToNonDeliveryDriverMember(): void
     {
         $order = Order::factory()->create();
@@ -47,7 +45,6 @@ final class DispatchOrderTest extends TestCase
         }
     }
 
-    /** @return void */
     public function testDispatcherCannotDispatchNonPendingOrder(): void
     {
         $dispatched = Order::factory()->dispatched()->create();
@@ -62,11 +59,6 @@ final class DispatchOrderTest extends TestCase
         ]);
     }
 
-    /**
-     * Actings as dispatcher.
-     * 
-     * @return void
-     */
     public function setUp(): void
     {
         parent::setUp();

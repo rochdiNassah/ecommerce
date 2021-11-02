@@ -11,7 +11,6 @@ use App\Notifications\UserApproved;
 
 final class ApproveMemberTest extends TestCase
 {
-    /** @return void */
     public function testAdminCanApprovePendingUser(): void
     {
         $pending = User::factory()->pending()->create();
@@ -28,7 +27,6 @@ final class ApproveMemberTest extends TestCase
         ]);
     }
 
-    /** @return void */
     public function testAdminCannotApproveNonPendingUser(): void
     {
         $active = User::factory()->create();
@@ -42,7 +40,6 @@ final class ApproveMemberTest extends TestCase
             ]);
     }
 
-    /** @return void */
     public function testAdminCannotApproveNonExistentUser(): void
     {
         $admin = User::factory()->admin()->make();
@@ -58,7 +55,6 @@ final class ApproveMemberTest extends TestCase
             ]);
     }
 
-    /** @return void */
     public function testUserIsNotifiedWhenTheyApproved(): void
     {
         Notification::fake();

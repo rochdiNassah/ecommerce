@@ -10,7 +10,6 @@ use App\Models\{User, Product};
 
 final class CreateProductTest extends TestCase
 {   
-    /** @return array */
     public function testAdminCanCreateValidProduct(): array
     {
         $admin = User::factory()->admin()->create();
@@ -40,12 +39,7 @@ final class CreateProductTest extends TestCase
         return $form;
     }
 
-    /**
-     * @depends testAdminCanCreateValidProduct
-     * 
-     * @param  array  $form
-     * @return void
-     */
+    /** @depends testAdminCanCreateValidProduct */
     public function testAdminCannotCreateInvalidProduct($form): void
     {
         $admin = User::factory()->admin()->create();

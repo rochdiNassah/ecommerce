@@ -12,7 +12,6 @@ use App\Notifications\UserRejected;
 
 final class DeleteMemberTest extends TestCase
 {
-    /** @return void */
     public function testAdminCanDeleteUser(): void
     {
         $admin = User::factory()->admin()->create();
@@ -39,7 +38,6 @@ final class DeleteMemberTest extends TestCase
         $this->assertDatabaseMissing('users', ['id' => $admin->id]);
     }
 
-    /** @return void */
     public function testSuperAdminIsUndeletable(): void
     {
         $admin = User::factory()->admin()->make();
@@ -58,7 +56,6 @@ final class DeleteMemberTest extends TestCase
         $this->assertDatabaseHas('users', ['id' => $superAdmin->id]);
     }
 
-    /** @return void */
     public function testAdminCannotDeleteNonExistentUser(): void
     {
         $admin = User::factory()->admin()->make();
@@ -75,7 +72,6 @@ final class DeleteMemberTest extends TestCase
             ]);
     }
 
-    /** @return void */
     public function testPendingUserIsNotifiedAfterDeletionAsThoughTheyWereRejected(): void
     {
         Notification::fake();
