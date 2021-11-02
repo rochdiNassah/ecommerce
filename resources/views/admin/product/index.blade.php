@@ -5,8 +5,8 @@
     <div class="flex">
         @include('admin.sidebar')
 
-        <div class="grid place-items-center w-full">
-            <div class="p-2 w-full sm:w-4/5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div class="grid place-items-center w-full p-4">
+            <div class="w-full sm:w-4/5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
                 @foreach ($products as $product)
                 <div class="bg-dark border border-gray rounded-sm p-4 relative">
                     <div class="flex justify-center">
@@ -24,6 +24,9 @@
                     >Delete</a>
                 </div>
                 @endforeach
+            </div>
+            <div class="px-4 mb-8 mt-4 grid place-items-center">
+                {{ $products->links() }}
             </div>
         </div>
     </div>

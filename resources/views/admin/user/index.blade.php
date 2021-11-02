@@ -4,49 +4,67 @@
 @section('content')
 <div class="flex">
     @include('admin.sidebar')
+    
+    <div class="grid place-items-center w-full p-2">
+        <form>
+            <div class="self-center mb-4">
+                <input class="w-40 sm:w-64 md:w-400 h-10 text-gray-200 bg-gray-900 border border-gray rounded-full appearance-none p-3 text-sm leading-tight outline-none" type="text" value="{{ request('search') ?? null }}" name="search" placeholder="Search by name">
+            </div>
+            <div class="self-center flex space-x-2 mb-4">
+                <select class="self-center bg-lightdark border border-gray w-full p-3 font-bold text-xs text-gray-300 rounded-md" name="filter">
+                    <option value="" @if ('all' === request('filter')) selected @endif>Filter by role</option>
+                    @foreach (['admin', 'dispatcher', 'delivery_driver'] as $role)
+                        <option value="{{ $role }}" @if ($role === request('filter')) selected @endif>{{ ucfirst(str_replace('_', ' ', $role)) }}</option>
+                    @endforeach
+                </select>
 
-    <div class="grid place-items-center w-full">
-        <div class="p-4 w-full sm:w-4/5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                <button class="self-center transition bg-{{ $mainColor }}-800 hover:bg-{{ $mainColor }}-900 text-{{ $mainColor }}-300 p-2 px-4 text-md font-bold rounded-md">Filter</button>
+            </div>
+        </form>
+        <div class="w-full sm:w-4/5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
             @foreach ($users as $user)
-            <div class="bg-dark border border-gray rounded-sm p-4 relative">
-                <div class="grid place-items-center"><img class="object-contain rounded-full w-32 h-32" src="{{ asset($user->avatar_path) }}" onerror="this.src='{{ config('app.default_avatar_path') }}'" alt="Avatar"/></div>
+            <div class="bg-dark border border-gray rounded-sm relative space-y-2">
+                <div class="grid place-items-center pt-2"><img class="object-contain rounded-full w-20 h-20" src="{{ asset($user->avatar_path) }}" onerror="this.src='{{ config('app.default_avatar_path') }}'" alt="Avatar"/></div>
                 <div class="flex space-x-4">
-                    <div class="flex-1 space-y-2 py-1">
-                        <div class="grid place-items-center"><div class="self-center px-2 rounded-sm text-{{ $user->status === 'pending' ? 'yellow' : 'green' }}-500 text-xs font-bold">{{ $user->status }}</div></div>
-                        <div class="self-center px-2 rounded-sm w-40 text-gray-200 font-bold text-sm truncate">{{ $user->fullname }}</div>
-                        <div class="self-center px-2 rounded-sm w-40 text-gray-300 font-bold text-xs truncate">{{ $user->phone_number }}</div>
+                    <div class="flex-1 space-y-2 px-4">
+                        <div class="grid place-items-center">
+                            <div class="self-center px-2 rounded-sm text-{{ $user->status === 'pending' ? 'yellow' : 'green' }}-500 text-xs font-bold">{{ $user->status }}</div>
+                        </div>
+                        <div class="self-center px-2 rounded-sm w-40 text-gray-200 text-xs truncate">{{ $user->fullname }}</div>
+                        <div class="self-center px-2 rounded-sm w-40 text-gray-200 text-xs">{{ $user->email }}</div>
+                        <div class="self-center px-2 rounded-sm w-40 text-gray-200 text-xs">{{ $user->phone_number }}</div>
 
                         @php
                             $roleColor = $user->role === 'admin' ? 'red' : ($user->role === 'dispatcher' ? 'yellow' : 'green')
                         @endphp
 
                         <div class="self-center px-2 py-1 absolute -top-1 text-center rounded-sm right-1 w-30 bg-{{ $roleColor }}-800 text-{{ $roleColor }}-300 font-bold text-xs">{{ $user->role }}</div>
-                        
-                        <div class="grid grid-cols-2">
-                            @if ('pending' === $user->status)
-                            <a
-                                class="text-center font-bold bg-green-800 hover:bg-green-900 transition text-green-300 text-xs py-1 px-2 rounded-sm mx-2"
-                                href="{{ route('user.approve', $user->id) }}"
-                            >Approve</a> 
-                            @else
-                            <a
-                                class="text-center font-bold bg-blue-800 hover:bg-blue-900 transition text-blue-300 text-xs py-1 px-2 rounded-sm mx-2"
-                                href="{{ route('user.update-role-view', $user->id) }}"
-                            >Edit Role</a> 
-                            @endif
-
-                            <a
-                                class="text-center font-bold bg-red-800 hover:bg-red-900 transition text-red-300 text-xs py-1 px-2 rounded-sm mx-2"
-                                href="{{ route('user.delete', $user->id) }}"
-                            >Delete</a> 
-                        </div>
                     </div>
+                </div>
+
+                <div class="grid grid-cols-2 border-t border-gray p-2 space-x-2">
+                    @if ('pending' === $user->status)
+                    <a
+                        class="text-center font-bold bg-green-800 hover:bg-green-900 transition text-green-300 text-xs py-1 px-2 rounded-sm"
+                        href="{{ route('user.approve', $user->id) }}"
+                    >Approve</a> 
+                    @else
+                    <a
+                        class="text-center font-bold bg-blue-800 hover:bg-blue-900 transition text-blue-300 text-xs py-1 px-2 rounded-sm"
+                        href="{{ route('user.update-role-view', $user->id) }}"
+                    >Edit Role</a> 
+                    @endif
+
+                    <a
+                        class="text-center font-bold bg-red-800 hover:bg-red-900 transition text-red-300 text-xs py-1 px-2 rounded-sm"
+                        href="{{ route('user.delete', $user->id) }}"
+                    >Delete</a> 
                 </div>
             </div>
             @endforeach
         </div>
         <div class="px-4 mb-8 mt-4 grid place-items-center">
-            {{ $users->links() }}
+            {{ $users->appends(['filter' => $filter, 'search' => $search])->links() }}
         </div>
     </div>
 </div>

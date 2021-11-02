@@ -22,15 +22,11 @@ final class ViewTest extends TestCase
 
     public function testRequestMyOrdersViewIsRenderable(): void
     {
-        // $this->markTestSkipped('TODO');
-
         $this->get(route('order.request-my-orders-view'))->assertOk()->assertViewIs('order.request-my-orders');
     }
 
     public function testMyOrdersViewIsRenderable(): array
     {
-        // $this->markTestSkipped('TODO');
-
         $order = Order::factory()->pending()->create();
         $email = json_decode($order->customer)->email;
         $params = ['email' => $email, 'token' => $order->token];
@@ -43,8 +39,6 @@ final class ViewTest extends TestCase
     /** @depends testMyOrdersViewIsRenderable */
     public function testTrackMyOrderViewIsRenderable(array $params): void
     {
-        // $this->markTestSkipped('TODO');
-
         $this->get(route('order.track-view', $params))->assertOk()->assertViewIs('order.track');
     }
 

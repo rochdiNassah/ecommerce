@@ -16,8 +16,23 @@ class UsersViewResponse implements Responsable
      */
     public function toResponse($request): View
     {
+        $filter = request('filter') ?? null;
+        $search = request('search') ?? null;
+        $users = User::orderBy('id')
+            ->where(function ($query) use ($filter, $search) {
+                if ($filter) {
+                    $query->where('role', $filter);
+                }
+                if ($search) {
+                    $query->where('fullname', 'like', '%'.$search.'%');
+                }
+            })
+            ->paginate(12);
+        
         return view('admin.user.index', [
-            'users' => User::orderBy('status')->paginate(12)
+            'users' => $users,
+            'filter' => $filter,
+            'search' => $search
         ]);
     }
 }
