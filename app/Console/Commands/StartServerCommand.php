@@ -60,9 +60,9 @@ class StartServerCommand extends Command
      */
     public function __construct()
     {
-        $this->loop = app(Factory::class)::create();
+        $this->loop = Factory::create();
         $this->app =  app(Ratchet::class);
-        $this->context = $this->context();
+        $this->context = $this->getContext();
         $this->wamp_component = $this->wampComponent();
         $this->ws_component = $this->wsComponent();
         $this->ws_server = $this->wsServer();
@@ -95,7 +95,7 @@ class StartServerCommand extends Command
      * 
      * @return \React\ZMQ\Context
      */
-    protected function context()
+    private function getContext()
     {
         return app(Context::class, ['loop' => $this->loop]);
     }
