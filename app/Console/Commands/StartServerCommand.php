@@ -11,6 +11,7 @@ use React\ZMQ\Context;
 use React\Socket\Server;
 use Ratchet\Wamp\WampServer;
 use App\Services\Ratchet;
+use Zmq;
 
 class StartServerCommand extends Command
 {
@@ -26,7 +27,7 @@ class StartServerCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Start Ratcher server to listen for WebSocket connections.';
 
     /**
      * Create a new command instance.
@@ -46,9 +47,9 @@ class StartServerCommand extends Command
     public function handle()
     {
         $loop = Factory::create();
-        $ratchet = new Ratchet();
+        $ratchet = app(Ratchet::class);
         $context = new Context($loop);
-        $pull = $context->getSocket(\ZMQ::SOCKET_PULL);
+        $pull = $context->getSocket(Zmq::SOCKET_PULL);
         
         $pull->bind('tcp://0.0.0.0:1111');
         $pull->on('message', [$ratchet, 'onOrderEntry']);
