@@ -54,20 +54,20 @@
                         <div class="div flex flex-wrap align-items-center">
                             <div class="space-y-2">
                                 <div class="w-200 break-words truncate flex space-x-1">
-                                    <p class="text-gray-500 dark:text-gray-400 text-xs">Order ID:</p>
-                                    <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">#{{ $order->id }}</p>
+                                    <p class="text-gray-600 dark:text-gray-400 text-xs font-bold">Order ID:</p>
+                                    <p class="text-xs text-gray-600 dark:text-gray-200 truncate">#{{ $order->id }}</p>
                                 </div>
                                 <div class="w-200 break-words truncate">
-                                    <p class="text-gray-500 dark:text-gray-400 text-xs">Full Name</p>
-                                    <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">{{ $customer->fullname }}</p>
+                                    <p class="text-gray-600 dark:text-gray-400 text-xs font-bold">Full Name</p>
+                                    <p class="text-xs text-gray-600 dark:text-gray-200 truncate">{{ $customer->fullname }}</p>
                                 </div>
                                 <div class="w-200 break-words">
-                                    <p class="text-gray-500 dark:text-gray-400 text-xs">Phone number</p>
-                                    <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">{{ $customer->phone_number }}</p>
+                                    <p class="text-gray-600 dark:text-gray-400 text-xs font-bold">Phone number</p>
+                                    <p class="text-xs text-gray-600 dark:text-gray-200 truncate">{{ $customer->phone_number }}</p>
                                 </div>
                                 <div class="w-6/6 break-words">
-                                    <p class="text-gray-500 dark:text-gray-400 text-xs">Delivery address</p>
-                                    <p class="text-xs font-bold text-gray-600 dark:text-gray-200 break-words">{{ $customer->address }}</p>
+                                    <p class="text-gray-600 dark:text-gray-400 text-xs font-bold">Delivery address</p>
+                                    <p class="text-xs text-gray-600 dark:text-gray-200 break-words">{{ $customer->address }}</p>
                                 </div>
                                 <div>
                                     <p class="text-{{ $statusColor }}-500 inline text-xs font-bold" id="statusText">{{ $order->status }}</p>

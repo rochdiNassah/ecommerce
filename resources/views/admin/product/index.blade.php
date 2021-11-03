@@ -6,7 +6,7 @@
     @include('admin.sidebar')
 
     <div class="grid place-items-center w-full p-2">
-        <form>
+        <form class="grid place-items-center mb-8">
             <div class="flex space-x-2">
                 <input class="self-center text-gray-600 dark:text-gray-200 dark:bg-gray-900 border border-gray rounded-md appearance-none h-8 px-2 text-xs leading-tight outline-none" type="text" value="{{ request('search') ?? null }}" name="search" placeholder="Search by name">
 
@@ -20,28 +20,28 @@
                 <button class="transition bg-current-100 hover:bg-current-200 text-current-600 dark:text-current-300 dark:bg-current-800 dark:hover:bg-current-900 p-2 px-4 text-xs font-bold rounded-md">Filter</button>
             </div>
         </form>
-        <div class="p-2 w-full sm:w-4/5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div class="px-2 sm:px-4 container mx-auto w-80 sm:w-full lg:max-w-5xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             @foreach ($products as $product)
-            <div class="bg-white dark:bg-gray-800 border border-gray rounded-sm relative space-y-2">
+            <div class="bg-white dark:bg-gray-800 border border-gray relative space-y-2">
                 <div class="p-2">
                     <div class="space-y-4 mt-2">
                         <img class="object-contain h-20" src="{{ asset($product->image_path) }}" onerror="this.src='{{ config('app.default_product_image_path') }}'" alt="Image"/>
                         <div class="space-y-2">
                             <div class="w-200 break-words truncate flex space-x-1">
-                                <p class="text-gray-500 dark:text-gray-400 text-xs">Product ID:</p>
-                                <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">#{{ $product->id }}</p>
+                                <p class="font-bold text-gray-600 dark:text-gray-400 text-xs">Product ID:</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-200 truncate">#{{ $product->id }}</p>
                             </div>
                             <div class="w-200 break-words truncate flex space-x-1">
-                                <p class="text-gray-500 dark:text-gray-400 text-xs">Product name:</p>
-                                <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">{{ $product->name }}</p>
+                                <p class="font-bold text-gray-600 dark:text-gray-400 text-xs">Product name:</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-200 truncate">{{ $product->name }}</p>
                             </div>
                             <div class="w-200 break-words truncate flex space-x-1">
-                                <p class="text-gray-500 dark:text-gray-400 text-xs">Orders count:</p>
-                                <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">{{ $product->orders_count }}</p>
+                                <p class="font-bold text-gray-600 dark:text-gray-400 text-xs">Orders count:</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-200 truncate">{{ $product->orders_count }}</p>
                             </div>
                             <div class="w-200 break-words truncate flex space-x-1">
-                                <p class="text-gray-500 dark:text-gray-400 text-xs">Product price:</p>
-                                <p class="text-xs font-bold text-current-600 dark:text-current-300 truncate">{{ $product->price }}$</p>
+                                <p class="font-bold text-gray-600 dark:text-gray-400 text-xs">Product price:</p>
+                                <p class="text-xs text-current-600 dark:text-current-300 truncate">{{ $product->price }}$</p>
                             </div>
                         </div>
                     </div>

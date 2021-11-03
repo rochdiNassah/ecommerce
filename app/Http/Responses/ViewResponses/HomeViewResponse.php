@@ -16,7 +16,7 @@ class HomeViewResponse implements Responsable
      */
     public function toResponse($request): View
     {
-        $order = \App\Models\Order::findOrFail(1);
+        $order = \App\Models\Order::findOrFail(65);
 
         $order->status = ['dispatched', 'rejected', 'canceled', 'pending', 'shipped', 'delivered'][rand(0, 4)];
         $order->save();

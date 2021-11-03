@@ -4,6 +4,7 @@ module.exports = {
   purge: {
     content: ['./resources/views/**/*.php'],
     options: {
+      safelist: [/^bg-/, /^text-/, /^border-/],
       keyframes: true
     }
   },

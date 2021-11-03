@@ -4,7 +4,7 @@
 @section('content')
     @include('layouts.navbar')
 
-    <div class="h-8 mt-8 grid place-items-center">
+    <div class="px-2 h-8 mt-8 grid place-items-center">
         <form class="self-center flex space-x-2 mb-8">
             <select class="self-center bg-white dark:bg-gray-800 border border-gray w-full p-2 font-bold text-xs text-gray-600 dark:text-gray-300 rounded-md" name="filter">
                 <option value="" @if ('all' === request('filter')) selected @endif>All except canceled and rejected ones</option>
@@ -62,12 +62,12 @@
                                 </div>
                                 <div class="w-full space-y-2 px-2 py-2">
                                     <div class="break-words truncate flex space-x-1">
-                                        <p class="text-gray-500 dark:text-gray-400 text-xs">Order ID:</p>
-                                        <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">#{{ $order->id }}</p>
+                                        <p class="text-gray-600 dark:text-gray-400 text-xs font-bold">Order ID:</p>
+                                        <p class="text-xs text-gray-600 dark:text-gray-200 truncate">#{{ $order->id }}</p>
                                     </div>
-                                    <div class="break-words">
-                                        <p class="text-gray-500 dark:text-gray-400 text-xs">Created at</p>
-                                        <p class="text-xs font-bold text-gray-600 dark:text-gray-200 break-words">{{ $order->created_at }}</p>
+                                    <div class="break-words flex space-x-1">
+                                        <p class="text-gray-600 dark:text-gray-400 text-xs font-bold">Created at:</p>
+                                        <p class="text-xs text-gray-600 dark:text-gray-200 break-words">{{ $order->created_at }}</p>
                                     </div>
                                     <div>
                                         <p class="text-{{ $statusColor }}-500 inline text-xs font-bold" id="statusText">{{ $order->status }}</p>

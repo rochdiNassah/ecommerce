@@ -63,35 +63,35 @@
                         <div class="div flex flex-wrap align-items-center">
                             <div class="space-y-2">
                                 <div class="w-200 break-words truncate flex space-x-1">
-                                    <p class="text-gray-500 dark:text-gray-400 text-xs">Order ID:</p>
-                                    <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">#{{ $order->id }}</p>
+                                    <p class="font-bold text-gray-600 dark:text-gray-400 text-xs">Order ID:</p>
+                                    <p class="text-xs text-gray-600 dark:text-gray-200 truncate">#{{ $order->id }}</p>
                                 </div>
                                 <div class="w-200 break-words truncate">
-                                    <p class="text-gray-500 dark:text-gray-400 text-xs">Customer's fullname</p>
-                                    <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">{{ $customer->fullname }}</p>
+                                    <p class="font-bold text-gray-600 dark:text-gray-400 text-xs">Customer's fullname</p>
+                                    <p class="text-xs text-gray-600 dark:text-gray-200 truncate">{{ $customer->fullname }}</p>
                                 </div>
                                 <div class="w-200 break-words">
-                                    <p class="text-gray-500 dark:text-gray-400 text-xs">Customer's phone number</p>
-                                    <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">{{ $customer->phone_number }}</p>
+                                    <p class="font-bold text-gray-600 dark:text-gray-400 text-xs">Customer's phone number</p>
+                                    <p class="text-xs text-gray-600 dark:text-gray-200 truncate">{{ $customer->phone_number }}</p>
                                 </div>
                                 <div class="w-6/6 break-words">
-                                    <p class="text-gray-500 dark:text-gray-400 text-xs">Customer's delivery address</p>
-                                    <p class="text-xs font-bold text-gray-600 dark:text-gray-200 break-words">{{ $customer->address }}</p>
+                                    <p class="font-bold text-gray-600 dark:text-gray-400 text-xs">Delivery address</p>
+                                    <p class="text-xs text-gray-600 dark:text-gray-200 break-words">{{ $customer->address }}</p>
                                 </div>
                                 @if (isset($order->dispatcher))
                                     <div>
-                                        <p class="text-gray-500 dark:text-gray-400 text-xs">Dispatcher</p>
-                                        <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">{{ $order->dispatcher->fullname }} &nbsp;|&nbsp; {{ $order->dispatcher->phone_number }}</p>
+                                        <p class="font-bold text-gray-600 dark:text-gray-400 text-xs">Dispatcher</p>
+                                        <p class="text-xs text-gray-600 dark:text-gray-200 truncate">{{ $order->dispatcher->fullname }} &nbsp;|&nbsp; {{ $order->dispatcher->phone_number }}</p>
                                     </div>
                                 @endif
                                 @if (isset($order->deliveryDriver))
                                     <div>
-                                        <p class="text-gray-500 dark:text-gray-400 text-xs">Delivery Driver</p>
-                                        <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">{{ $order->deliveryDriver->fullname }} &nbsp;|&nbsp; {{ $order->deliveryDriver->phone_number }}</p>
+                                        <p class="font-bold text-gray-600 dark:text-gray-400 text-xs">Delivery Driver</p>
+                                        <p class="text-xs text-gray-600 dark:text-gray-200 truncate">{{ $order->deliveryDriver->fullname }} &nbsp;|&nbsp; {{ $order->deliveryDriver->phone_number }}</p>
                                     </div>
                                 @endif
                                 <div>
-                                    <p class="inline text-xs font-bold text-{{ $statusColor }}-500">{{ $order->status }}</p>
+                                    <p class="font-bold inline text-xs text-{{ $statusColor }}-500">{{ $order->status }}</p>
                                 </div>
                             </div>
                         </div>
