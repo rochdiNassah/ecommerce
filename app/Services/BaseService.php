@@ -33,12 +33,12 @@ class BaseService
     }
 
     /** @return void */
-    public static function publish($object): void
+    public static function publish($message): void
     {
-        /*$context = new \ZMQContext();
-        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH, 'my pusher');
+        $context = new \ZMQContext();
+        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH);
 
-        $socket->connect('tcp://192.168.1.105:5555');
-        $socket->send(json_encode($object));*/
+        $socket->connect('tcp://0.0.0.0:1111');
+        $socket->send(json_encode($message));
     }
 }

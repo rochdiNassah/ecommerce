@@ -38,7 +38,7 @@ class InitSeeder extends Seeder
                 'is_super_admin' => false
             ],
             [ // Dispatcher
-                'fullname' => 'Sacri',
+                'fullname' => 'Corge',
                 'email' => 'dispatcher@foo.bar',
                 'password' => Hash::make('1234'),
                 'phone_number' => '1020304050',
@@ -48,7 +48,7 @@ class InitSeeder extends Seeder
                 'is_super_admin' => false
             ],
             [ // Delivery driver
-                'fullname' => 'Ecaflip',
+                'fullname' => 'Grault',
                 'email' => 'delivery@foo.bar',
                 'password' => Hash::make('1234'),
                 'phone_number' => '1020304050',
@@ -100,21 +100,8 @@ class InitSeeder extends Seeder
                 'image_path' => asset('images/products/small-desk.jpg')
             ]
         ];
-        $order = [
-            [    
-                'customer' => json_encode([
-                    'fullname' => Str::random(10),
-                    'email' => Str::random(10).'@foo.bar',
-                    'phone_number' => str_repeat('0', 10),
-                    'address' => '9692 East 3rd Rd. Havertown, PA 19083.'
-                ]),
-                'product_id' => 1,
-                'token' => bin2hex(openssl_random_pseudo_bytes(64))
-            ]
-        ];
 
         DB::table('users')->insert($users);
         DB::table('products')->insert($products);
-        DB::table('orders')->insert($order);
     }
 }

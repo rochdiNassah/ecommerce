@@ -6,18 +6,19 @@ use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;
 
-class Pusher implements WampServerInterface
+class Ratchet implements WampServerInterface
 {
     protected $subscribedOrders = [];
 
     public function onSubscribe(ConnectionInterface $conn, $order)
     {
+        echo "Subscribed!\n";
         $this->subscribedOrders[$order->getId()] = $order;
     }
 
     public function onUnSubscribe(ConnectionInterface $conn, $order)
     {
-        
+
     }
 
     public function onOrderEntry($entry)
@@ -33,7 +34,7 @@ class Pusher implements WampServerInterface
 
     public function onOpen(ConnectionInterface $conn)
     {
-        
+         
     }
 
     public function onCall(ConnectionInterface $conn, $id, $topic, array $params)

@@ -10,7 +10,7 @@ use React\EventLoop\Factory;
 use React\ZMQ\Context;
 use React\Socket\Server;
 use Ratchet\Wamp\WampServer;
-use App\Services\Pusher;
+use App\Services\Ratchet;
 
 class StartServerCommand extends Command
 {
@@ -46,19 +46,19 @@ class StartServerCommand extends Command
     public function handle()
     {
         $loop = Factory::create();
-        $pusher = new Pusher();
+        $ratchet = new Ratchet();
         $context = new Context($loop);
         $pull = $context->getSocket(\ZMQ::SOCKET_PULL);
         
-        $pull->bind('tcp://192.168.1.105:5555');
-        $pull->on('message', [$pusher, 'onOrderEntry']);
+        $pull->bind('tcp://0.0.0.0:1111');
+        $pull->on('message', [$ratchet, 'onOrderEntry']);
         
-        $webSocket = new Server('0.0.0.0:7070', $loop);
+        $webSocket = new Server('0.0.0.0:1112', $loop);
         $webServer = new IoServer(
             new HttpServer(
                 new WsServer(
                     new WampServer(
-                        $pusher
+                        $ratchet
                     )
                 )
             ),
