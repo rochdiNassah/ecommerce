@@ -8,22 +8,36 @@ use Ratchet\Wamp\WampServerInterface;
 
 class Ratchet implements WampServerInterface
 {
+    /** @var array */
     protected $subscribedOrders = [];
 
-    public function onSubscribe(ConnectionInterface $conn, $order)
+    /**
+     * @param  \Ratchet\ConnectionInterface  $conn
+     * @param  object  $order
+     * @return void
+     */
+    public function onSubscribe(ConnectionInterface $conn, $order): void
     {
-        echo "Subscribed!\n";
         $this->subscribedOrders[$order->getId()] = $order;
     }
 
-    public function onUnSubscribe(ConnectionInterface $conn, $order)
+    /**
+     * @param  \Ratchet\ConnectionInterface  $conn
+     * @param  object  $order
+     * @return void
+     */
+    public function onUnSubscribe(ConnectionInterface $conn, $order): void
     {
 
     }
 
-    public function onOrderEntry($entry)
+    /**
+     * @param  string  $event
+     * @return void
+     */
+    public function onOrderEntry($event): void
     {
-        $order = (object) json_decode($entry);
+        $order = (object) json_decode($event);
 
         if (!array_key_exists($order->token, $this->subscribedOrders)) {
             return;
@@ -32,29 +46,59 @@ class Ratchet implements WampServerInterface
         ($this->subscribedOrders[$order->token])->broadcast($order);
     }
 
-    public function onOpen(ConnectionInterface $conn)
+    /**
+     * @param  \Ratchet\ConnectionInterface  $conn
+     * @return void
+     */
+    public function onOpen(ConnectionInterface $conn): void
     {
          
     }
 
-    public function onCall(ConnectionInterface $conn, $id, $topic, array $params)
+    /**
+     * Fired when the application receives an RPC.
+     * 
+     * @param  \Ratchet\ConnectionInterface  $conn
+     * @param  int  $id
+     * @param  string  $topic
+     * @param  array  $params
+     * @return void
+     */
+    public function onCall(ConnectionInterface $conn, $id, $topic, array $params): void
     {
         $conn->close();
     }
 
-    public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible)
+    /**
+     * @param  \Ratchet\ConnectionInterface  $conn
+     * @param  string  $topic
+     * @param  string  $event
+     * @param  array  exclude
+     * @param  array  $eligible
+     * @return void
+     */
+    public function onPublish(ConnectionInterface $conn, $topic, $event, array $exclude, array $eligible): void
     {
         $conn->close();
     }
 
+    /**
+     * @param  \Ratchet\ConnectionInterface  $conn
+     * @return void
+     */
     public function onClose(ConnectionInterface $conn)
     {
         
     }
 
-    public function onError(ConnectionInterface $conn, \Exception $e)
+    /**
+     * @param  \Ratchet\ConnectionInterface  $conn
+     * @param  \Exception  $e
+     * @return void
+     */
+    public function onError(ConnectionInterface $conn, \Exception $e): void
     {
-        echo "Exception cought: {$e->getMessage}\n";
+        echo sprintf('\n\nException cought: %s\n\n', $e->getMessage);
 
         $conn->close();
     }
