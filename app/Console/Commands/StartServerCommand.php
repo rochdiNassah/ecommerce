@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Console\Commands;
 
@@ -7,7 +7,7 @@ use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 use React\EventLoop\Factory;
-use React\Zmq\Context;
+use React\ZMQ\Context;
 use React\Socket\Server;
 use Ratchet\Wamp\WampServer;
 use App\Services\Ratchet;
@@ -15,6 +15,30 @@ use Zmq;
 
 class StartServerCommand extends Command
 {
+    /** @var \React\EventLoop\Factory */
+    private $loop;
+
+    /** @var \App\Services\Ratchet */
+    private $app;
+
+    /** @var \React\ZMQ\Context */
+    private $context;
+
+    /** @var \React\Socket\Server */
+    private $ws_server;
+
+    /** @var \Ratchet\Wamp\WampServer */
+    private $wamp_component;
+
+    /** @var \Ratchet\WebSocket\WsServer  */
+    private $ws_component;
+
+    /** @var \Ratchet\Http\HttpServer */
+    private $http_server;
+
+    /** @var \Ratchet\Server\IoServer */
+    private $io_server;
+
     /**
      * The name and signature of the console command.
      *
@@ -36,6 +60,16 @@ class StartServerCommand extends Command
      */
     public function __construct()
     {
+        $this->loop = app(Factory::class)::create();
+        $this->app =  app(Ratchet::class);
+        $this->context = $this->context();
+        $this->wamp_component = $this->wampComponent();
+        $this->ws_component = $this->wsComponent();
+        $this->ws_server = $this->wsServer();
+        $this->http_server = $this->httpServer();
+        $this->io_server = $this->ioServer();
+        $this->pull = $this->context->getSocket(Zmq::SOCKET_PULL);
+
         parent::__construct();
     }
 
@@ -46,28 +80,83 @@ class StartServerCommand extends Command
      */
     public function handle()
     {
-        $loop = Factory::create();
-        $ratchet = app(Ratchet::class);
-        $context = new Context($loop);
-        $pull = $context->getSocket(Zmq::SOCKET_PULL);
-        
-        $pull->bind('tcp://0.0.0.0:1111');
-        $pull->on('message', [$ratchet, 'onOrderEntry']);
-        
-        $webSocket = new Server('0.0.0.0:1112', $loop);
-        $webServer = new IoServer(
-            new HttpServer(
-                new WsServer(
-                    new WampServer(
-                        $ratchet
-                    )
-                )
-            ),
-            $webSocket
-        );
-        
-        $loop->run();
+        $sock_pull_host = config('ratchet.sockpull.host');
+        $sock_pull_port = config('ratchet.sockpull.port');
+
+        $this->pull->bind(sprintf('tcp://%s:%s', $sock_pull_host, $sock_pull_port));
+        $this->pull->on('message', [$this->app, 'onOrderEntry']);
+        $this->loop->run();
 
         return Command::SUCCESS;
     }
+
+    /**
+     * Create context.
+     * 
+     * @return \React\ZMQ\Context
+     */
+    protected function context()
+    {
+        return app(Context::class, ['loop' => $this->loop]);
+    }
+
+    /**
+     * Create WAMP component.
+     * 
+     * @return \Ratchet\Wamp\WampServer
+     */
+    private function wampComponent()
+    {
+        return app(WampServer::class, ['app' => $this->app]);
+    }
+
+    /**
+     * Create WebSocket component.
+     * 
+     * @return \Ratchet\WebSocket\WsServer
+     */
+    private function wsComponent()
+    {
+        return app(WsServer::class, ['component' => $this->wamp_component]);
+    }
+
+    /** 
+     * Create WebSocket server.
+     * 
+     * @return \React\Socket\Server
+     */
+    private function wsServer(): Server
+    {
+        $ws_host = config('ratchet.websocket.host');
+        $ws_port = config('ratchet.websocket.port');
+        $uri = sprintf('%s:%s', $ws_host, $ws_port);
+
+        return app(Server::class, [
+            'uri' => $uri,
+            'loop' => $this->loop
+        ]);
+    }
+
+    /**
+     * Create HTTP server.
+     * 
+     * @return \Ratchet\Http\HttpServer
+     */
+    private function httpServer(): HttpServer
+    {
+        return app(HttpServer::class, ['component' => $this->ws_component]);
+    }
+
+    /**
+     * Create I/O server.
+     * 
+     * @return \Ratchet\Server\IoServer
+     */
+    private function ioServer(): IoServer
+    {
+        return app(IoServer::class, [
+            'app' => $this->http_server,
+            'socket' => $this->ws_server
+        ]);
+    }    
 }

@@ -30,9 +30,9 @@ class BaseService
      */
     protected static function createResponse($abstract, $response): void
     {
-        app()->bind($abstract, function () use ($response) {
+        app()->singleton($abstract, function () use ($response) {
             return app(ServiceResponse::class, ['response' => $response]);
-        }, 1);
+        });
     }
 
     /**
@@ -43,13 +43,12 @@ class BaseService
      */
     public static function publish($event): void
     {
-        $queue = new ZmqSocket(
-            app(ZmqContext::class),
-            Zmq::SOCKET_REQ,
-            'socket-one'
-        );
+        $context = app(ZMQContext::class);
+        $socket = $context->getSocket(ZMQ::SOCKET_PUSH);
+        $sock_pull_host = config('ratchet.sockpull.host');
+        $sock_pull_port = config('ratchet.sockpull.port');
 
-        $queue->connect('tcp://0.0.0.0:1111');
-        $queue->send(json_encode($event));
+        $socket->connect(sprintf('tcp://%s:%s', $sock_pull_host, $sock_pull_port));
+        $socket->send(json_encode($event));
     }
 }
