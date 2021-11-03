@@ -2,14 +2,8 @@
 # What is this?
 This is a simple eCommerce web application created with Laravel 8 and designed using Tailwind.
 
-### Quick demo
-* Video
-
-### Full demo
-* Video
-
-### Screenshots
-* Screenshots link
+### Demo
+* [Screenshots](/../../issues/12)
 
 ## Application objects
 * Members can join, login, and reset their password.
@@ -40,4 +34,8 @@ This is a simple eCommerce web application created with Laravel 8 and designed u
 | __<sub>Admin</sub>__           | <sub>admin@foo.bar<sub>       | __<sub>1234</sub>__ |
 | __<sub>Dispatcher</sub>__      | <sub>dispatcher@foo.bar<sub>  | __<sub>1234</sub>__ |
 | __<sub>Delivery driver</sub>__ | <sub>delivery@foo.bar<sub>    | __<sub>1234</sub>__ |
+    
+### Hidden routes
+* `/login`
+* `/join`
     
