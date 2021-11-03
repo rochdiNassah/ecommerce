@@ -131,6 +131,9 @@
                             if (document.getElementById('cancelOrder')) {
                                 addClass(document.getElementById('cancelOrder'), ['transition', 'opacity-0'])
                                 addClass(cardActionsElement, ['transition', 'opacity-0'])
+                                setTimeout(() => {
+                                    cardActionsElement.remove();
+                                }, 1000);
                             }
                         }
                     });

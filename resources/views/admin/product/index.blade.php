@@ -37,7 +37,7 @@
                             </div>
                             <div class="w-200 break-words truncate flex space-x-1">
                                 <p class="text-gray-500 dark:text-gray-400 text-xs">Orders count:</p>
-                                <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">500</p>
+                                <p class="text-xs font-bold text-gray-600 dark:text-gray-200 truncate">{{ $product->orders_count }}</p>
                             </div>
                             <div class="w-200 break-words truncate flex space-x-1">
                                 <p class="text-gray-500 dark:text-gray-400 text-xs">Product price:</p>

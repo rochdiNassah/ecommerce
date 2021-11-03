@@ -18,6 +18,7 @@ class DispatcherDashboardViewResponse implements Responsable
     {
         $orders = Order::where('status', '!=', 'rejected')
             ->where('status', '!=', 'canceled')
+            ->where('status', '!=', 'delivered')
             ->orderBy('status', 'asc')
             ->get();
 

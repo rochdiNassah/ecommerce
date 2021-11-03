@@ -27,9 +27,10 @@ class ProductsViewResponse implements Responsable
         if ($sort) {
             $products->orderBy('price', $sort === 'highest' ? 'desc' : 'asc');
         } else {
-            $products->orderBy('id', 'desc');
+            $products->orderBy('id', 'asc');
         }
-        
+
+        $products->with('orders')->withCount('orders');
 
         return view('admin.product.index', [
             'products' => $products->paginate(12),

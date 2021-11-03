@@ -19,7 +19,7 @@ class StartServerCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'start';
+    protected $signature = 'ratchet:start';
 
     /**
      * The console command description.
