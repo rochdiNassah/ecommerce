@@ -3,7 +3,7 @@
 
 @php
 $inputs = [
-    ['type' => 'text', 'name' => 'email', 'label' => 'Email Address'],
+    ['type' => 'email', 'name' => 'email', 'label' => 'Email Address'],
     ['type' => 'password', 'name' => 'password', 'label' => 'Password']
 ];
 @endphp
@@ -12,7 +12,7 @@ $inputs = [
     @include('layouts.navbar')
 
 <div class="px-2 sm:px-0">
-    <div class="border bg-white dark:bg-gray-800 border-gray mx-auto w-full sm:w-400 px-8 py-4 base-form rounded-sm my-20">
+    <div class="border bg-white dark:bg-gray-800 border-gray mx-auto w-full sm:w-400 px-8 py-4 rounded-sm my-20">
         <form method="post">
             @csrf
 

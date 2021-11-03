@@ -16,12 +16,21 @@ class DispatcherDashboardViewResponse implements Responsable
      */
     public function toResponse($request): View
     {
+        $filter = request('filter') ?? null;
         $orders = Order::where('status', '!=', 'rejected')
             ->where('status', '!=', 'canceled')
             ->where('status', '!=', 'delivered')
-            ->orderBy('status', 'asc')
-            ->get();
+            ->orderBy('status', 'asc');
 
-        return view('dispatcher.dashboard', ['orders' => $orders]);
+            if ($filter) {
+                $orders->where('status', $filter);
+            } else {
+                $orders->orderBy('id', 'desc');
+            }
+            
+            return view('dispatcher.dashboard', [
+                'orders' => $orders->paginate(12),
+                'filter' => $filter
+            ]);
     }
 }

@@ -6,7 +6,7 @@
     @include('dispatcher.sidebar')
 
     <div class="px-2 container mx-auto max-w-7xl flex flex-wrap justify-center my-20">
-        <div class="border bg-white border-gray mx-auto w-full sm:w-400 px-8 py-4 base-form rounded-sm">
+        <div class="border bg-white border-gray mx-auto w-full sm:w-400 px-8 py-4 rounded-sm">
             <form action="{{ route('order.dispatch') }}" method="post">
                 <h1 class="my-2 font-bold text-xl text-current-600 dark:text-current-400">Dispatch order #{{ $order->id }}</h1>
 

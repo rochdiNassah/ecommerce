@@ -5,7 +5,20 @@
 <div class="flex">
     @include('delivery_driver.sidebar')
 
-    <div class="mt-1 px-2 py-12 sm:px-8 md:px-16 lg:px-32 w-full grid grid-cols-1 gap-4 place-items-center">
+    <div class="px-2 py-2 px-2 sm:px-4 container mx-auto lg:max-w-4xl space-y-2">
+        <form class="grid place-items-center mb-8">
+            <div class="ml-16 md:ml-0 w-200 sm:w-80 flex space-x-2">
+                <select class="self-center bg-white dark:bg-gray-800 border border-gray w-full p-2 font-bold text-xs text-gray-600 dark:text-gray-300 rounded-md" name="filter">
+                    <option value="" @if ('all' === request('filter')) selected @endif>Filter orders</option>
+                    @foreach (['dispatched', 'shipped'] as $status)
+                        <option value="{{ $status }}" @if ($status === request('filter')) selected @endif>{{ ucfirst(str_replace('_', ' ', $status)) }}</option>
+                    @endforeach
+                </select>
+
+                <button class="transition bg-current-100 hover:bg-current-200 text-current-600 dark:text-current-300 dark:bg-current-800 dark:hover:bg-current-900 p-2 px-4 text-xs font-bold rounded-md">Filter</button>
+            </div>
+        </form>
+
         @foreach ($orders as $order)
             @php
                 $customer = (object) json_decode($order->customer);
@@ -38,7 +51,7 @@
                 }
             @endphp
 
-            <div class="w-full lg:w-700 dark:bg-gray-800 border border-gray rounded-sm space-y-2">
+            <div class="dark:bg-gray-800 border border-gray rounded-sm space-y-2">
                 <div class="border-b border-gray p-2">
                     <div class="w-full bg-gray-100 dark:bg-gray-600 rounded-md">
                         <div class="@if($statusColor === 'yellow') bg-yellow-400 @else bg-{{$statusColor}}-600 @endif text-white dark:bg-{{ $statusColor }}-600 dark:text-{{ $statusColor }}-100 text-xs font-bold  text-center p-0.5 leading-none rounded-md" id="progressBar" style="width: {{ $percentage }}%; transition: 2s ease-out">{{ $percentage }}%</div>
@@ -100,6 +113,10 @@
                 </div>
             </div>
         @endforeach
+
+        <div class="w-full grid place-items-center mb-10">
+            {{ $orders->appends(['filter' => $filter])->links() }}
+        </div>
     </div>
 </div>
 @stop

@@ -5,7 +5,7 @@
     @include('layouts.navbar')
 
     <div class="px-2 container mx-auto max-w-7xl flex flex-wrap justify-center my-20">
-        <div class="border bg-white border-gray mx-auto w-full sm:w-400 px-8 py-4 base-form rounded-sm my-20">
+        <div class="border bg-white border-gray mx-auto w-full sm:w-400 px-8 py-4 rounded-sm my-20">
             <form action="{{ route('password.email') }}" method="post">
                 <h1 class="my-2 font-bold text-sm text-current-600 dark:text-current-400">We will send you a password reset link.</h1>
 
@@ -22,7 +22,7 @@
                     class="text-gray-600 dark:text-gray-200 dark:bg-lightdark border border-gray rounded-sm mb-6 appearance-none w-full p-3 leading-tight outline-none"
                     type="email"
                     name="email"
-                    value="{{ old('email') ?? 'dispatcher@foo.bar' }}"
+                    value="{{ old('email') }}"
                     autocomplete="off"
                     placeholder="Email address"
                 >

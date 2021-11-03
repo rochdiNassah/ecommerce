@@ -1,7 +1,12 @@
 const colors = require('tailwindcss/colors')
 
 module.exports = {
-  purge: [],
+  purge: {
+    content: ['./resources/views/**/*.php'],
+    options: {
+      keyframes: true
+    }
+  },
   darkMode: 'media', // or 'media' or 'class'
   theme: {
     colors: {

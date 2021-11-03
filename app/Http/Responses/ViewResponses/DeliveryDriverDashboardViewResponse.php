@@ -16,15 +16,24 @@ class DeliveryDriverDashboardViewResponse implements Responsable
      */
     public function toResponse($request): View
     {
+        $filter = request('filter') ?? null;
         $whereCallback = function ($query) {
             $query->where('status', 'dispatched')
                 ->orWhere('status', 'shipped');
         };
         $orders = Order::where('delivery_driver_id', $request->user()->id)
             ->where($whereCallback)
-            ->orderBy('status', 'desc')
-            ->get();
+            ->orderBy('id', 'desc');
+
+        if ($filter) {
+            $orders->where('status', $filter);
+        } else {
+            $orders->orderBy('id', 'desc');
+        }
         
-        return view('delivery_driver.dashboard', ['orders' => $orders]);
+        return view('delivery_driver.dashboard', [
+            'orders' => $orders->paginate(12),
+            'filter' => $filter
+        ]);
     }
 }

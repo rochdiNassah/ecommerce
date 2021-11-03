@@ -14,7 +14,7 @@ $inputs = [
 
         <div class="grid place-items-center w-full">
             <div class="px-2 sm:px-0">
-                <div class="border bg-white border-gray mx-auto w-full sm:w-400 px-8 py-4 base-form rounded-sm my-20">
+                <div class="border bg-white border-gray mx-auto w-full sm:w-400 px-8 py-4 rounded-sm my-20">
                     <form action="{{ route('product.create') }}" method="post" enctype="multipart/form-data">
                         @csrf
             

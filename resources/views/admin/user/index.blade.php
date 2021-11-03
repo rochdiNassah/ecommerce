@@ -6,12 +6,12 @@
     @include('admin.sidebar')
     
     <div class="grid place-items-center w-full p-2 space-y-2">
-        <form>
+        <form class="grid place-items-center mb-8">
             <div class="flex space-x-2">
                 <input class="self-center text-gray-600 dark:text-gray-200 dark:bg-gray-900 border border-gray rounded-md appearance-none h-8 px-2 text-xs leading-tight outline-none" type="text" value="{{ request('search') ?? null }}" name="search" placeholder="Search by name">
 
                 <select class="self-center bg-white dark:bg-gray-800 border border-gray w-full p-2 font-bold text-xs text-gray-600 dark:text-gray-300 rounded-md" name="filter">
-                    <option value="" @if ('all' === request('filter')) selected @endif>Filter by role</option>
+                    <option value="" @if ('all' === request('filter')) selected @endif>Filter members</option>
                     @foreach (['admin', 'dispatcher', 'delivery_driver'] as $role)
                         <option value="{{ $role }}" @if ($role === request('filter')) selected @endif>{{ ucfirst(str_replace('_', ' ', $role)) }}</option>
                     @endforeach
@@ -20,24 +20,24 @@
                 <button class="transition bg-current-100 hover:bg-current-200 text-current-600 dark:text-current-300 dark:bg-current-800 dark:hover:bg-current-900 p-2 px-4 text-xs font-bold rounded-md">Filter</button>
             </div>
         </form>
-        <div class="w-full sm:w-4/5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div class="px-2 sm:px-4 container mx-auto w-80 sm:w-full lg:max-w-5xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             @foreach ($members as $member)
-            <div class="bg-white dark:bg-gray-800 border border-gray rounded-sm relative space-y-2">
-                <div class="grid place-items-center pt-2"><img class="object-contain rounded-full w-20 h-20" src="{{ asset($member->avatar_path) }}" onerror="this.src='{{ config('app.default_avatar_path') }}'" alt="Avatar"/></div>
+            <div class="bg-white dark:bg-gray-800 border border-gray relative space-y-2">
+                <div class="grid place-items-center mt-2"><img class="object-contain rounded-full w-16 h-16" src="{{ asset($member->avatar_path) }}" onerror="this.src='{{ config('app.default_avatar_path') }}'" alt="Avatar"/></div>
                 <div class="flex space-x-4">
-                    <div class="flex-1 space-y-2 px-4">
+                    <div class="flex-1 space-y-1 px-2">
                         <div class="grid place-items-center">
-                            <div class="self-center px-2 rounded-sm text-{{ $member->status === 'pending' ? 'yellow' : 'green' }}-500 text-xs font-bold">{{ $member->status }}</div>
+                            <div class="self-center text-{{ $member->status === 'pending' ? 'yellow' : 'green' }}-500 text-xs font-bold">{{ $member->status }}</div>
                         </div>
-                        <div class="self-center px-2 rounded-sm w-40 text-gray-600 dark:text-gray-200 text-xs truncate">{{ $member->fullname }}</div>
-                        <div class="self-center px-2 rounded-sm w-40 text-gray-600 dark:text-gray-200 text-xs">{{ $member->email }}</div>
-                        <div class="self-center px-2 rounded-sm w-40 text-gray-600 dark:text-gray-200 text-xs">{{ $member->phone_number }}</div>
+                        <div class="self-center w-40 text-gray-600 dark:text-gray-200 text-xs truncate"><strong>Full Name:</strong> {{ $member->fullname }}</div>
+                        <div class="self-center w-40 text-gray-600 dark:text-gray-200 text-xs truncate"><strong>Email:</strong> {{ $member->email }}</div>
+                        <div class="self-center w-40 text-gray-600 dark:text-gray-200 text-xs truncate"><strong>Phone Number:</strong> {{ $member->phone_number }}</div>
 
                         @php
                             $roleColor = $member->role === 'admin' ? 'red' : ($member->role === 'dispatcher' ? 'yellow' : 'green')
                         @endphp
 
-                        <div class="self-center px-2 rounded-sm w-40 text-gray-600 dark:text-gray-200 text-xs">Role: <span class="text-{{ $roleColor }}-600">{{ $member->role }}</span></div>
+                        <div class="self-center w-40 text-gray-600 dark:text-gray-200 text-xs"><strong>Role:</strong> <span class="text-{{ $roleColor }}-600">{{ $member->role }}</span></div>
                     </div>
                 </div>
 

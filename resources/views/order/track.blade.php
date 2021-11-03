@@ -3,7 +3,7 @@
 
 @section('content')
     @include('layouts.navbar')
-        <h1 class="text-center font-bold text-gray-600 dark:text-gray-200 text-xl sm:text-2xl mt-8 mb-6">Track your order's status in real-time!</h1>
+        <h1 class="text-center font-bold text-gray-600 dark:text-gray-200 text-xl sm:text-2xl my-8">Track your order's status in real-time!</h1>
 
         @php
             $customer = (object) json_decode($order->customer);
@@ -36,8 +36,8 @@
             }
         @endphp
 
-        <div class="mx-2 flex flex-wrap justify-center mb-8 mt-10">
-            <div class="w-full lg:w-800 dark:bg-gray-800 border border-gray rounded-sm space-y-2">
+        <div class="px-2 sm:px-4 container mx-auto lg:max-w-5xl">
+            <div class="dark:bg-gray-800 border border-gray rounded-sm space-y-2">
                 <div class="border-b border-gray p-2">
                     <div class="w-full bg-gray-100 dark:bg-gray-600 rounded-md">
                         <div class="@if($statusColor === 'yellow') bg-yellow-400 @else bg-{{$statusColor}}-600 @endif text-white dark:bg-{{ $statusColor }}-600 dark:text-{{ $statusColor }}-100 text-xs font-bold  text-center p-0.5 leading-none rounded-md" id="progressBar" style="width: {{ $percentage }}%; transition: 2s ease-out">{{ $percentage }}%</div>
@@ -91,9 +91,9 @@
             </div>
         </div>
 
-        <div class="grid place-items-center mb-8">
+        <div class="grid place-items-center my-8">
             <a
-                class="w-32 rounded-sm mb-2 transition text-center bg-current-100 hover:bg-current-200 text-current-600 dark:text-current-300 dark:bg-current-800 dark:hover:bg-current-900 text-xs py-2 px-4 font-bold"
+                class="w-32 rounded-sm transition text-center bg-current-100 hover:bg-current-200 text-current-600 dark:text-current-300 dark:bg-current-800 dark:hover:bg-current-900 text-xs py-2 px-4 font-bold"
                 href="{{ route('order.my-orders', ['email' => $customer->email, 'token' => $order->token]) }}"
             >View all orders</a>
         </div>

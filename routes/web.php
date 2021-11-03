@@ -34,7 +34,7 @@ Route::middleware('guest')->group(function () {
     Route::view('/join', 'auth.join')->name('join');
     Route::post('/join', [AuthController::class, 'join']);
 
-
+    // Order
     Route::name('order.')->group(function () {
         Route::prefix('order')->group(function () {
             Route::get('/cancel/{token}', [OrderController::class, 'cancel'])->name('cancel');

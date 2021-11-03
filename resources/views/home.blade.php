@@ -3,10 +3,10 @@
 
 @section('content')
     @include('layouts.navbar')
-    <h1 class="text-center font-bold text-gray-600 dark:text-gray-200 text-xl sm:text-2xl mt-8 mb-6">Deliver to your doorstep!</h1>
+    <h1 class="text-center font-bold text-gray-600 dark:text-gray-200 text-xl sm:text-2xl my-8">Deliver to your doorstep!</h1>
 
     <div class="container mx-auto lg:max-w-5xl">
-        <div class="mb-12 p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center gap-4">
+        <div class="px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center gap-4">
             @foreach ($products as $product)
             <div class="w-80 sm:w-60 bg-white dark:bg-gray-800 border border-gray rounded-sm relative">
                 <div class="flex justify-between border-b border-gray p-2">
@@ -25,7 +25,7 @@
             </div>
             @endforeach
         </div>
-        <div class="px-4 my-4">
+        <div class="px-4 my-8">
             {{ $products->appends(['search' => $query])->links() }}
         </div>
     </div>

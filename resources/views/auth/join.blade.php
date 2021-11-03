@@ -4,8 +4,8 @@
 @php
 $inputs = [
     ['type' => 'text', 'name' => 'fullname', 'label' => 'Full Name'],
-    ['type' => 'text', 'name' => 'email', 'label' => 'Email Address'],
-    ['type' => 'text', 'name' => 'phone_number', 'label' => 'Phone Number'],
+    ['type' => 'email', 'name' => 'email', 'label' => 'Email Address'],
+    ['type' => 'tel', 'name' => 'phone_number', 'label' => 'Phone Number'],
     ['type' => 'password', 'name' => 'password', 'label' => 'Password'],
     ['type' => 'password', 'name' => 'password_confirmation', 'label' => 'Confirm Password'],
 ];
@@ -15,7 +15,7 @@ $inputs = [
     @include('layouts.navbar')
 
 <div class="px-2 sm:px-0">
-    <div class="border bg-white border-gray mx-auto w-full sm:w-400 px-8 py-4 base-form rounded-sm my-20">
+    <div class="border bg-white border-gray mx-auto w-full sm:w-400 px-8 py-4 rounded-sm my-20">
         <form method="post" enctype="multipart/form-data">
             @csrf
 

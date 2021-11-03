@@ -2,14 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.base-form { width: 500px }
 .transition { transition: .4s ease-out }
 .border-gray { border-color: #dfe1e5 !important }
-
-@media only screen and (max-width: 500px) {
-    .base-form { width: 100% } 
-}
-
 .bg-black { background: #18191a !important }
 .bg-dark { background: #242526 !important}
 .bg-lightdark { background: #242526 !important }
