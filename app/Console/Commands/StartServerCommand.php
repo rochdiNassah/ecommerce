@@ -7,7 +7,7 @@ use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 use React\EventLoop\Factory;
-use React\ZMQ\Context;
+use React\Zmq\Context;
 use React\Socket\Server;
 use Ratchet\Wamp\WampServer;
 use App\Services\Ratchet;
