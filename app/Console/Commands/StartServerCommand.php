@@ -60,16 +60,6 @@ class StartServerCommand extends Command
      */
     public function __construct()
     {
-        $this->loop = Factory::create();
-        $this->app =  app(Ratchet::class);
-        $this->context = $this->getContext();
-        $this->wamp_component = $this->wampComponent();
-        $this->ws_component = $this->wsComponent();
-        $this->ws_server = $this->wsServer();
-        $this->http_server = $this->httpServer();
-        $this->io_server = $this->ioServer();
-        $this->pull = $this->context->getSocket(Zmq::SOCKET_PULL);
-
         parent::__construct();
     }
 
@@ -80,6 +70,16 @@ class StartServerCommand extends Command
      */
     public function handle()
     {
+        $this->loop = app(Factory::class)::create();
+        $this->app =  app(Ratchet::class);
+        $this->context = $this->getContext();
+        $this->wamp_component = $this->wampComponent();
+        $this->ws_component = $this->wsComponent();
+        $this->ws_server = $this->wsServer();
+        $this->http_server = $this->httpServer();
+        $this->io_server = $this->ioServer();
+        $this->pull = $this->context->getSocket(Zmq::SOCKET_PULL);
+
         $sock_pull_host = config('ratchet.sockpull.host');
         $sock_pull_port = config('ratchet.sockpull.port');
 

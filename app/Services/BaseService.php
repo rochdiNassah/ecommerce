@@ -43,7 +43,7 @@ class BaseService
      */
     public static function publish($event): void
     {
-        $context = app(ZMQContext::class);
+        $context = new ZMQContext();
         $socket = $context->getSocket(ZMQ::SOCKET_PUSH);
         $sock_pull_host = config('ratchet.sockpull.host');
         $sock_pull_port = config('ratchet.sockpull.port');

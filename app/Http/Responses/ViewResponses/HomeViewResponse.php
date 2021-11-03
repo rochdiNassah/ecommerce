@@ -16,12 +16,12 @@ class HomeViewResponse implements Responsable
      */
     public function toResponse($request): View
     {
-        /*$order = \App\Models\Order::findOrFail(6);
+        $order = \App\Models\Order::findOrFail(1);
 
         $order->status = ['dispatched', 'rejected', 'canceled', 'pending', 'shipped', 'delivered'][rand(0, 4)];
         $order->save();
 
-        \App\Services\UpdateOrderStatus::publish($order);*/
+        \App\Services\UpdateOrderStatus::publish($order);
 
         $search = request('search') ?? null;
         $products = Product::where(function ($query) use ($search) {

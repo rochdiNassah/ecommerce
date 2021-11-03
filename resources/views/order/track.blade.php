@@ -100,6 +100,7 @@
 
         <script src="{{ asset('js/autobahn.js') }}"></script>
         <script>
+            var WsUri = {!! json_encode($ws_uri) !!}
             var orderStatus = {
                 rejected: ['red', '100%'],
                 canceled: ['red', '100%'],
@@ -114,7 +115,7 @@
             var statusTextElement = document.getElementById('statusText')
             var cardActionsElement = document.getElementById('actions')
 
-            var conn = new ab.Session('ws://'+document.location.host+':1112',
+            var conn = new ab.Session(WsUri,
                 function() {
                     token = window.location.href.split('/')[window.location.href.split('/').length-1]
                     conn.subscribe(token, function(order, data) {
