@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use App\Http\Responses\ServiceResponse;
+use ZmqContext;
+use ZmqSocket;
+use Zmq;
 
 class BaseService
 {
@@ -32,13 +35,21 @@ class BaseService
         }, 1);
     }
 
-    /** @return void */
-    public static function publish($message): void
+    /**
+     * Create a queue object and send the event to subscribers.
+     * 
+     * @param  \App\Models\Model  $event
+     * @return void
+     */
+    public static function publish($event): void
     {
-        $context = new \ZMQContext();
-        $socket = $context->getSocket(\ZMQ::SOCKET_PUSH);
+        $queue = new ZmqSocket(
+            app(ZmqContext::class),
+            Zmq::SOCKET_REQ,
+            'socket-one'
+        );
 
-        $socket->connect('tcp://0.0.0.0:1111');
-        $socket->send(json_encode($message));
+        $queue->connect('tcp://0.0.0.0:1111');
+        $queue->send(json_encode($event));
     }
 }
