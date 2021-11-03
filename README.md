@@ -3,6 +3,7 @@
 This is a simple eCommerce web application created with Laravel 8 and designed using Tailwind.
 
 ### Demo
+* [Video](https://youtu.be/Bm9uNBttt0U)
 * [Screenshots](/../../issues/12)
 
 ## Application objects
