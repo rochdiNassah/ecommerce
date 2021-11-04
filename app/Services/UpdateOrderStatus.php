@@ -49,7 +49,7 @@ class UpdateOrderStatus extends BaseService
     {
         $response = [
             'status' => 'success',
-            'message' => __("Order is now {$status}.")
+            'message' => __("Order is {$status} successfully.")
         ];
 
         self::createResponse(UpdateOrderStatusResponse::class, $response);
