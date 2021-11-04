@@ -85,7 +85,7 @@
                 </div>
             @endforeach
         </div>
-        <div class="w-full grid place-items-center mb-10">
+        <div class="w-full max-w-5xl px-4">
             {{ $orders->appends(['filter' => $filter])->links() }}
         </div>
     </div>

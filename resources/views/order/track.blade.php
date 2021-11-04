@@ -134,7 +134,7 @@
                                 addClass(cardActionsElement, ['transition', 'opacity-0'])
                                 setTimeout(() => {
                                     cardActionsElement.remove();
-                                }, 1000);
+                                }, 200);
                             }
                         }
                     });

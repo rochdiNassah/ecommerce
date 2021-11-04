@@ -24,9 +24,9 @@ class DispatcherDashboardViewResponse implements Responsable
 
             if ($filter) {
                 $orders->where('status', $filter);
-            } else {
-                $orders->orderBy('id', 'desc');
             }
+            
+            $orders->orderBy('id', 'desc');
             
             return view('dispatcher.dashboard', [
                 'orders' => $orders->paginate(12),

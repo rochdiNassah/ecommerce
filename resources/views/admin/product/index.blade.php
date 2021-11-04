@@ -56,7 +56,7 @@
             </div>
             @endforeach
         </div>
-        <div class="px-4 mb-8 mt-4 grid place-items-center">
+        <div class="w-full max-w-5xl px-4 mb-8 mt-8">
             {{ $products->appends(['sort' => $sort, 'search' => $search])->links() }}
         </div>
     </div>

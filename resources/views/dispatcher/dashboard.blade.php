@@ -121,7 +121,7 @@
             @endif
         @endforeach
         
-        <div class="w-full grid place-items-center mb-10">
+        <div class="w-full max-w-4xl mb-8 mt-8">
             {{ $orders->appends(['filter' => $filter])->links() }}
         </div>
     </div>

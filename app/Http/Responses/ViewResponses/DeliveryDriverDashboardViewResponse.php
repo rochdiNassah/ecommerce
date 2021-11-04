@@ -27,9 +27,9 @@ class DeliveryDriverDashboardViewResponse implements Responsable
 
         if ($filter) {
             $orders->where('status', $filter);
-        } else {
-            $orders->orderBy('id', 'desc');
         }
+        
+        $orders->orderBy('id', 'desc');
         
         return view('delivery_driver.dashboard', [
             'orders' => $orders->paginate(12),
