@@ -24,11 +24,12 @@ This is a simple eCommerce web application created with Laravel 8 and designed u
 * Copy `.env.example` to `.env`.
 * Adjust database, mail, and redis details in your `.env`.
 * Run these commands within the project's root directory:\
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`composer install`\
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`php artisan key:generate`\
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`php artisan migrate --seed`\
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`php artisan queue:listen`\
-       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`php artisan ratchet:start`
+`composer install`\
+`php artisan key:generate`\
+`php artisan migrate --seed`\
+`php artisan storage:link`\
+`php artisan queue:listen`\
+`php artisan ratchet:start`
 
 ### Credentials for testing
 | <sub>ROLE</sub>                | <sub>EMAIL ADDRESS</sub>      | <sub>PASSWORD</sub> |
