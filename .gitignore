@@ -13,10 +13,3 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-webpack.mix.json
-tailwind.config.js
-README.md
-phpunit.xml
-.styleci.yml
-.editorconfig
-tests
