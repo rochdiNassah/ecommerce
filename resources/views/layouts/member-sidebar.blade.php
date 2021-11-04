@@ -18,7 +18,7 @@
     </div>
 
     <div class="border-b border-gray p-4 px-4 grid place-items-center">
-        <img class="object-contain rounded-full w-20 h-20 mb-2" src="{{ asset(Auth::user()->avatar_path) }}" onerror="this.src='{{ config('app.default_avatar_path') }}'" alt="Avatar"/>
+        <img class="object-contain rounded-full w-20 h-20 mb-2" src="{{ asset(Auth::user()->avatar_path) }}" onerror="this.src='{{ asset(config('app.default_avatar_path')) }}'" alt="Avatar"/>
         <h1 class="text-lg text-center text-gray-600 dark:text-gray-200 font-bold">{{ strtoupper(Auth::user()->fullname) }}</h1>
     </div>
 
