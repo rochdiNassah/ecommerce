@@ -43,6 +43,10 @@ class BaseService
      */
     public static function publish($event): void
     {
+        if ('testing' === config('app.env')) {
+            return;
+        }
+
         $context = new ZMQContext();
         $socket = $context->getSocket(ZMQ::SOCKET_PUSH);
         $sock_pull_host = config('ratchet.sockpull.host');

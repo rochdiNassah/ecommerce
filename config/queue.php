@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('QUEUE_CONNECTION', 'sync'),
+    'default' => extension_loaded('redis') ? env('QUEUE_CONNECTION', 'sync') : 'sync',
 
     /*
     |--------------------------------------------------------------------------

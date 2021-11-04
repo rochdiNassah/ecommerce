@@ -44,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        
     }
 
     protected function adminDashboardView()

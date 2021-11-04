@@ -70,6 +70,12 @@ class StartServerCommand extends Command
      */
     public function handle()
     {
+        if (!extension_loaded('zmq')) {
+            $this->error('Zmq PHP extension is missing from your server.');
+
+            return Command::SUCCESS;
+        }
+
         $this->loop = app(Factory::class)::create();
         $this->app =  app(Ratchet::class);
         $this->context = $this->getContext();
@@ -82,9 +88,10 @@ class StartServerCommand extends Command
 
         $sock_pull_host = config('ratchet.sockpull.host');
         $sock_pull_port = config('ratchet.sockpull.port');
-
+        
         $this->pull->bind(sprintf('tcp://%s:%s', $sock_pull_host, $sock_pull_port));
         $this->pull->on('message', [$this->app, 'onOrderEntry']);
+        $this->info("Ratchet server started.");
         $this->loop->run();
 
         return Command::SUCCESS;
