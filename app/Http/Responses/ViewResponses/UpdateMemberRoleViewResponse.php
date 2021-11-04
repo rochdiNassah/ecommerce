@@ -4,7 +4,7 @@ namespace App\Http\Responses\ViewResponses;
 
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\View\View;
-use App\Models\User;
+use App\Models\Member;
 
 class UpdateMemberRoleViewResponse implements Responsable
 {
@@ -25,8 +25,8 @@ class UpdateMemberRoleViewResponse implements Responsable
      */
     public function toResponse($request): View
     {
-        return view('admin.user.update-role', [
-            'member' => User::findOrFail($this->member_id)
+        return view('admin.member.update-role', [
+            'member' => Member::findOrFail($this->member_id)
         ]);
     }
 }

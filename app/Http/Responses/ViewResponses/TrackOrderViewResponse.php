@@ -26,7 +26,7 @@ class TrackOrderViewResponse implements Responsable
     public function toResponse($request): View
     {
         $order = Order::where('token', $this->token)->firstOrFail();
-        $ws_uri = $web_socket_uri = sprintf('ws://%s:%s', $request->getHost(), config('ratchet.websocket.port'));
+        $ws_uri = sprintf('ws://%s:%s', $request->getHost(), config('ratchet.websocket.port'));
 
         return view('order.track', ['order' => $order, 'ws_uri' => $ws_uri]);
     }

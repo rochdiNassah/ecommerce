@@ -4,10 +4,8 @@ namespace App\Services;
 
 use App\Interfaces\Responses\UpdateMemberRoleResponse;
 
-class EditMemberRole extends BaseService
+class UpdateMemberRole extends BaseService
 {
-    public $redirectTo = 'users';
-
     /**
      * Update the given member's role.
      * 
@@ -24,7 +22,7 @@ class EditMemberRole extends BaseService
             'status' => 'success',
             'message' => __("member.{$action}d"),
             'reason' => ucfirst("{$action}d"),
-            'redirect_to' => route('users')
+            'redirect_to' => route('members')
         ];
 
         self::createResponse(UpdateMemberRoleResponse::class, $response);

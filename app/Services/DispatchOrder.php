@@ -12,7 +12,7 @@ class DispatchOrder extends BaseService
      * Dispatch the given order to the given delivery driver.
      * 
      * @param  \App\Models\Order  $order
-     * @param  \App\Models\User  $delivery_driver
+     * @param  \App\Models\Member  $delivery_driver
      * @return void
      */
     public static function dispatch($order, $delivery_driver): void
@@ -32,7 +32,7 @@ class DispatchOrder extends BaseService
     /**
      * Order dispatched successfully.
      * 
-     * @param  \App\Models\User  $delivery_driver
+     * @param  \App\Models\Member  $delivery_driver
      * @return void
      */
     public static function succeed($delivery_driver): void

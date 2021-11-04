@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\JoinRequested;
-use App\Models\User;
+use App\Models\Member;
 use App\Interfaces\Responses\RequestJoinResponse;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,19 +12,19 @@ class RequestJoin extends BaseService
 {
     /**
      * @param  array  $validated
-     * @return false|\App\Models\User
+     * @return false|\App\Models\Member
      */
-    public static function store(array $validated): false|User
+    public static function store(array $validated): false|Member
     {
-        return User::create($validated);
+        return Member::create($validated);
     }
 
     /**
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Member  $member
      */
-    public static function notify(User $user)
+    public static function notify(Member $member)
     {
-        $user->notify(app(JoinRequested::class));
+        $member->notify(app(JoinRequested::class));
     }
 
     /** @return void */

@@ -52,7 +52,7 @@ class OrderRejected extends Notification implements ShouldQueue
                     ->greeting("Hello {$this->customer->fullname}, and thank you for your order.")
                     ->line('Unfortunately, your order is rejected due to an invalid or missing details.')
                     ->action('View Order', route('order.track-view', $this->order->token))
-                    ->action('Place Your Order Again!', route('order.create-view', $this->order->id));
+                    ->action('Place Your Order Again!', url(route('order.create-view', $this->order->id)));
     }
 
     /**

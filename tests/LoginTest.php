@@ -5,13 +5,13 @@ namespace Tests;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\Models\User;
+use App\Models\Member;
 
 final class LoginTest extends TestCase
 {
     public function testGuestCanLoginWithValidCredentials(): string
     {
-        $user = User::factory()->create();
+        $user = Member::factory()->create();
         $form = [
             'email' => $user->email,
             'password' => 'password'
@@ -41,7 +41,7 @@ final class LoginTest extends TestCase
 
     public function testPendingMemberCannotBeAuthenticated(): void
     {
-        $user = User::factory()->pending()->create();
+        $user = Member::factory()->pending()->create();
         $form = [
             'email' => $user->email,
             'password' => 'password',

@@ -4,7 +4,7 @@ namespace App\Http\Responses\ViewResponses;
 
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\View\View;
-use App\Models\{Order, User};
+use App\Models\{Order, Member};
 
 class DispatchOrderViewResponse implements Responsable
 {
@@ -26,7 +26,7 @@ class DispatchOrderViewResponse implements Responsable
     public function toResponse($request): View
     {
         $orders = Order::findOrFail($this->order_id);
-        $delivery_drivers = User::where('role', 'delivery_driver')->where('status', 'active')->get();
+        $delivery_drivers = Member::where('role', 'delivery_driver')->where('status', 'active')->get();
 
         return view('order.dispatch', [
             'order' => $orders,

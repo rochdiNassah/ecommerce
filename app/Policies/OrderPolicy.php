@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Order;
-use App\Models\User;
+use App\Models\Member;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class OrderPolicy
@@ -13,11 +13,11 @@ class OrderPolicy
     /**
      * Determine whether the member can update order's status.
      *
-     * @param  \App\Models\User  $member
+     * @param  \App\Models\Member  $member
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function updateStatus(User $member, Order $order)
+    public function updateStatus(Member $member, Order $order)
     {
         if (!isset($member->id) || !isset($order->deliveryDriver->id)) {
             return false;

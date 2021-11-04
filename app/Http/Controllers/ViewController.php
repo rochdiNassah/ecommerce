@@ -8,7 +8,7 @@ use Illuminate\View\View as Response;
 use Illuminate\Contracts\Support\Responsable;
 use App\Http\Responses\ViewResponses\HomeViewResponse;
 use App\Http\Responses\ViewResponses\AdminDashboardViewResponse;
-use App\Http\Responses\ViewResponses\UsersViewResponse;
+use App\Http\Responses\ViewResponses\MembersViewResponse;
 use App\Http\Responses\ViewResponses\ProductsViewResponse;
 use App\Http\Responses\ViewResponses\DispatcherDashboardViewResponse;
 use App\Http\Responses\ViewResponses\DeliveryDriverDashboardViewResponse;
@@ -33,7 +33,7 @@ class ViewController extends Controller
     }
     
     /**
-     * Render the dashboard view depending on the user's role.
+     * Render the dashboard view depending on the member's role.
      * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Support\Responsable
@@ -84,10 +84,9 @@ class ViewController extends Controller
      * 
      * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function users(): Responsable
+    public function members(): Responsable
     {
-        // TODO: Change it to members.
-        return app(UsersViewResponse::class);
+        return app(MembersViewResponse::class);
     }
 
     /**

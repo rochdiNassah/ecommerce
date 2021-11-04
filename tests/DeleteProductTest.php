@@ -5,7 +5,7 @@ namespace Tests;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\Models\{User, Product};
+use App\Models\{Member, Product};
 
 final class DeleteProductTest extends TestCase
 {
@@ -13,7 +13,7 @@ final class DeleteProductTest extends TestCase
     {
         parent::setUp();
 
-        $this->actingAs(User::factory()->admin()->make());
+        $this->actingAs(Member::factory()->admin()->make());
     }
 
     public function testAdminCanDeleteProduct(): Product

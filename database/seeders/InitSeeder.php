@@ -16,7 +16,7 @@ class InitSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
+        $members = [
             [ // Super Admin
                 'fullname' => 'Super Admin',
                 'email' => 'sadmin@foo.bar',
@@ -97,7 +97,7 @@ class InitSeeder extends Seeder
             ]
         ];
 
-        DB::table('users')->insert($users);
+        DB::table('members')->insert($members);
         DB::table('products')->insert($products);
     }
 }

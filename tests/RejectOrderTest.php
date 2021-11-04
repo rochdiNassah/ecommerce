@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use App\Models\{User, Order};
+use App\Models\{Member, Order};
 
 final class RejectOrderTest extends TestCase
 {
@@ -51,6 +51,6 @@ final class RejectOrderTest extends TestCase
     {
         parent::setUp();
 
-        $this->actingAs(User::factory()->make(['role' => 'dispatcher']));
+        $this->actingAs(Member::factory()->make(['role' => 'dispatcher']));
     }
 }

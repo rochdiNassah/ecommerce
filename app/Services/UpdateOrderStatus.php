@@ -37,8 +37,6 @@ class UpdateOrderStatus extends BaseService
         $order->status = $status;
 
         $order->save();
-
-        // TODO: OrderUpdatedEvent::class.
     }
 
     /**

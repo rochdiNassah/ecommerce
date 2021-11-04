@@ -15,7 +15,7 @@
                     </div>
 
                     <div class="border-t border-gray bottom-0 left-0 p-2 absolute w-full">
-                        <a href="{{ route('users') }}"><div class="w-full text-xs bg-current-100 hover:bg-current-200 text-current-600 dark:text-current-300 dark:bg-current-800 dark:hover:bg-current-900 transition rounded-sm p-2 text-center font-bold">View Members</div></a>
+                        <a href="{{ route('members') }}"><div class="w-full text-xs bg-current-100 hover:bg-current-200 text-current-600 dark:text-current-300 dark:bg-current-800 dark:hover:bg-current-900 transition rounded-sm p-2 text-center font-bold">View Members</div></a>
                     </div>
                 </div>
 

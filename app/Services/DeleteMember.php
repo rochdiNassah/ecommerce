@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Notifications\UserRejected;
-use App\Jobs\RejectUser;
+use App\Notifications\MemberRejected;
+use App\Jobs\RejectMember;
 use App\Interfaces\Responses\DeleteMemberResponse;
 
 class DeleteMember extends BaseService
@@ -11,7 +11,7 @@ class DeleteMember extends BaseService
     /**
      * Delete the given member.
      * 
-     * @param  \App\Models\User  $member
+     * @param  \App\Models\Member  $member
      * @return void
      */
     public static function delete($member)
@@ -27,17 +27,17 @@ class DeleteMember extends BaseService
     }
 
     /**
-     * Notify the given user, then delete them.
+     * Notify the given member, then delete them.
      * 
-     * @param  \App\Models\User  $member
+     * @param  \App\Models\Member  $member
      * @return void
      */
     public static function rejectMember($member): void
     {
         $member->delete();
-        $member->notify(new UserRejected());
+        $member->notify(new MemberRejected());
 
-        RejectUser::dispatch($member);
+        RejectMEmber::dispatch($member);
 
         $response = [
             'status' => 'success',

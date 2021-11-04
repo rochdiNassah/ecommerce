@@ -51,7 +51,7 @@ class RequestMyOrders extends Notification implements ShouldQueue
         return (new MailMessage)
                     ->greeting("Hello {$this->customer->fullname}, and thank you for ordering from us.")
                     ->line('To view all of your orders, click the button below.')
-                    ->action('View Orders', route('order.my-orders', ['email' => $this->customer->email, 'token' => $this->order->token]));
+                    ->action('View Orders', url(route('order.my-orders', ['email' => $this->customer->email, 'token' => $this->order->token])));
     }
 
     /**

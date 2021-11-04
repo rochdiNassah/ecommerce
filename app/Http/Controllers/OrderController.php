@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Auth, Gate, Notification};
-use App\Models\{Order, User};
+use App\Models\{Order, Member};
 use App\Http\Requests\{PlaceOrderRequest, RejectOrderRequest, DispatchOrderRequest};
-use App\Services\{PlaceOrder, RejectOrder, DispatchOrder, UpdateOrderStatus};
+use App\Services\{PlaceOrder, RejectOrder, DispatchOrder, UpdateOrderStatus, RequestMyOrders};
 use App\Interfaces\Responses\PlaceOrderResponse;
 use App\Interfaces\Responses\RejectOrderResponse;
 use App\Interfaces\Responses\DispatchOrderResponse;
 use App\Interfaces\Responses\UpdateOrderStatusResponse;
+use App\Interfaces\Responses\RequestMyOrdersResponse;
 
 class OrderController extends Controller
 {
@@ -69,7 +70,7 @@ class OrderController extends Controller
     public function dispatchOrder(DispatchOrderRequest $request): DispatchOrderResponse
     {
         $order = Order::findOrFail($request->order_id);
-        $delivery_driver = User::findOrFail($request->delivery_driver_id);
+        $delivery_driver = Member::findOrFail($request->delivery_driver_id);
         
         if ('delivery_driver' !== $delivery_driver->role) {
             DispatchOrder::isNotDeliveryDriver();
@@ -140,18 +141,17 @@ class OrderController extends Controller
     public function requestMyOrders(Request $request)
     {
         $email = $request->input('email');
-        $order = Order::where('customer->email', $email)->firstOrFail();
+        $order = Order::where('customer->email', $email)->first();
 
-        $customer = (object) json_decode($order->customer);
+        if (null === $order) {
+            RequestMyOrders::failed();
+        } else {
+            $customer = (object) json_decode($order->customer);
 
-        Notification::route('mail', $customer->email)
-            ->notify(new \App\Notifications\RequestMyOrders($order, $customer));
-
-        $response = [
-            'status' => 'success',
-            'message' => 'We have sent a link to you. Please check your inbox.'
-        ];
-
-        return redirect(route('home'))->with($response);
+            RequestMyOrders::notify($order, $customer);
+            requestMyOrders::succeed();
+        }
+        
+        return app(RequestMyOrdersResponse::class);
     }
 }

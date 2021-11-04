@@ -4,7 +4,7 @@ namespace Tests;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Factories\Sequence;
-use App\Models\{User, Product, Order};
+use App\Models\{Member, Product, Order};
 
 final class ViewTest extends TestCase
 {
@@ -69,45 +69,45 @@ final class ViewTest extends TestCase
             ['role' => 'dispatcher'],
             ['role' => 'delivery_driver']
         );
-        $members = User::factory()->count(3)->state($sequence)->create();
+        $members = Member::factory()->count(3)->state($sequence)->create();
 
         foreach ($members as $member) {
             $this->actingAs($member)->get('dashboard')->assertOk()->assertViewIs("{$member->role}.dashboard");
         }
     }
 
-    public function testUsersViewIsRenderable(): void
+    public function testMembersViewIsRenderable(): void
     {
-        $admin = User::factory()->admin()->create();
+        $admin = Member::factory()->admin()->create();
         
-        $this->actingAs($admin)->get(route('users'))->assertOk()->assertViewIs('admin.user.index');
+        $this->actingAs($admin)->get(route('members'))->assertOk()->assertViewIs('admin.member.index');
     }
 
     public function testUpdateMemberRoleViewIsRenderable(): void
     {
-        $admin = User::factory()->admin()->create();
-        $member = User::factory()->create();
+        $admin = Member::factory()->admin()->create();
+        $member = Member::factory()->create();
         
-        $this->actingAs($admin)->get(route('user.update-role-view', $member->id))->assertOk()->assertViewIs('admin.user.update-role');
+        $this->actingAs($admin)->get(route('member.update-role-view', $member->id))->assertOk()->assertViewIs('admin.member.update-role');
     }
 
     public function testProductsViewIsRenderable(): void
     {
-        $admin = User::factory()->admin()->create();
+        $admin = Member::factory()->admin()->create();
 
         $this->actingAs($admin)->get(route('products'))->assertOk()->assertViewIs('admin.product.index');
     }
 
     public function testCreateProductViewIsRenderable(): void
     {
-        $admin = User::factory()->admin()->create();
+        $admin = Member::factory()->admin()->create();
 
         $this->actingAs($admin)->get(route('product.create'))->assertOk()->assertViewIs('admin.product.create');
     }
 
     public function testDispatchOrderViewIsRenderable(): void
     {
-        $dispatcher = User::factory()->dispatcher()->create();
+        $dispatcher = Member::factory()->dispatcher()->create();
         $order = Order::factory()->pending()->create();
 
         $this->actingAs($dispatcher)->get(route('order.dispatch-view', $order->id))->assertOk()->assertViewIs('order.dispatch');

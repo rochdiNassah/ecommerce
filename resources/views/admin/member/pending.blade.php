@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', 'Active members')
+@section('title', 'Pending members')
 
 @section('content')
 <div class="flex">
@@ -45,18 +45,18 @@
                     @if ('pending' === $member->status)
                     <a
                         class="text-center font-bold bg-green-100 hover:bg-green-200 text-green-600 dark:text-green-300 dark:bg-green-800 dark:hover:bg-green-900 transition text-xs py-1 px-2 rounded-sm"
-                        href="{{ route('user.approve', $member->id) }}"
+                        href="{{ route('member.approve', $member->id) }}"
                     >Approve</a> 
                     @else
                     <a
                         class="text-center font-bold bg-blue-100 hover:bg-blue-200 text-blue-600 dark:text-blue-300 dark:bg-blue-800 dark:hover:bg-blue-900 transition text-xs py-1 px-2 rounded-sm"
-                        href="{{ route('user.update-role-view', $member->id) }}"
+                        href="{{ route('member.update-role-view', $member->id) }}"
                     >Edit Role</a> 
                     @endif
 
                     <a
                         class="text-center font-bold bg-red-100 hover:bg-red-200 text-red-600 dark:text-red-300 dark:bg-red-800 dark:hover:bg-red-900 transition text-xs py-1 px-2 rounded-sm"
-                        href="{{ route('user.delete', $member->id) }}"
+                        href="{{ route('member.delete', $member->id) }}"
                     >Delete</a> 
                 </div>
             </div>

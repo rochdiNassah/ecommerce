@@ -91,7 +91,6 @@ class StartServerCommand extends Command
         
         $this->pull->bind(sprintf('tcp://%s:%s', $sock_pull_host, $sock_pull_port));
         $this->pull->on('message', [$this->app, 'onOrderEntry']);
-        $this->info("Ratchet server started.");
         $this->loop->run();
 
         return Command::SUCCESS;

@@ -29,7 +29,7 @@ class Order extends Model
      */
     public function dispatcher()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Member::class);
     }
 
     /**
@@ -37,6 +37,6 @@ class Order extends Model
      */
     public function deliveryDriver()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Member::class);
     }
 }

@@ -2,18 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
+use App\Models\Member;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class UserFactory extends Factory
+class MemberFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = User::class;
+    protected $model = Member::class;
 
     /**
      * Define the model's default state.
@@ -49,7 +49,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the user should be under pending status.
+     * Indicate that the member should be under pending status.
      * 
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
@@ -63,7 +63,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the user should be an admin.
+     * Indicate that the member should be an admin.
      * 
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
@@ -77,7 +77,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the user should be a super admin.
+     * Indicate that the member should be a super admin.
      * 
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
@@ -92,7 +92,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the user should be a delivery driver.
+     * Indicate that the member should be a delivery driver.
      * 
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
@@ -106,7 +106,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the user should be a dispatcher.
+     * Indicate that the member should be a dispatcher.
      * 
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */

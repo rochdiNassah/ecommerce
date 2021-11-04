@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Notifications\UserApproved;
+use App\Notifications\MemberApproved;
 use App\Interfaces\Responses\ApproveMemberResponse;
 
 class ApproveMember extends BaseService
@@ -10,7 +10,7 @@ class ApproveMember extends BaseService
     /**
      * Approve the given member.
      * 
-     * @param  \App\Models\User  $member
+     * @param  \App\Models\Member  $member
      * @return void
      */
     public static function approve($member): void
@@ -21,12 +21,12 @@ class ApproveMember extends BaseService
     }
 
     /**
-     * @param  \App\Models\User  $member
+     * @param  \App\Models\Member  $member
      * @return void
      */
     public static function notify($member): void
     {
-        $member->notify(app(UserApproved::class));
+        $member->notify(app(MemberApproved::class));
     }
 
     /** @return void */

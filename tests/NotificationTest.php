@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Notifications\AnonymousNotifiable;
 use Tests\TestCase;
-use App\Models\{User, Order, Product};
+use App\Models\{Member, Order, Product};
 use App\Notifications\{OrderRejected, OrderDispatched};
 
 final class NotificationTest extends TestCase
@@ -43,7 +43,7 @@ final class NotificationTest extends TestCase
     {
         parent::setUp();
 
-        $this->dispatcher = User::factory()->create(['role' => 'dispatcher']);
-        $this->delivery_driver = User::factory()->create(['role' => 'delivery_driver']);
+        $this->dispatcher = Member::factory()->create(['role' => 'dispatcher']);
+        $this->delivery_driver = Member::factory()->create(['role' => 'delivery_driver']);
     }
 }

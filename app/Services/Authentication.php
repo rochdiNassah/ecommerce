@@ -49,7 +49,7 @@ class Authentication extends BaseService
     }
 
     /**
-     * Log the user out from the application.
+     * Log the member out from the application.
      * 
      * @param  array|false  $response
      * @return void

@@ -14,7 +14,7 @@ class JoinRequest extends FormRequest
     protected $stopOnFirstFailure = false;
 
     /**
-     * Determine if the user is authorized to make this request.
+     * Determine if the member is authorized to make this request.
      *
      * @return bool
      */
@@ -32,7 +32,7 @@ class JoinRequest extends FormRequest
     {
         return [
             'fullname' => ['required', 'min:2', 'max:256'],
-            'email' => ['required', 'email', 'min:5', 'max:256', 'unique:users'],
+            'email' => ['required', 'email', 'min:5', 'max:256', 'unique:members'],
             'phone_number' => ['required', 'min:10', 'max:15'],
             'password' => ['required', 'min:4', 'max:1600', 'confirmed'],
             'role' => ['required', 'regex:(^admin$|^dispatcher$|^delivery_driver$)'],

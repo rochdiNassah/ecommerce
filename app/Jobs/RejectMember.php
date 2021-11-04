@@ -9,20 +9,21 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class RejectUser implements ShouldQueue
+class RejectMember implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private $user;
+    /** @var \App\Models\Member */
+    private $member;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($member)
     {
-        $this->user = $user;
+        $this->member = $member;
     }
 
     /**
@@ -32,6 +33,6 @@ class RejectUser implements ShouldQueue
      */
     public function handle()
     {
-        $this->user->forceDelete();
+        $this->member->forceDelete();
     }
 }

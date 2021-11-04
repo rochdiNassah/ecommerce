@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\User;
+use App\Models\Member;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class UserPolicy
+class MemberPolicy
 {
     use HandlesAuthorization;
 
@@ -20,19 +20,19 @@ class UserPolicy
     }
 
     /**
-     * @param  User  $user
-     * @param  User  $target
+     * @param  Member  $member
+     * @param  Member  $target
      * @return bool
      */
-    public function affect(User $user, User $target)
+    public function affect(Member $member, Member $target)
     {
         if ($target->is_super_admin) {
             return false;
         }
-        if ($user->is_super_admin) {
+        if ($member->is_super_admin) {
             return true;
         }
-        if ('admin' === $user->role && 'admin' === $target->role) {
+        if ('admin' === $member->role && 'admin' === $target->role) {
             return false;
         }
         

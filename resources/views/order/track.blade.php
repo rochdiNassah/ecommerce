@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="mx-2 relative p-2 border border-gray rounded-sm min-w-max w-40 h-32">
-                    <img class="object-contain w-full h-full" src="{{ $order->product->image_path }}" alt="Image"/>
+                    <img class="object-contain w-full h-full" src="{{ asset($order->product->image_path) }}" alt="Image"/>
                     <div class="absolute -top-1 -right-1 rounded-xl px-2 py-1 text-center text-current-600 bg-current-100 font-bold text-xs truncate">{{ $order->product->price }}$</div>
                 </div>
 

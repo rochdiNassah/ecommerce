@@ -53,7 +53,7 @@ class OrderPlaced extends Notification implements ShouldQueue
                     ->greeting("Hello {$this->customer->fullname}, and thank you for your order.")
                     ->line('We\'ve received your order successfully and we would keep you updated with your order\'s status whenever we update it.')
                     ->line('Click the below button if you want to track or cancel your order.')
-                    ->action('View Order', route('order.track-view', $this->order->token));
+                    ->action('View Order', url(route('order.track-view', $this->order->token)));
     }
 
     /**

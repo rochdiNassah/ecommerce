@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\{User, Order};
+use App\Models\{Member, Order};
 
 final class UpdateOrderStatusTest extends TestCase
 {
@@ -28,7 +28,7 @@ final class UpdateOrderStatusTest extends TestCase
 
     public function testDeliveryDriverCannotUpdateAnOrderNotDispatchedToThem()
     {
-        $delivery_driver = User::factory()->deliveryDriver()->create();
+        $delivery_driver = Member::factory()->deliveryDriver()->create();
         $order = Order::factory()->dispatched($delivery_driver->id)->create();
 
         $this->get(route('order.update-status', ['orderId' => $order->id, 'status' => 'shipped']))
@@ -45,6 +45,6 @@ final class UpdateOrderStatusTest extends TestCase
     {
         parent::setUp();
 
-        $this->actingAs(User::factory()->deliveryDriver()->create());
+        $this->actingAs(Member::factory()->deliveryDriver()->create());
     }
 }

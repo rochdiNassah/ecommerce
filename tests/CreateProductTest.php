@@ -6,13 +6,13 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use App\Models\{User, Product};
+use App\Models\{Member, Product};
 
 final class CreateProductTest extends TestCase
 {   
     public function testAdminCanCreateValidProduct(): array
     {
-        $admin = User::factory()->admin()->create();
+        $admin = Member::factory()->admin()->create();
         $form = [
             'name' => Str::random(10),
             'price' => random_int(1, 40000)
@@ -42,7 +42,7 @@ final class CreateProductTest extends TestCase
     /** @depends testAdminCanCreateValidProduct */
     public function testAdminCannotCreateInvalidProduct($form): void
     {
-        $admin = User::factory()->admin()->create();
+        $admin = Member::factory()->admin()->create();
         $invalidPrices = [-1, 0, -0.00000000001, -0.000000000001, 0.001, 'string', false, null, ''];
 
         $this->actingAs($admin);

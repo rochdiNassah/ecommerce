@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
+use App\Models\Member;
 use App\Http\Requests\UpdateRoleRequest;
-use App\Services\{ApproveMember, DeleteMember, EditMemberRole};
+use App\Services\{ApproveMember, DeleteMember, UpdateMemberRole};
 use App\Interfaces\Responses\{DeleteMemberResponse, ApproveMemberResponse, UpdateMemberRoleResponse};
 use App\Http\Responses\UnauthorizedResponse;
 
@@ -16,7 +16,7 @@ class MemberController extends Controller
     public function __construct()
     {
         $callback = function () {
-            return new UnauthorizedResponse(['redirect_to' => route('users')]);
+            return new UnauthorizedResponse(['redirect_to' => route('members')]);
         };
 
         app()->bind(UnauthorizedResponse::class, $callback, 1);
@@ -30,7 +30,7 @@ class MemberController extends Controller
      */
     public function approve(int $id): ApproveMemberResponse
     {
-        $member = User::findOrFail($id);
+        $member = Member::findOrFail($id);
 
         if ('pending' !== $member->status) {
             ApproveMember::already();
@@ -51,7 +51,7 @@ class MemberController extends Controller
      */
     public function delete(int $id): DeleteMemberResponse|UnauthorizedResponse
     {
-        $member = User::findOrFail($id);
+        $member = Member::findOrFail($id);
 
         if (!Auth::user()->can('affect', $member)) {
             return app(UnauthorizedResponse::class);
@@ -65,7 +65,7 @@ class MemberController extends Controller
     }
 
     /**
-     * Upgrade or downgrade the given user.
+     * Upgrade or downgrade the given member.
      * 
      * @param  \App\Http\Requests\UpdateRoleRequest  $request
      * @return \App\Interfaces\Response\UpdateMemberRoleResponse|\App\Http\Responses\UnauthorizedResponse
@@ -74,17 +74,17 @@ class MemberController extends Controller
     {
         extract($request->safe()->only('id', 'role'));
 
-        $member = User::findOrFail($id);
-        $action = EditMemberRole::getAction($member->role, $role);
+        $member = Member::findOrFail($id);
+        $action = UpdateMemberRole::getAction($member->role, $role);
 
         if ($role === $member->role) {
-            EditMemberRole::already("This member is already {$role}.");
+            UpdateMemberRole::already("This member is already {$role}.");
         } else {
             if (!Auth::user()->can('affect', $member)) {
                 return app(UnauthorizedResponse::class);
             }
 
-            EditMemberRole::update($member, $role, $action);
+            UpdateMemberRole::update($member, $role, $action);
         }
         
         return app(UpdateMemberRoleResponse::class);

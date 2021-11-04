@@ -8,7 +8,7 @@
         <div class="grid place-items-center w-full">
             <div class="px-2 sm:px-0">
                 <div class="border bg-white border-gray mx-auto w-full sm:w-400 px-8 py-4 rounded-sm my-20">
-                    <form action="{{ route('user.update-role') }}" method="post">
+                    <form action="{{ route('member.update-role') }}" method="post">
                         @csrf
             
                         <h1 class="my-2 font-bold text-xl text-current-600 dark:text-current-400">Update {{ $member->fullname }}'s role</h1>

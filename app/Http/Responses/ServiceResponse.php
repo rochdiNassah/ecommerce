@@ -17,6 +17,7 @@ use App\Interfaces\Responses\DispatchOrderResponse;
 use App\Interfaces\Responses\UpdateOrderStatusResponse;
 use App\Interfaces\Responses\ForgotPasswordResponse;
 use App\Interfaces\Responses\ResetPasswordResponse;
+use App\Interfaces\Responses\RequestMyOrdersResponse;
 
 class ServiceResponse implements
     LoginResponse,
@@ -32,7 +33,8 @@ class ServiceResponse implements
     DispatchOrderResponse,
     UpdateOrderStatusResponse,
     ForgotPasswordResponse,
-    ResetPasswordResponse
+    ResetPasswordResponse,
+    RequestMyOrdersResponse
 {
     /** @var array */
     private $response;

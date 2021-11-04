@@ -15,12 +15,12 @@ class ResetPassword extends BaseService
      */
     public static function reset(array $validated, string $password): bool
     {
-        $callback = function ($user) use ($password) {
-            $user->forceFill(['password' => $password])
+        $callback = function ($member) use ($password) {
+            $member->forceFill(['password' => $password])
                 ->setRememberToken(bin2hex(random_bytes(30)));
-            $user->save();
+            $member->save();
 
-            event(new PasswordReset($user));
+            event(new PasswordReset($member));
         };
 
         return Password::PASSWORD_RESET === Password::reset($validated, $callback)

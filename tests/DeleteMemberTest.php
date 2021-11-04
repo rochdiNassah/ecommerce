@@ -7,80 +7,80 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
-use App\Models\User;
-use App\Notifications\UserRejected;
+use App\Models\Member;
+use App\Notifications\MemberRejected;
 
 final class DeleteMemberTest extends TestCase
 {
-    public function testAdminCanDeleteUser(): void
+    public function testAdminCanDeleteMember(): void
     {
-        $admin = User::factory()->admin()->create();
-        $superAdmin = User::factory()->superAdmin()->create();
+        $admin = Member::factory()->admin()->create();
+        $superAdmin = Member::factory()->superAdmin()->create();
         $sequence = new Sequence(
             ['role' => 'delivery_driver'],
             ['role' => 'dispatcher'],
             ['role' => '']
         );
-        $users = User::factory()->count(3)->state($sequence)->create();
+        $members = Member::factory()->count(3)->state($sequence)->create();
 
         $this->actingAs($admin);
         
-        foreach ($users as $user) {
+        foreach ($members as $member) {
             $this->from(route('dashboard'))
-                ->get(route('user.delete', $user->id))
+                ->get(route('member.delete', $member->id))
                 ->assertRedirect(route('dashboard'))
                 ->assertSessionHas('status', 'success');
-            $this->assertDatabaseMissing('users', ['id' => $user->id]);
+            $this->assertDatabaseMissing('members', ['id' => $member->id]);
         }
 
         $this->actingAs($superAdmin);
-        $this->get(route('user.delete', $admin->id));
-        $this->assertDatabaseMissing('users', ['id' => $admin->id]);
+        $this->get(route('member.delete', $admin->id));
+        $this->assertDatabaseMissing('members', ['id' => $admin->id]);
     }
 
     public function testSuperAdminIsUndeletable(): void
     {
-        $admin = User::factory()->admin()->make();
-        $superAdmin = User::factory()->superAdmin()->create();
+        $admin = Member::factory()->admin()->make();
+        $superAdmin = Member::factory()->superAdmin()->create();
 
         $this->actingAs($admin)
-            ->get(route('user.delete', $superAdmin->id))
+            ->get(route('member.delete', $superAdmin->id))
             ->assertSessionHas([
                 'status' => 'error', 'reason' => 'Unauthorized'
             ]);
         $this->actingAs($superAdmin)
-            ->get(route('user.delete', $superAdmin->id))
+            ->get(route('member.delete', $superAdmin->id))
             ->assertSessionHas([
                 'status' => 'error', 'reason' => 'Unauthorized'
             ]);
-        $this->assertDatabaseHas('users', ['id' => $superAdmin->id]);
+        $this->assertDatabaseHas('members', ['id' => $superAdmin->id]);
     }
 
-    public function testAdminCannotDeleteNonExistentUser(): void
+    public function testAdminCannotDeleteNonExistentMember(): void
     {
-        $admin = User::factory()->admin()->make();
-        $user = User::factory()->create();
+        $admin = Member::factory()->admin()->make();
+        $member = Member::factory()->create();
 
-        $user->delete();
+        $member->delete();
 
         $this->actingAs($admin)
             ->from(route('dashboard'))
-            ->get(route('user.delete', $user->id))
+            ->get(route('member.delete', $member->id))
             ->assertRedirect(route('dashboard'))
             ->assertSessionHas([
                 'status' => 'error', 'reason' => 'Not Found'
             ]);
     }
 
-    public function testPendingUserIsNotifiedAfterDeletionAsThoughTheyWereRejected(): void
+    public function testPendingMemberIsNotifiedAfterDeletionAsThoughTheyWereRejected(): void
     {
         Notification::fake();
 
-        $pending = User::factory()->pending()->create();
-        $admin = User::factory()->admin()->make();
+        $pending = Member::factory()->pending()->create();
+        $admin = Member::factory()->admin()->make();
 
-        $this->actingAs($admin)->get(route('user.delete', $pending->id));
+        $this->actingAs($admin)->get(route('member.delete', $pending->id));
 
-        Notification::AssertSentTo($pending, UserRejected::class);
+        Notification::AssertSentTo($pending, MemberRejected::class);
     }
 }

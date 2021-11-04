@@ -4,7 +4,7 @@ namespace App\Http\Responses\ViewResponses;
 
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\View\View;
-use App\Models\{User, Product};
+use App\Models\{Member, Product};
 
 class AdminDashboardViewResponse implements Responsable
 {
@@ -16,9 +16,9 @@ class AdminDashboardViewResponse implements Responsable
      */
     public function toResponse($request): View
     {
-        $usersCount = User::all()->count();
+        $membersCount = Member::all()->count();
         $productsCount = Product::all()->count();
 
-        return view('admin.dashboard', ['membersCount' => $usersCount, 'productsCount' => $productsCount]);
+        return view('admin.dashboard', ['membersCount' => $membersCount, 'productsCount' => $productsCount]);
     }
 }

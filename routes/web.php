@@ -17,7 +17,9 @@ use App\Http\Controllers\{MemberController, ProductController};
 
 Route::middleware('guest')->group(function () {
     Route::get('/', [ViewController::class, 'home'])->name('home');
-
+    /*Route::get('/', function () {
+        dd(url(route('order.track-view', 'gg')));
+    });*/
     // Login
     Route::view('/login', 'auth.login')->name('login');
     Route::post('/login', [AuthController::class, 'login']);
@@ -52,11 +54,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [ViewController::class, 'dashboard'])->name('dashboard');
 
     Route::middleware('role:admin')->group(function () {
-        Route::get('/users', [ViewController::class, 'users'])->name('users');
+        Route::get('/members', [ViewController::class, 'members'])->name('members');
         Route::get('/products', [ViewController::class, 'products'])->name('products');
 
-        Route::name('user.')->group(function () {
-            Route::prefix('user')->group(function () {
+        Route::name('member.')->group(function () {
+            Route::prefix('member')->group(function () {
                 Route::get('/pending', [ViewController::class, 'pendingMembers'])->name('pending');
                 Route::get('/approve/{member_id}', [MemberController::class, 'approve'])->name('approve');
                 Route::get('/delete/{member_id}', [MemberController::class, 'delete'])->name('delete');

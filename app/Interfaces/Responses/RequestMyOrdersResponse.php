@@ -4,7 +4,7 @@ namespace App\Interfaces\Responses;
 
 use Illuminate\Contracts\Support\Responsable;
 
-interface RejectOrderResponse extends Responsable
+interface RequestMyOrdersResponse extends Responsable
 {
-    
+
 }

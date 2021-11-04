@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Illuminate\Database\Eloquent\Factories\Sequence;
-use App\Models\{User, Order};
+use App\Models\{Member, Order};
 
 final class CancelOrderTest extends TestCase
 {

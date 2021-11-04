@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Auth, Storage, Hash};
 use App\Http\Requests\{LoginRequest, JoinRequest, ResetPasswordRequest};
-use App\Models\User;
+use App\Models\Member;
 use App\Services\{Authentication, RequestJoin, BaseService, ForgotPassword, ResetPassword};
 use App\Interfaces\Responses\{LoginResponse, LogoutResponse, RequestJoinResponse};
 use App\Interfaces\Responses\{ForgotPasswordResponse, ResetPasswordResponse};

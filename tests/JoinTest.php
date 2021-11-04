@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use App\Models\User;
+use App\Models\Member;
 use App\Notifications\JoinRequested;
 
 final class JoinTest extends TestCase
@@ -30,14 +30,14 @@ final class JoinTest extends TestCase
         ];
 
         $this->post(route('join'), $form)->assertSessionHas('status', 'success');
-        $this->assertDatabaseHas('users', [
+        $this->assertDatabaseHas('members', [
             'email' => $email,
             'status' => 'pending',
             'role' => 'dispatcher',
             'is_super_admin' => false
         ]);
 
-        Notification::assertSentTo(User::where('email', $email)->get(), JoinRequested::class);
+        Notification::assertSentTo(Member::where('email', $email)->get(), JoinRequested::class);
 
         return $form;
     }
