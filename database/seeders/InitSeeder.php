@@ -24,7 +24,6 @@ class InitSeeder extends Seeder
                 'phone_number' => '1020304050',
                 'role' => 'admin',
                 'status' => 'active',
-                'avatar_path' => asset('images/avatars/super-admin.jpg'),
                 'is_super_admin' => true
             ],
             [ // Super Admin
@@ -34,7 +33,6 @@ class InitSeeder extends Seeder
                 'phone_number' => '1020304050',
                 'role' => 'admin',
                 'status' => 'active',
-                'avatar_path' => asset('images/avatars/admin.jpg'),
                 'is_super_admin' => false
             ],
             [ // Dispatcher
@@ -44,7 +42,6 @@ class InitSeeder extends Seeder
                 'phone_number' => '1020304050',
                 'role' => 'dispatcher',
                 'status' => 'active',
-                'avatar_path' => asset('images/avatars/dispatcher.jpg'),
                 'is_super_admin' => false
             ],
             [ // Delivery driver
@@ -54,7 +51,6 @@ class InitSeeder extends Seeder
                 'phone_number' => '1020304050',
                 'role' => 'delivery_driver',
                 'status' => 'active',
-                'avatar_path' => asset('images/avatars/delivery-driver.jpg'),
                 'is_super_admin' => false
             ],
         ];
@@ -62,42 +58,42 @@ class InitSeeder extends Seeder
             [
                 'name' => 'Table',
                 'price' => 29.98,
-                'image_path' => asset('images/products/table.jpg')
+                'image_path' => 'images/products/table.jpg'
             ],
             [
                 'name' => 'Solid wooden bed',
                 'price' => 950.00,
-                'image_path' => asset('images/products/solid-wooden-bed.jpg')
+                'image_path' => 'images/products/solid-wooden-bed.jpg'
             ],
             [
                 'name' => 'Sofa',
                 'price' => 399.90,
-                'image_path' => asset('images/products/sofa.jpg')
+                'image_path' => 'images/products/sofa.jpg'
             ],
             [
                 'name' => 'Bookshelves',
                 'price' => 59.90,
-                'image_path' => asset('images/products/bookshelves.jpg')
+                'image_path' => 'images/products/bookshelves.jpg'
             ],
             [
                 'name' => 'Wooden bookshelve',
                 'price' => 79.90,
-                'image_path' => asset('images/products/wooden-bookshelve.jpg')
+                'image_path' => 'images/products/wooden-bookshelve.jpg'
             ],
             [
                 'name' => 'Chair',
                 'price' => 45.00,
-                'image_path' => asset('images/products/chair.jpg')
+                'image_path' => 'images/products/chair.jpg'
             ],
             [
                 'name' => 'Desk',
                 'price' => 499.90,
-                'image_path' => asset('images/products/desk.jpg')
+                'image_path' => 'images/products/desk.jpg'
             ],
             [
                 'name' => 'Small desk',
                 'price' => 299.90,
-                'image_path' => asset('images/products/small-desk.jpg')
+                'image_path' => 'images/products/small-desk.jpg'
             ]
         ];
 
