@@ -7,7 +7,7 @@
     <div class="px-2 h-8 mt-8 grid place-items-center">
         <form class="self-center flex space-x-2 mb-8">
             <select class="self-center bg-white dark:bg-gray-800 border border-gray w-full p-2 font-bold text-xs text-gray-600 dark:text-gray-300 rounded-md" name="filter">
-                <option value="" @if ('all' === request('filter')) selected @endif>All except canceled and rejected ones</option>
+                <option value="" @if ('all' === request('filter')) selected @endif>All orders except canceled and rejected ones</option>
                 @foreach (['pending', 'dispatched', 'shipped', 'delivered', 'rejected', 'canceled'] as $status)
                     <option value="{{ $status }}" @if ($status === request('filter')) selected @endif>{{ ucfirst($status) }}</option>
                 @endforeach
