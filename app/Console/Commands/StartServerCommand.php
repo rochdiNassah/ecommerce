@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Console\Command;
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
@@ -72,6 +73,18 @@ class StartServerCommand extends Command
     {
         if (!extension_loaded('zmq')) {
             $this->error('Zmq PHP extension is missing from your server.');
+
+            return Command::SUCCESS;
+        } elseif (!class_exists(Context::class)) {
+            $consent = $this->confirm('react/zmq package is missing! Do you want to install it?', 1);
+        
+            if (!$consent) {
+                return Command::SUCCESS;
+            }
+
+            exec('composer require "react/zmq:0.2.*|0.3.*"');
+
+            $this->info('All set! Please run `php artisan ratchet:start` again.');
 
             return Command::SUCCESS;
         }
