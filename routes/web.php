@@ -17,9 +17,7 @@ use App\Http\Controllers\{MemberController, ProductController};
 
 Route::middleware('guest')->group(function () {
     Route::get('/', [ViewController::class, 'home'])->name('home');
-    /*Route::get('/', function () {
-        dd(url(route('order.track-view', 'gg')));
-    });*/
+
     // Login
     Route::view('/login', 'auth.login')->name('login');
     Route::post('/login', [AuthController::class, 'login']);
