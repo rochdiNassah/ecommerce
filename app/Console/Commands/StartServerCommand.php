@@ -82,7 +82,9 @@ class StartServerCommand extends Command
                 return Command::SUCCESS;
             }
 
+            @unlink('composer.lock');
             exec('composer require "react/zmq:0.2.*|0.3.*"');
+            exec('composer update');
 
             $this->info('All set! Please run `php artisan ratchet:start` again.');
 
