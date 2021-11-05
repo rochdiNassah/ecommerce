@@ -14,7 +14,7 @@ use Ratchet\Wamp\WampServer;
 use App\Services\Ratchet;
 use Zmq;
 
-class StartServerCommand extends Command
+class StartRatchetCommand extends Command
 {
     /** @var \React\EventLoop\Factory */
     private $loop;
