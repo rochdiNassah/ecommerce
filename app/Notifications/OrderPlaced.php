@@ -22,9 +22,8 @@ class OrderPlaced extends Notification implements ShouldQueue
      *
      * @param  \App\Models\Order  $order
      * @param  object  $customer
-     * @return void
      */
-    public function __construct($order, $customer)
+    public function __construct($order, object $customer)
     {
         $this->order = $order;
         $this->customer = $customer;

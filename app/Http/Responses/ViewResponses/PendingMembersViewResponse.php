@@ -18,22 +18,14 @@ class PendingMembersViewResponse implements Responsable
     {
         $filter = request('filter') ?? null;
         $search = request('search') ?? null;
-        $members = Member::orderBy('id')
-            ->where(function ($query) use ($filter, $search) {
-                if ($filter) {
-                    $query->where('role', $filter);
-                }
-                if ($search) {
-                    $query->where('fullname', 'like', '%'.$search.'%');
-                }
+        $members = Member::where(function ($query) use ($filter, $search) {
+                !$filter ?: $query->where('role', $filter);
+                !$search ?: $query->where('fullname', 'like', sprintf('%%%s%%', $search));
             })
             ->where('status', 'pending')
+            ->orderBy('id', 'asc')
             ->paginate(12);
         
-        return view('admin.member.pending', [
-            'members' => $members,
-            'filter' => $filter,
-            'search' => $search
-        ]);
+        return view('admin.member.index', compact('members', 'search', 'filter'));
     }
 }

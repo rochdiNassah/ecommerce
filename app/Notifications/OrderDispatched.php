@@ -20,9 +20,10 @@ class OrderDispatched extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param  \App\Models\Order  $order
+     * @param  object  $customer
      */
-    public function __construct($order, $customer)
+    public function __construct($order, object $customer)
     {
         $this->order = $order;
         $this->customer = $customer;

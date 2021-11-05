@@ -25,9 +25,4 @@ class AppServiceProvider extends ServiceProvider
     {
         
     }
-
-    protected function adminDashboardView()
-    {
-        
-    }
 }

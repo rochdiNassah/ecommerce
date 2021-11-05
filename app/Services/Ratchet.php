@@ -86,7 +86,7 @@ class Ratchet implements WampServerInterface
      * @param  \Ratchet\ConnectionInterface  $conn
      * @return void
      */
-    public function onClose(ConnectionInterface $conn)
+    public function onClose(ConnectionInterface $conn): void
     {
         
     }

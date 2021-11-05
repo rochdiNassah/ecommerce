@@ -11,7 +11,7 @@
                 <input class="self-center text-gray-600 dark:text-gray-200 dark:bg-gray-900 border border-gray rounded-md appearance-none h-8 px-2 text-xs leading-tight outline-none" type="text" value="{{ request('search') ?? null }}" name="search" placeholder="Search by name">
 
                 <select class="self-center bg-white dark:bg-gray-800 border border-gray w-full p-2 font-bold text-xs text-gray-600 dark:text-gray-300 rounded-md" name="sort">
-                    <option value="" @if ('all' === request('sort')) selected @endif>Sort by price</option>
+                    <option value="" @if ('all' === request('sort')) selected @endif>All</option>
                     @foreach (['lowest', 'highest'] as $sort)
                         <option value="{{ $sort }}" @if ($sort === request('sort')) selected @endif>{{ ucfirst($sort) }}</option>
                     @endforeach

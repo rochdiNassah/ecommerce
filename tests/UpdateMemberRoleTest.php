@@ -33,7 +33,7 @@ final class UpdateMemberRoleTest extends TestCase
     {
         $target = Member::factory()->admin()->create();
         $admin = Member::factory()->admin()->create();
-        $superAdmin = Member::factory()->superAdmin()->make();
+        $super_admin = Member::factory()->superAdmin()->make();
         $roles = ['dispatcher', 'delivery_driver'];
 
         $this->actingAs($admin);
@@ -53,7 +53,7 @@ final class UpdateMemberRoleTest extends TestCase
 
         $data = ['id' => $target->id, 'role' => 'dispatcher'];
 
-        $this->actingAs($superAdmin);
+        $this->actingAs($super_admin);
         $this->post(route('member.update-role', $data));
         $this->assertDatabaseHas('members', $data);
     }
@@ -61,12 +61,12 @@ final class UpdateMemberRoleTest extends TestCase
     public function testSuperAdminIsUndowngradable(): void
     {
         $admin = Member::factory()->admin()->create();
-        $superAdmin = Member::factory()->superAdmin()->make();
-        $data = ['id' => $superAdmin->id, 'role' => 'dispatcher'];
+        $super_admin = Member::factory()->superAdmin()->make();
+        $data = ['id' => $super_admin->id, 'role' => 'dispatcher'];
         
         $this->actingAs($admin);
         $this->post(route('member.update-role', $data));
-        $this->actingAs($superAdmin);
+        $this->actingAs($super_admin);
         $this->post(route('member.update-role', $data));
         $this->assertDatabaseMissing('members', $data);
     }

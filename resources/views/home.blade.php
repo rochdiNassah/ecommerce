@@ -25,9 +25,11 @@
             </div>
             @endforeach
         </div>
-        <div class="px-4 my-8">
-            {{ $products->appends(['search' => $query])->links() }}
-        </div>
+        @if ($is_paginating)
+            <div class="px-4 my-8">
+                {{ $products->appends(['search' => $search])->links() }}
+            </div>
+        @endif
     </div>
     @include('layouts.footer')
 @stop

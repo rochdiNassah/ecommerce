@@ -23,7 +23,7 @@ use App\Http\Responses\ViewResponses\PendingMembersViewResponse;
 class ViewController extends Controller
 {
     /**
-     * Display all products for customer.
+     * Display all products for the customer.
      * 
      * @return \Illuminate\Contracts\Support\Responsable
      */
@@ -110,7 +110,7 @@ class ViewController extends Controller
     }
 
     /**
-     * Display the update role view.
+     * Display update member role view.
      * 
      * @param  int  $member_id
      * @return \Illuminate\Contracts\Support\Responsable
@@ -137,7 +137,7 @@ class ViewController extends Controller
      * @param  int  $order_id
      * @return \Illuminate\Contracts\Support\Responsable
      */
-    public function dispatchOrder($order_id): Responsable
+    public function dispatchOrder(int $order_id): Responsable
     {
         return app(DispatchOrderViewResponse::class, ['order_id' => $order_id]);
     }

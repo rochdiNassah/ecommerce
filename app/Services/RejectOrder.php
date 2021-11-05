@@ -29,11 +29,11 @@ class RejectOrder extends BaseService
     }
 
     /**
-     * Rejected the order successfully.
+     * Order rejected successfully.
      * 
      * @return void
      */
-    public static function succeed()
+    public static function succeed(): void
     {
         $response = [
             'status' => 'success',

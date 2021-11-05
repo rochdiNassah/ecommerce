@@ -39,20 +39,18 @@ class MyOrdersViewResponse implements Responsable
         Order::where('customer->email', $email)->where('token', $token)->firstOrFail();
         
         $orders = Order::where('customer->email', $email)
-            ->orderBy('created_at', 'desc')
             ->where(function ($query) use ($filter) {
-                if ('canceled' === $filter) {
-                    $query->where('status', $filter);
-                } elseif ('rejected' === $filter) {
+                if ('canceled' === $filter || 'rejected' === $filter) {
                     $query->where('status', $filter);
                 } elseif (null === $filter) {
-                    $query->where('status', '!=', 'canceled')->where('status', '!=', 'rejected');
+                    $query->where('status', 'REGEXP', '^(?!rejected|canceled).*$');
                 } else {
                     $query->where('status', $filter);
                 }
             })
+            ->orderBy('created_at', 'desc')
             ->paginate(8);
 
-        return view('order.my-orders', ['orders' => $orders, 'filter' => $filter]);
+        return view('order.my-orders', compact('orders', 'filter'));
     }
 }

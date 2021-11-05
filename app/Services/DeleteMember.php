@@ -14,7 +14,7 @@ class DeleteMember extends BaseService
      * @param  \App\Models\Member  $member
      * @return void
      */
-    public static function delete($member)
+    public static function delete($member): void
     {
         $member->forceDelete();
 
@@ -35,9 +35,9 @@ class DeleteMember extends BaseService
     public static function rejectMember($member): void
     {
         $member->delete();
-        $member->notify(new MemberRejected());
+        $member->notify(app(MemberRejected::class));
 
-        RejectMEmber::dispatch($member);
+        RejectMember::dispatch($member);
 
         $response = [
             'status' => 'success',

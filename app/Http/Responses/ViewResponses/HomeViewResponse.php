@@ -2,6 +2,7 @@
 
 namespace App\Http\Responses\ViewResponses;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\View\View;
 use App\Models\Product;
@@ -17,11 +18,20 @@ class HomeViewResponse implements Responsable
     public function toResponse($request): View
     {
         $search = request('search') ?? null;
-        $products = Product::where(function ($query) use ($search) {
-            !$search ?: $query->where('name', 'like', '%'.$search.'%');
-        })->paginate(12);
-        $data = ['products' => $products, 'query' => $search];
+        $page = request('page') ?? 1;
+        $products = cache()->rememberForever('home', function () {
+            return Product::get();
+        });
 
-        return view('home', $data);
+        if ($search) {
+            $products = $products->filter(function ($item) use ($search) {
+                return preg_match("#{$search}#i", $item->name);
+            });
+        }
+
+        $is_paginating = $products->count() > 12 ? true : false;
+        $products = new LengthAwarePaginator($products->forPage($page, 12), 12, $page);
+    
+        return view('home', compact('products', 'search', 'is_paginating'));
     }
 }

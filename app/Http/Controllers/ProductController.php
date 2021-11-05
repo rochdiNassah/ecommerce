@@ -26,8 +26,8 @@ class ProductController extends Controller
         if ($request->file('image')) {
             $validated['image_path'] = Storage::put('images/products', $validated['image']);
         }
-
         if ($product = CreateProduct::store($validated)) {
+            cache()->forget('home');
             CreateProduct::succeed();
         } else {
             CreateProduct::failed();
@@ -46,6 +46,8 @@ class ProductController extends Controller
     public function delete(DeleteProduct $service, $id): DeleteProductResponse
     {
         $product = Product::findOrFail($id);
+
+        cache()->forget('home');
 
         DeleteProduct::delete($product);
         DeleteProduct::succeed();

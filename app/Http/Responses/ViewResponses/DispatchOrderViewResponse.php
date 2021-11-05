@@ -25,12 +25,9 @@ class DispatchOrderViewResponse implements Responsable
      */
     public function toResponse($request): View
     {
-        $orders = Order::findOrFail($this->order_id);
+        $order = Order::findOrFail($this->order_id);
         $delivery_drivers = Member::where('role', 'delivery_driver')->where('status', 'active')->get();
 
-        return view('order.dispatch', [
-            'order' => $orders,
-            'delivery_drivers' => $delivery_drivers
-        ]);
+        return view('order.dispatch', compact('order', 'delivery_drivers'));
     }
 }

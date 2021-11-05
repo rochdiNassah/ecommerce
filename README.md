@@ -1,13 +1,12 @@
-
 # What is this?
 This is a simple eCommerce web application created with Laravel 8 and designed using Tailwind.
 
 ### Demo
-* [Video](https://youtu.be/Bm9uNBttt0U)
-* [Screenshots](/../../issues/12)
+https://user-images.githubusercontent.com/58631670/140643159-5f42232b-5482-4c69-bac1-c3fb7da4fa76.mp4
+* [Screenshots](/../../issues/15)
 
 ## Application objects
-* Members can join, login, and reset their password.
+* Members can join, log in, and reset their password.
 * Admin can approve, reject, upgrade, downgrade, or delete members.
 * Admin can create or delete products.
 * Customer can browse products.

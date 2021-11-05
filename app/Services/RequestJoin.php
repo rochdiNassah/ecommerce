@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 class RequestJoin extends BaseService
 {
     /**
+     * Store a join request.
+     * 
      * @param  array  $validated
      * @return false|\App\Models\Member
      */
@@ -20,9 +22,12 @@ class RequestJoin extends BaseService
     }
 
     /**
+     * Notify the member that their request is placed.
+     * 
      * @param  \App\Models\Member  $member
+     * @return void
      */
-    public static function notify(Member $member)
+    public static function notify($member): void
     {
         $member->notify(app(JoinRequested::class));
     }

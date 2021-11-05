@@ -14,8 +14,8 @@ final class UpdateOrderStatusTest extends TestCase
         $this->get(route('order.update-status', ['orderId' => $order->id, 'status' => 'shipped']))
             ->assertSessionHas('status', 'success');
         
-        $invalidStatus = ['shipped', 'dispatched', 'foo', ' ', -1 , 0, 1];
-        foreach ($invalidStatus as $status) {
+        $invalid_status = ['shipped', 'dispatched', 'foo', ' ', -1 , 0, 1];
+        foreach ($invalid_status as $status) {
             $this->get(route('order.update-status', ['orderId' => $order->id, 'status' => $status]))
                 ->assertSessionHas('status', 'error');
         }

@@ -21,9 +21,9 @@ class OrderRejected extends Notification implements ShouldQueue
      * Create a new notification instance.
      *
      * @param  \App\Models\Order  $order
-     * @return void
+     * @param  object  $customer
      */
-    public function __construct($order, $customer)
+    public function __construct($order, object $customer)
     {
         $this->order = $order;
         $this->customer = $customer;

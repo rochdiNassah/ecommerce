@@ -15,11 +15,9 @@ class MemberController extends Controller
 {
     public function __construct()
     {
-        $callback = function () {
+        app()->singleton(UnauthorizedResponse::class, function () {
             return new UnauthorizedResponse(['redirect_to' => route('members')]);
-        };
-
-        app()->bind(UnauthorizedResponse::class, $callback, 1);
+        });
     }
 
     /**
@@ -47,7 +45,7 @@ class MemberController extends Controller
      * Delete the given member.
      * 
      * @param  int  $id
-     * @return \App\Interfaces\Response\DeleteMemberResponse|\App\Http\Responses\UnauthorizedResponse
+     * @return \App\Interfaces\Responses\DeleteMemberResponse|\App\Http\Responses\UnauthorizedResponse
      */
     public function delete(int $id): DeleteMemberResponse|UnauthorizedResponse
     {
@@ -68,7 +66,7 @@ class MemberController extends Controller
      * Upgrade or downgrade the given member.
      * 
      * @param  \App\Http\Requests\UpdateRoleRequest  $request
-     * @return \App\Interfaces\Response\UpdateMemberRoleResponse|\App\Http\Responses\UnauthorizedResponse
+     * @return \App\Interfaces\Responses\UpdateMemberRoleResponse|\App\Http\Responses\UnauthorizedResponse
      */
     public function updateRole(UpdateRoleRequest $request): UpdateMemberRoleResponse|UnauthorizedResponse
     {

@@ -8,10 +8,12 @@ use App\Interfaces\Responses\CreateProductResponse;
 class CreateProduct extends BaseService
 {
     /**
+     * Store the given product.
+     * 
      * @param  array  $validated
      * @return mixed
      */
-    public static function store($validated): mixed
+    public static function store(array $validated)
     {
         return Product::create($validated);
     }
@@ -33,7 +35,7 @@ class CreateProduct extends BaseService
     }
 
     /**
-     * Product creation failed.
+     * Failed to create the product.
      * 
      * @param  string|null  $message
      * @return void

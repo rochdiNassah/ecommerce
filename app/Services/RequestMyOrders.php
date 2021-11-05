@@ -9,6 +9,8 @@ use App\Interfaces\Responses\RequestMyOrdersResponse;
 class RequestMyOrders extends BaseService
 {
     /**
+     * Send a link to the customer where they can view all of their orders from.
+     * 
      * @param  \App\Models\Order  $order
      * @param  object  $customer
      * @return void

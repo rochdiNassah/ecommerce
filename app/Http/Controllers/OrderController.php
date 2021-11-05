@@ -55,6 +55,7 @@ class OrderController extends Controller
             RejectOrder::isNotPending($order->status);
         } else {
             RejectOrder::reject($order, Auth::id());
+            UpdateOrderStatus::publish($order);
             RejectOrder::succeed();;
         }
 
@@ -135,10 +136,10 @@ class OrderController extends Controller
     /**
      * Send a link to the customer where they can view all of their orders from.
      * 
-     * @param  \Illumintae\Http\Request  $request
-     * @return void
+     * @param  \Illuminate\Http\Request  $request
+     * @return \App\Interfaces\Responses\RequestMyOrdersResponse
      */
-    public function requestMyOrders(Request $request)
+    public function requestMyOrders(Request $request): RequestMyOrdersResponse
     {
         $email = $request->input('email');
         $order = Order::where('customer->email', $email)->first();

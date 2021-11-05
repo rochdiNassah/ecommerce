@@ -19,16 +19,12 @@ class ProductsViewResponse implements Responsable
         $sort = request('sort') ?? null;
         $search = request('search') ?? null;
         $products = Product::where(function ($query) use ($search) {
-                if ($search) {
-                    $query->where('name', 'like', '%'.$search.'%');
-                }
+                !$search ?: $query->where('name', 'like', sprintf('%%%s%%', $search));
             });
         
-        if ($sort) {
-            $products->orderBy('price', $sort === 'highest' ? 'desc' : 'asc');
-        } else {
-            $products->orderBy('id', 'asc');
-        }
+        $sort
+            ? $products->orderBy('price', $sort === 'highest' ? 'desc' : 'asc')
+            : $products->orderBy('id', 'asc');
 
         $products->with('orders')->withCount('orders');
 

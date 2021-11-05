@@ -9,10 +9,12 @@ class UpdateMemberRole extends BaseService
     /**
      * Update the given member's role.
      * 
-     * @param  mixed  $member
+     * @param  \App\Models\Member  $member
+     * @param  string  $role
+     * @param  string  $action
      * @return void
      */
-    public static function update($member, $role, $action): void
+    public static function update($member, string $role, string $action): void
     {
         $member->role = $role;
 
@@ -28,7 +30,10 @@ class UpdateMemberRole extends BaseService
         self::createResponse(UpdateMemberRoleResponse::class, $response);
     }
 
-    /** @return void */
+    /**
+     * @param  string  $message
+     * @return void
+     */
     public static function already($message): void
     {
         $response = [
@@ -42,18 +47,18 @@ class UpdateMemberRole extends BaseService
     /**
      * Determine if the given action is upgrade or downgrade.
      * 
-     * @param  string|null  $currentRole
-     * @param  string  $newRole
+     * @param  string|null  $current_role
+     * @param  string  $new_role
      * @return false|string
      */
-    public static function getAction(string|null $currentRole, string $newRole): false|string
+    public static function getAction(string|null $current_role, string $new_role): false|string
     {
         $roles = ['delivery_driver', 'dispatcher', 'admin'];
         
-        $currentRole = array_search($currentRole ?? $roles[0], $roles);
-        $newRole = array_search($newRole, $roles);
+        $current_role = array_search($current_role ?? $roles[0], $roles);
+        $new_role = array_search($new_role, $roles);
         
-        return $currentRole < $newRole
+        return $current_role < $new_role
             ? 'upgrade'
             : 'downgrade';
     }

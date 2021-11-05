@@ -10,7 +10,6 @@ use App\Services\{Authentication, RequestJoin, BaseService, ForgotPassword, Rese
 use App\Interfaces\Responses\{LoginResponse, LogoutResponse, RequestJoinResponse};
 use App\Interfaces\Responses\{ForgotPasswordResponse, ResetPasswordResponse};
 
-
 class AuthController extends Controller
 {
     /** @param  \Illuminate\Http\Request  $request */
@@ -44,7 +43,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Log the user out from the application.
+     * Log the member out from the application.
      * 
      * @return \App\Interfaces\Responses\LogoutResponse
      */
@@ -56,7 +55,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Store a join request.
+     * Handle a join request form submission.
      * 
      * @param  \App\Http\Requests\JoinRequest
      * @return \App\Interfaces\Responses\RequestJoinResponse
@@ -71,7 +70,6 @@ class AuthController extends Controller
         if ($request->file('avatar')) {
             $validated['avatar_path'] = Storage::put('images/avatars', $validated['avatar']);
         }
-
         if ($user = RequestJoin::store($validated)) {
             RequestJoin::notify($user);
             RequestJoin::succeed();
@@ -86,7 +84,7 @@ class AuthController extends Controller
      * Send password reset link.
      * 
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\Interfaces\Response\ForgotPasswordResponse
+     * @return \App\Interfaces\Responses\ForgotPasswordResponse
      */
     public function forgotPassword(Request $request): ForgotPasswordResponse
     {
@@ -104,8 +102,8 @@ class AuthController extends Controller
     /**
      * Handle reset password form submission.
      * 
-     * @param  \App\Requests\ResetPasswordRequest
-     * @return \App\Interfaces\Response\ResetPasswordResponse
+     * @param  \App\Http\Requests\ResetPasswordRequest
+     * @return \App\Interfaces\Responses\ResetPasswordResponse
      */
     public function resetPassword(ResetPasswordRequest $request): ResetPasswordResponse
     {

@@ -10,6 +10,8 @@ use App\Interfaces\Responses\PlaceOrderResponse;
 class PlaceOrder extends BaseService
 {
     /**
+     * Store the given order.
+     * 
      * @param  array  $validated
      * @return mixed
      */
@@ -21,7 +23,7 @@ class PlaceOrder extends BaseService
     }
 
     /**
-     * Notify the customer.
+     * Notify the customer that their order is placed.
      * 
      * @param  \App\Models\Order  $order
      * @return void
@@ -35,7 +37,7 @@ class PlaceOrder extends BaseService
     }
     
     /**
-     * Order creation succeed.
+     * Order created successfully.
      * 
      * @return void
      */
@@ -51,7 +53,7 @@ class PlaceOrder extends BaseService
     }
 
     /**
-     * Order creation failed.
+     * Failed to create the order.
      * 
      * @return void
      */

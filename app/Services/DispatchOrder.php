@@ -60,14 +60,14 @@ class DispatchOrder extends BaseService
     /**
      * Attempted to dispatch a non-pending order.
      * 
-     * @param  string  $orderStatus
+     * @param  string  $order_status
      * @return void
      */
-    public static function isNotPending(string $orderStatus): void
+    public static function isNotPending(string $order_status): void
     {
         $response = [
             'status' => 'warning',
-            'message' => "This order is already {$orderStatus}.",
+            'message' => "This order is already {$order_status}.",
             'redirect_to' => route('dashboard')
         ];
 

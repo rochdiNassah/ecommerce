@@ -17,7 +17,7 @@ final class CreateProductTest extends TestCase
             'name' => Str::random(10),
             'price' => random_int(1, 40000)
         ];
-        $validPrices = [1, 0.1, 100000, 0.01];
+        $valid_prices = [1, 0.1, 100000, 0.01];
 
         $this->actingAs($admin);
         $this->from(route('product.create-view'))
@@ -26,9 +26,9 @@ final class CreateProductTest extends TestCase
             ->assertSessionHas('status', 'success');
         $this->assertDatabaseHas('products', $form);
 
-        foreach ($validPrices as $validPrice) {
+        foreach ($valid_prices as $valid_price) {
             $form['name'] = Str::random(10);
-            $form['price'] = $validPrice;
+            $form['price'] = $valid_price;
 
             $this->post(route('product.create', $form))
                 ->assertSessionHas('status', 'success');
@@ -43,12 +43,12 @@ final class CreateProductTest extends TestCase
     public function testAdminCannotCreateInvalidProduct($form): void
     {
         $admin = Member::factory()->admin()->create();
-        $invalidPrices = [-1, 0, -0.00000000001, -0.000000000001, 0.001, 'string', false, null, ''];
+        $invalid_prices = [-1, 0, -0.00000000001, -0.000000000001, 0.001, 'string', false, null, ''];
 
         $this->actingAs($admin);
 
-        foreach ($invalidPrices as $invalidPrice) {
-            $form['price'] = $invalidPrice;
+        foreach ($invalid_prices as $invalid_price) {
+            $form['price'] = $invalid_price;
 
             $this->post(route('product.create', $form))->assertSessionHasErrors('price');
         }

@@ -9,7 +9,7 @@
         <form class="grid place-items-center mb-8">
             <div class="ml-16 md:ml-0 w-200 sm:w-80 flex space-x-2">
                 <select class="self-center bg-white dark:bg-gray-800 border border-gray w-full p-2 font-bold text-xs text-gray-600 dark:text-gray-300 rounded-md" name="filter">
-                    <option value="" @if ('all' === request('filter')) selected @endif>Filter orders</option>
+                    <option value="" @if ('all' === request('filter')) selected @endif>All</option>
                     @foreach (['pending', 'dispatched', 'shipped'] as $status)
                         <option value="{{ $status }}" @if ($status === request('filter')) selected @endif>{{ ucfirst(str_replace('_', ' ', $status)) }}</option>
                     @endforeach

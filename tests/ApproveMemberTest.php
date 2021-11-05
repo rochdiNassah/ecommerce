@@ -55,7 +55,7 @@ final class ApproveMemberTest extends TestCase
             ]);
     }
 
-    public function testMemberIsNotifiedWhenTheyApproved(): void
+    public function testMemberIsNotifiedWhenTheyAreApproved(): void
     {
         Notification::fake();
 

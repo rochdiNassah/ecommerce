@@ -16,11 +16,6 @@ class RejectMember implements ShouldQueue
     /** @var \App\Models\Member */
     private $member;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
     public function __construct($member)
     {
         $this->member = $member;
@@ -31,7 +26,7 @@ class RejectMember implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $this->member->forceDelete();
     }

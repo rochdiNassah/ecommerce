@@ -15,7 +15,7 @@ final class DeleteMemberTest extends TestCase
     public function testAdminCanDeleteMember(): void
     {
         $admin = Member::factory()->admin()->create();
-        $superAdmin = Member::factory()->superAdmin()->create();
+        $super_admin = Member::factory()->superAdmin()->create();
         $sequence = new Sequence(
             ['role' => 'delivery_driver'],
             ['role' => 'dispatcher'],
@@ -33,7 +33,7 @@ final class DeleteMemberTest extends TestCase
             $this->assertDatabaseMissing('members', ['id' => $member->id]);
         }
 
-        $this->actingAs($superAdmin);
+        $this->actingAs($super_admin);
         $this->get(route('member.delete', $admin->id));
         $this->assertDatabaseMissing('members', ['id' => $admin->id]);
     }
@@ -41,19 +41,19 @@ final class DeleteMemberTest extends TestCase
     public function testSuperAdminIsUndeletable(): void
     {
         $admin = Member::factory()->admin()->make();
-        $superAdmin = Member::factory()->superAdmin()->create();
+        $super_admin = Member::factory()->superAdmin()->create();
 
         $this->actingAs($admin)
-            ->get(route('member.delete', $superAdmin->id))
+            ->get(route('member.delete', $super_admin->id))
             ->assertSessionHas([
                 'status' => 'error', 'reason' => 'Unauthorized'
             ]);
-        $this->actingAs($superAdmin)
-            ->get(route('member.delete', $superAdmin->id))
+        $this->actingAs($super_admin)
+            ->get(route('member.delete', $super_admin->id))
             ->assertSessionHas([
                 'status' => 'error', 'reason' => 'Unauthorized'
             ]);
-        $this->assertDatabaseHas('members', ['id' => $superAdmin->id]);
+        $this->assertDatabaseHas('members', ['id' => $super_admin->id]);
     }
 
     public function testAdminCannotDeleteNonExistentMember(): void

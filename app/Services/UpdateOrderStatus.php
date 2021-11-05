@@ -10,17 +10,17 @@ class UpdateOrderStatus extends BaseService
     /**
      * Check if the attempted update is in the correct sequence.
      * 
-     * @param  string  $currentStatus
-     * @param  string  $newStatus
+     * @param  string  $current_status
+     * @param  string  $new_status
      * @return bool
      */
-    public static function checkSequence(string $currentStatus, string $newStatus): bool
+    public static function checkSequence(string $current_status, string $new_status): bool
     {
         $sequence = ['pending', 'rejected', 'canceled', 'dispatched', 'shipped', 'delivered'];
-        $currentStatus = array_search($currentStatus, $sequence);
-        $newStatus = array_search($newStatus, $sequence);
+        $current_status = array_search($current_status, $sequence);
+        $new_status = array_search($new_status, $sequence);
 
-        return 1 === ($newStatus - $currentStatus)
+        return 1 === ($new_status - $current_status)
             ? true
             : false;
     }

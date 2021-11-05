@@ -9,6 +9,7 @@ use Zmq;
 
 class BaseService
 {
+    /** @var \Illuminate\Http\Request */
     protected static $request;
 
     /** @param  \Illuminate\Http\Request|null  $request */

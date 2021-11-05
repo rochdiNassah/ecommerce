@@ -19,6 +19,6 @@ class AdminDashboardViewResponse implements Responsable
         $membersCount = Member::all()->count();
         $productsCount = Product::all()->count();
 
-        return view('admin.dashboard', ['membersCount' => $membersCount, 'productsCount' => $productsCount]);
+        return view('admin.dashboard', compact('membersCount', 'productsCount'));
     }
 }

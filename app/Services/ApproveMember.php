@@ -21,6 +21,8 @@ class ApproveMember extends BaseService
     }
 
     /**
+     * Notify the given member that they were approved.
+     * 
      * @param  \App\Models\Member  $member
      * @return void
      */

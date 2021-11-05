@@ -4,7 +4,7 @@
 @php
 $inputs = [
     ['type' => 'text', 'name' => 'name', 'label' => 'Name'],
-    ['type' => 'text', 'name' => 'price', 'label' => 'Price']
+    ['type' => 'number', 'name' => 'price', 'label' => 'Price']
 ];
 @endphp
 
